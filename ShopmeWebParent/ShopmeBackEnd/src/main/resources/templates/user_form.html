@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 	
-	<title>Trang chủ - Shopme Admin</title>
+	<title>[[${pageTitle}]]</title>
 	
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
@@ -66,11 +66,12 @@
 		&nbsp;
 		
 		<div>
-			<h4>Tài khoản | Thêm mới tài khoản</h4>&nbsp;&nbsp;
+			<h4>Tài khoản | [[${pageTitle}]]</h4>&nbsp;&nbsp;
 		</div>
 		
 		<form th:action="@{/users/save}" method = "post" style="max-width: 700px; margin: 0 auto"
-				th:object="${user}">
+				th:object="${user}" onsubmit="return checkEmailUnique(this)">
+				<input type="hidden" th:field="*{id}">
 			<div class="border border-secondary rounded p-3">
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">E-mail</label>
@@ -96,7 +97,8 @@
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">Mật khẩu</label>
 					<div class="col-sm-8">
-						<input type="password" class="form-control" th:field="*{password}" required minlength="8" maxlength="20">
+						<input th:if="${user.id == null}" type="password" class="form-control" th:field="*{password}" required minlength="8" maxlength="20">
+						<input th:if="${user.id != null}" type="password" class="form-control" th:field="*{password}" minlength="8" maxlength="20">
 					</div>
 				</div>
 				
@@ -128,13 +130,31 @@
 			</div>
 		</form>
 		
+		<div class="modal fade text-center" id="modalDialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="modalTitle"></h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					
+					<div class="modal-body">
+						<span id="modalBody"></span>
+					</div>
+				
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+					</div>
+			</div>
+		</div>
+		</div>
+		
 		&nbsp;&nbsp;
 		<div class="text-center">
 			<p>Shopme - Hệ thống quản lý - Copyright &copy; Shopme</p>
 		</div>
 		
 	</div>
-</body>
 <script type="text/javascript">
 		$(document).ready(function() {
 			$("#buttonCancel").on("click", function() {
@@ -143,8 +163,34 @@
 		});
 		
 		function checkEmailUnique(form) {
-			alert('check email unique')
+			url = "[[@{/users/check_email}]]";
+			userEmail = $("#email").val();
+			userId = $("#id").val();
+			csrfValue = $("input[name='_csrf']").val();
+			params = {id: userId, email: userEmail, _csrf: csrfValue};
+			
+				
+			$.post(url, params, function(response) {
+				if(response == "OK") {
+					form.submit();
+				} else if (response == "Duplicated") {
+					showModalDialog("Cảnh báo !", "Email: " + userEmail  + " đã được đăng ký trước đó");
+				} else {
+					showModalDialog("Lỗi !", "Máy chủ hiện không phản hồi");
+				}
+			}).fail(function() {
+					showModalDialog("Lỗi !", "Không thể kết nối đến máy chủ");
+			});
+			
 			return false;
 		}
+		
+		function showModalDialog(title, message) {
+			$("#modalTitle").text(title);
+			$("#modalBody").text(message);
+			$("#modalDialog").modal();
+		}
+		
 </script>
+</body>
 </html>
