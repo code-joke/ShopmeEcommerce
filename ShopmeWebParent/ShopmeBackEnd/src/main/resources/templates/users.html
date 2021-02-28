@@ -67,8 +67,14 @@
 		</div>
 		&nbsp;
 		<div>
-			<h4>Quản lý tài khoản người dùng</h4>&nbsp;&nbsp;
-			<a th:href="@{/users/new}">Thêm mới tài khoản</a>
+			<h4>Quản lý tài khoản người dùng</h4>&nbsp;
+			<a th:href="@{/users/new}">Tạo tài khoản</a>
+			&nbsp;|&nbsp;
+			<a th:href="@{/users/export/csv}">Xuất file CSV</a>
+			&nbsp;|&nbsp;
+			<a th:href="@{/users/export/excel}">Xuất file Excel</a>
+			&nbsp;|&nbsp;
+			<a href="">Xuất file PDF</a>
 		</div>
 		
 		<div th:if="${message != null}" class="alert alert-success text-center">
@@ -80,16 +86,29 @@
 		</div>
 		
 		<div>
+			<form th:action="@{/users/page/1}" class="form-inline m-2">
+				Lọc theo :&nbsp;
+				<input type="hidden" name="sortField" th:value="${sortField}">
+				<input type="hidden" name="sortDir" th:value="${sortDir}">
+				
+				<input type="search" name="keyword" th:value="${keyword}" class="form-control"  required>
+				&nbsp;
+				<input type="submit" value="Tìm kiếm" class="btn btn-primary">
+				&nbsp;
+				<input type="button" value="Đặt lại" class="btn btn-secondary" onclick="clearFilter()">
+			</form>
+		</div>
+		<div>
 			<table class="table table-bordered table-striped table-hover table-responsive-xl ">
 				<thead class="thead-dark">
 					<tr>
-						<th>ID</th>
+						<th th:replace = "fragments :: column_link('id', 'ID')"/>
 						<th>ẢNH</th>
-						<th>EMAIL</th>
-						<th>HỌ</th>
-						<th>TÊN</th>
-						<th>VAI TRÒ</th>
-						<th>KÍCH HOẠT</th>
+						<th th:replace = "fragments :: column_link('email', 'EMAIL')"/>
+						<th th:replace = "fragments :: column_link('firstName', 'HỌ')"/>
+						<th th:replace = "fragments :: column_link('lastName', 'TÊN')"/>
+						<th> VAI TRÒ</th>
+						<th th:replace = "fragments :: column_link('enabled', 'KÍCH HOẠT')"/>
 						<th></th>
 					</tr>
 				</thead>
@@ -98,7 +117,7 @@
 						<td>[[${user.id}]]</td>
 						<td>
 							<span th:if="${user.photos == null}" class="fas fa-portrait fa-3x icon-silver"></span>
-							<img th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" style="width: 60px">
+							<img th:if="${user.photos != null}" class="rounded" th:src="@{${user.photosImagePath}}" width="60px">
 						</td>
 						<td>[[${user.email}]]</td>
 						<td>[[${user.firstName}]]</td>
@@ -124,6 +143,37 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+		
+		<div class="text-center m-1" th:if="${totalItems > 0}">
+			<span>Hiển thị # [[${startCount}]] tới [[${endCount}]] trên [[${totalItems}]] tổng số</span>
+		</div>
+		<div class="text-center m-1" th:unless="${totalItems > 0}">
+			<span>Không có bản ghi nào</span>
+		</div>
+		
+		<div th:if="${totalPages > 1}">
+			<nav aria-label="Page navigation example">
+			  <ul class="pagination justify-content-center">
+			  	<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+			  		<a th:replace="fragments :: page_link(1, '<<')"></a>
+			  	</li>
+			    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+			    	<a th:replace="fragments :: page_link(${currentPage - 1}, '<')"></a>
+			    </li>
+			    
+			    <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" th:each="i : ${#numbers.sequence(1, totalPages)}">
+			    	<a th:replace="fragments :: page_link(${i}, ${i})"></a>
+			    </li>
+			    
+			    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+			    <a th:replace="fragments :: page_link(${currentPage + 1}, '>')"></a>
+			    </li>
+			    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+			    <a th:replace="fragments :: page_link(${totalPages}, '>>')"></a>
+			    </li>
+			  </ul>
+			</nav>
 		</div>
 		
 		<div class="modal fade text-center" id="confirmModal">
@@ -160,10 +210,14 @@
 			link = $(this);
 			userId = link.attr("userId");
 			$("#yesButton").attr("href", link.attr("href"));
-			$("#confirmText").text("Bạn có chắc muốn xóa tài khoản này (ID: " + userId + ") ?");
+			$("#confirmText").text("Bạn có chắc muốn xóa tài khoản này ?");
 			$("#confirmModal").modal();
 		});
 	});
+	
+	function clearFilter() {
+		window.location = "[[@{/users}]]";
+	}
 </script>
 </body>
 </html>
