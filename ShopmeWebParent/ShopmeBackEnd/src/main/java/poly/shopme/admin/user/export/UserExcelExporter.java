@@ -1,4 +1,4 @@
-package poly.shopme.admin.user;
+package poly.shopme.admin.user.export;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import poly.shopme.admin.user.AbstractExporter;
 import poly.shopme.common.entity.User;
 
 public class UserExcelExporter extends AbstractExporter {
@@ -38,7 +39,7 @@ public class UserExcelExporter extends AbstractExporter {
 		createCell(row, 1, "E-mail", cellStyle);
 		createCell(row, 2, "Họ", cellStyle);
 		createCell(row, 3, "Tên", cellStyle);
-		createCell(row, 4, "Vai Trò", cellStyle);
+		createCell(row, 4, "Vai trò", cellStyle);
 		createCell(row, 5, "Kích hoạt", cellStyle);
 	}
 	

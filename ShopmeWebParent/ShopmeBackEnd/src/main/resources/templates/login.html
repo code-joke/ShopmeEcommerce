@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	
+	<title>Đăng nhập - Shopme Admin</title>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+
+<body>
+	<div class="container-fluid text-center">
+		
+		<div>
+			<a th:href="@{/login}"><img th:src="@{/images/ShopmeAdminBig.png}" style="width: 40%"></a>
+		</div>
+		
+		<form th:action="@{/login}" method="post" style="max-width: 350px; margin: 0 auto">
+		<div th:if="${param.error}">
+			<p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+		</div>
+		<div th:if="${param.logout}">
+			<p class="text-warning">Bạn đã đăng xuất</p>
+		</div>
+			<div class="border border-secondary rounded p-3">
+				<p class="text-info">Vui lòng đăng nhập để tiếp tục</p>
+				<p>
+					<input type="email" name="email" class="form-control" placeholder="E-mail" required />
+				</p>
+				<p>
+					<input type="password" name="password" class="form-control" placeholder="Mật khẩu" required />
+				</p>
+				<p>
+					<input type="checkbox" name="remember-me" />&nbsp;Ghi nhớ đăng nhập
+				</p>
+				<p>
+					<input type="submit" value="Đăng nhập" class="btn btn-primary" />
+				</p>
+			</div>
+		</form>
+		
+		&nbsp;&nbsp;
+		<div class="text-center">
+			<p>Shopme - Hệ thống quản lý - Copyright &copy; 2021</p>
+		</div>
+		
+	</div>
+</body>
+</html>

@@ -19,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import poly.shopme.admin.FileUploadUtil;
+import poly.shopme.admin.user.export.UserCsvExporter;
+import poly.shopme.admin.user.export.UserExcelExporter;
+import poly.shopme.admin.user.export.UserPdfExporter;
 import poly.shopme.common.entity.Role;
 import poly.shopme.common.entity.User;
 
@@ -102,8 +105,9 @@ public class UserController {
 	}
 
 	private String getRedirectURLtoAffectedUser(User user) {
-		String firstPartOfEmail = user.getEmail().split("@")[0];
-		return "redirect:/users/page/1/?sortField=firstName&sortDir=asc&keyword=" + firstPartOfEmail;
+		//String firstPartOfEmail = user.getEmail().split("@")[0];
+		String email = user.getEmail();
+		return "redirect:/users/page/1/?sortField=firstName&sortDir=asc&keyword=" + email;
 	}
 	
 	@GetMapping("/users/edit/{id}")
@@ -143,18 +147,20 @@ public class UserController {
 	@GetMapping("/users/{id}/enabled/{status}")
 	public String updateUserEnabledStatus(@PathVariable("id") Integer id,
 			@PathVariable("status") boolean enabled,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws UserNotFoundException {
+		User user = service.get(id);
 		service.updateUserEnabledStatus(id, enabled);
 		String status = enabled ? "kích hoạt" : "hủy kích hoạt";
 		String message = "Tài khoản đã được " + status + " thành công";
 		redirectAttributes.addFlashAttribute("message", message);
 		
-		return "redirect:/users";
+		return getRedirectURLtoAffectedUser(user);
 	}
 	
 	@GetMapping("/users/export/csv")
 	public void exportToCSV(HttpServletResponse response) throws IOException {
 		List<User> listUsers = service.listAll();
+
 		UserCsvExporter exporter = new UserCsvExporter();
 		exporter.export(listUsers, response);
 	}
@@ -162,7 +168,17 @@ public class UserController {
 	@GetMapping("/users/export/excel")
 	public void exportToExcel(HttpServletResponse response) throws IOException {
 		List<User> listUsers = service.listAll();
+		
 		UserExcelExporter exporter = new UserExcelExporter();
 		exporter.export(listUsers, response);
 	}
+	
+	@GetMapping("/users/export/pdf")
+	public void exportToPDF(HttpServletResponse response) throws IOException {
+		List<User> listUsers = service.listAll();
+		
+		UserPdfExporter exporter = new UserPdfExporter();
+		exporter.export(listUsers, response);
+	}
+	
 }

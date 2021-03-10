@@ -1,4 +1,4 @@
-package poly.shopme.admin.user;
+package poly.shopme.admin.user.export;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import poly.shopme.admin.user.AbstractExporter;
 import poly.shopme.common.entity.User;
 
 public class UserCsvExporter extends AbstractExporter {
@@ -19,7 +20,7 @@ public class UserCsvExporter extends AbstractExporter {
 		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
 				CsvPreference.STANDARD_PREFERENCE);
 		
-		String[] csvHeader = {"ID", "E-mail", "Họ", "Tên", "Vai Trò", "Kích hoạt"};
+		String[] csvHeader = {"ID", "E-mail", "Họ", "Tên", "Vai trò", "Kích hoạt"};
 		String[] fieldMapping = {"id", "email", "firstName", "lastName", "roles", "enabled"};
 		
 		csvWriter.writeHeader(csvHeader);

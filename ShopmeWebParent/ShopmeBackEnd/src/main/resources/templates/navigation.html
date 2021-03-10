@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+<body>
+<div th:fragment="menu">
+	<!-- logout by spring security send post-->
+	<form th:action="@{/logout}" method="post" th:hidden="true" name="logoutForm">
+		<input type="submit" />
+	</form>
+	<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+		<a class="navbar-brand" th:href="@{/}">
+			<img th:src="@{/images/ShopmeAdminSmall.png}" />
+		</a>
+		
+			<!-- responsive với màn hình -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse" id="topNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/users}">Tài khoản</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/categories}">Loại hàng</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/brands}">Thương hiệu</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/products}">Sản phẩm</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/customers}">Khách hàng</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/shipping}">Giao hàng</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/orders}">Đơn hàng</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/report}">Báo cáo</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/articles}">Bài viết</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/menus}">Menu</a>
+				</li>
+				<li class="nav-item mr-2">
+					<a class="nav-link" th:href="@{/settings}">Cài đặt</a>
+				</li>
+				<li>
+					<a th:href="@{/account}" class="fas fa-user fa-2x icon-white"></a>
+				</li>
+				<li class="nav-item dropdown">
+					<span class="nav-link dropdown-toggle" data-toggle="dropdown"
+						  sec:authentication="principal.firstname"></span>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" id="logoutLink" href="">Đăng xuất</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</div>
+</body>
+</html>

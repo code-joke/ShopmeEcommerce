@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head(${pageTitle})"></head>
+<head th:replace="fragments :: page_head('Hồ sơ của tôi')"></head>
 <body>
 	<div class="container-fluid">
 			<!-- thanh công cụ -->
 		<div th:replace="navigation :: menu"></div>
 		&nbsp;
 		
-		<div class="text-title">
-			<h4>Tài khoản | [[${pageTitle}]]</h4>&nbsp;&nbsp;
-		</div>
-		
-		<form th:action="@{/users/save}" method = "post" style="max-width: 700px; margin: 0 auto"
+		<form th:action="@{/account/update}" method = "post" style="max-width: 700px; margin: 0 auto"
 			enctype="multipart/form-data"
-			th:object="${user}" onsubmit="return checkEmailUnique(this);">
+			th:object="${user}">
+			<div class="text-center">
+				<h4>Hồ sơ của tôi</h4>
+			</div>
+			<div th:if="${message != null}" class="alert alert-success text-center">
+				[[${message}]]
+			</div>
 			<input type="hidden" th:field="*{id}">
 			<div class="border border-secondary rounded p-3">
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">E-mail</label>
 					<div class="col-sm-8">
-						<input type="email" class="form-control" th:field="*{email}" required minlength="8" maxlength="128">
+						<input type="email" class="form-control" th:field="*{email}" readonly="readonly" />
 					</div>
 				</div>
 				
@@ -40,29 +42,24 @@
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label">Mật khẩu</label>
 					<div class="col-sm-8">
-						<input th:if="${user.id == null}" type="password" class="form-control" th:field="*{password}" required minlength="8" maxlength="20">
-						<input th:if="${user.id != null}" type="password" class="form-control" th:field="*{password}" minlength="8" maxlength="20" placeholder="--để trống nếu không đổi mật khẩu--">
+						<input type="password" class="form-control" th:field="*{password}" minlength="8" maxlength="20"
+						 	placeholder="--để trống nếu không đổi mật khẩu--"
+						 	oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"/>
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label">Vai trò:</label>
+					<label class="col-sm-4 col-form-label">Xác nhận mật khẩu</label>
 					<div class="col-sm-8">
-						<th:block th:each="role : ${listRoles}">
-							<input type="checkbox" th:field="*{roles}"
-								th:text="${role.name}"
-								th:value="${role.id}"
-								class="m-2">
-								<small>[[${role.description}]]</small>
-								<br/>
-						</th:block>
+						<input type="password" class="form-control" id="confirmPassword" minlength="8" maxlength="20"
+							oninput="checkPasswordMatch(this)"/>
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label">Kích hoạt</label>
+					<label class="col-sm-4 col-form-label">Vai trò được giao:</label>
 					<div class="col-sm-8">
-						<input type="checkbox" th:field="*{enabled}">
+						<span><b>[[${user.roles}]]</b></span>
 					</div>
 				</div>
 				
@@ -135,33 +132,12 @@
 			reader.readAsDataURL(file);
 		}
 		
-		function checkEmailUnique(form) {
-			url = "[[@{/users/check_email}]]";
-			userEmail = $("#email").val();
-			userId = $("#id").val();
-			csrfValue = $("input[name='_csrf']").val();
-			params = {id: userId, email: userEmail, _csrf: csrfValue};
-			
-				
-			$.post(url, params, function(response) {
-				if(response == "OK") {
-					form.submit();
-				} else if (response == "Duplicated") {
-					showModalDialog("Cảnh báo !", "Email: " + userEmail  + " đã được đăng ký trước đó");
-				} else {
-					showModalDialog("Lỗi !", "Máy chủ hiện không phản hồi");
-				}
-			}).fail(function() {
-					showModalDialog("Lỗi !", "Không thể kết nối đến máy chủ");
-			});
-			
-			return false;
-		}
-		
-		function showModalDialog(title, message) {
-			$("#modalTitle").text(title);
-			$("#modalBody").text(message);
-			$("#modalDialog").modal();
+		function checkPasswordMatch(confirmPassword) {
+			if (confirmPassword.value != $("#password").val()) {
+				confirmPassword.setCustomValidity("Xác nhận mật khẩu không khớp");
+			}else{
+				confirmPassword.setCustomValidity("");
+			}
 		}
 		
 </script>
