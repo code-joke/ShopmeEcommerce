@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Loại hàng - Shopme Admin')"></head>
+<body>
+	<div class="container-fluid">
+		<!-- thanh công cụ -->
+		<div th:replace="navigation :: menu"></div>
+		&nbsp;
+		<div>
+			<h4 class="text-title">Quản lý loại hàng</h4>&nbsp;
+			<a th:href="@{/categories/new}" class="fas fa-plus fa-2x icon-gray mr-2" title="Thêm mới loại hàng"></a>
+			<a th:href="@{/categories/export/csv}" class="fas fa-file-csv fa-2x icon-gray mr-2" title="Xuất file CSV"></a>
+			<a th:href="@{/categories/export/excel}" class="fas fa-file-excel fa-2x icon-gray mr-2" title="Xuất file Excel"></a>
+			<a th:href="@{/categories/export/pdf}" class="fas fa-file-pdf fa-2x icon-gray mr-2" title="Xuất file PDF"></a>
+		</div>
+		
+		<div>
+			<form th:action="@{/categories/page/1}" class="form-inline m-2">
+				Lọc theo :&nbsp;
+				<input type="hidden" name="sortField" th:value="${sortField}">
+				<input type="hidden" name="sortDir" th:value="${sortDir}">
+				
+				<input type="search" name="keyword" th:value="${keyword}" class="form-control"  required>
+				&nbsp;
+				<button type="submit" title="Tìm kiếm" class="btn btn-primary">
+					<i class="fas fa-search"></i>
+				</button>
+				&nbsp;
+				<button type="button" title="Đặt lại" class="btn btn-secondary" onclick="clearFilter()">
+					<i class="fas fa-eraser"></i>
+				</button>
+			</form>
+		</div>
+		<div th:if="${message != null}" class="alert alert-success text-center">
+			[[${message}]]
+		</div>
+		
+		<div th:if="${errorMessage != null}" class="alert alert-danger text-center">
+			[[${errorMessage}]]
+		</div>
+		
+		<div class="full-details">
+			<table class="table table-bordered table-striped table-hover table-responsive-xl ">
+				<thead class="thead-dark">
+					<tr>
+						<th>ID</th>
+						<th>ẢNH</th>
+						<th>TÊN LOẠI HÀNG</th>
+						<th>BIỆT HIỆU</th>
+						<th>KÍCH HOẠT</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="category : ${listCategories}">
+						<td>[[${category.id}]]</td>
+						<td>
+							<img th:src=@{${category.imagePath}} />
+						</td>
+						<td>[[${category.name}]]</td>
+						<td>[[${category.alias}]]</td>
+						<td>
+							<div th:replace="fragments :: category_status" />
+						</td>
+						<td>
+							<div th:replace="fragments :: category_actions" />
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div>
+		
+		&nbsp;&nbsp;
+	<div th:replace="fragments :: footer"></div>
+</div>
+</body>
+</html>

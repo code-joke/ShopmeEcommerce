@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="fragments :: page_head('Trang chủ - Shopme Admin')"></head>
 <body>
 	<div class="container-fluid">
@@ -7,8 +8,11 @@
 		&nbsp;
 		<div class="text-title">
 			<h4>Shopme - Hệ thống quản lý</h4>
+			Xin chào
+			<a th:href="@{/account}" sec:authentication="principal.fullname"></a>
+			<span sec:authentication="principal.authorities"></span>
 		</div>
-		
+
 		&nbsp;&nbsp;
 		<div th:replace="fragments :: footer"></div>
 		

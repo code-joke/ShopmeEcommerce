@@ -44,7 +44,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	/* allow public assest */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().authenticated()
+		http.authorizeRequests()
+			.antMatchers("/users/**").hasAnyAuthority("Admin")
+			.antMatchers("/categories/**").hasAnyAuthority("Admin", "Biên tập")
+			.anyRequest().authenticated()
 			.and()
 			.formLogin()
 				.loginPage("/login")

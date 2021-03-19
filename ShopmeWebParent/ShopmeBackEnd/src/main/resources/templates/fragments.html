@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:fragment="page_head(title)">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -19,7 +20,9 @@
 		<p>Shopme - Hệ thống quản lý - Copyright &copy; 2021</p>
 	</div>
 	
+	<!-- Users page -->
 	<!-- sort field in table -->
+	
 	<th th:fragment="column_link(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
 		<a class="text-white"
 			th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
@@ -61,6 +64,34 @@
 			th:href="@{'/users/delete/' + ${user.id}}" 
 			th:userId="${user.id}"
 			title="Xóa tài khoản này">
+		</a>
+	</div>
+	
+	<!-- Categories page -->
+	<!-- sort field in table -->
+	
+	<!-- retrive table data (Users) -->
+	
+	<div th:fragment="category_status" th:remove="tag">
+		<a th:if="${category.enabled == true}" class="fas fa-check-circle fa-2x icon-green" 
+			th:href="@{'/categories/' + ${category.id} + '/enabled/false'}"
+			title="Hủy kích hoạt">
+		</a>
+		<a th:if="${category.enabled == false}" class="fas fa-circle fa-2x icon-gray" 
+			th:href="@{'/categories/' + ${category.id} + '/enabled/true'}"
+			title="Kích hoạt">
+		</a>
+	</div>
+	
+	<div th:fragment="category_actions" th:remove="tag">
+		<a class="fas fa-edit fa-2x icon-green" th:href="@{'/categories/edit/' + ${category.id}}"
+			title="Sửa loại hàng này">
+		</a>
+		&nbsp;
+		<a class="fas fa-trash fa-2x icon-gray link-delete" 
+			th:href="@{'/categories/delete/' + ${category.id}}" 
+			th:categoryId="${category.id}"
+			title="Xóa loại hàng này">
 		</a>
 	</div>
 	

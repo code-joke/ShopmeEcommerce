@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments :: page_head('Lỗi - Shopme Admin')"></head>
+<body>
+<div class="container-fluid">
+		<div th:replace="navigation :: menu"></div>
+		&nbsp;
+		<div class="text-center">
+			<img th:src="@{/images/500error.jpg}" style="width: 30%"/>
+			<h2 style="font-size: 35px;margin: 0;text-align: center;">Oops..! </h2>
+			&nbsp;
+			<h3>Xin lỗi, máy chủ đã gặp phải sự cố khi xử lí yêu cầu của bạn</h3>
+			<br><a th:href="@{/}">Click vào đây</a> để quay trở về trang chủ<br>
+		</div>
+
+		&nbsp;&nbsp;
+		<div th:replace="fragments :: footer"></div>
+		
+</div>
+</body>
+</html>

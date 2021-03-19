@@ -17,7 +17,6 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
-import poly.shopme.admin.user.AbstractExporter;
 // sử dụng thư viện openpdf: https://github.com/LibrePDF/OpenPDF
 // sử dụng thư viện open-font-extra để write utf-8
 import poly.shopme.common.entity.User;

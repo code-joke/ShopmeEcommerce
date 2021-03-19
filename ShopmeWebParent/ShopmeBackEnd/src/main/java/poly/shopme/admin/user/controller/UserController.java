@@ -1,4 +1,4 @@
-package poly.shopme.admin.user;
+package poly.shopme.admin.user.controller;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import poly.shopme.admin.FileUploadUtil;
+import poly.shopme.admin.user.UserNotFoundException;
+import poly.shopme.admin.user.UserService;
 import poly.shopme.admin.user.export.UserCsvExporter;
 import poly.shopme.admin.user.export.UserExcelExporter;
 import poly.shopme.admin.user.export.UserPdfExporter;
@@ -66,7 +68,7 @@ public class UserController {
 		model.addAttribute("reverseSortDir", reverseSortDir);
 		model.addAttribute("keyword", keyword);
 		
-		return "users";
+		return "users/users";
 	}
 	
 	@GetMapping("/users/new")
@@ -78,7 +80,7 @@ public class UserController {
 		model.addAttribute("listRoles", listRoles);
 		model.addAttribute("user", user);
 		model.addAttribute("pageTitle", "Tạo mới tài khoản");
-		return "user_form";
+		return "users/user_form";
 	}
 	
 	@PostMapping("/users/save")
@@ -121,12 +123,12 @@ public class UserController {
 			model.addAttribute("user", user);
 			model.addAttribute("listRoles", listRoles);
 			model.addAttribute("pageTitle", "Sửa tài khoản (ID: " + id +")");
+			
+			return "users/user_form";
 		} catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
 			return "redirect:/users";
 		}
-
-		return "user_form";
 	}
 	
 	@GetMapping("/users/delete/{id}")

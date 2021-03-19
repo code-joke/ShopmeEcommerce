@@ -14,7 +14,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import poly.shopme.admin.user.AbstractExporter;
 import poly.shopme.common.entity.User;
 
 public class UserExcelExporter extends AbstractExporter {
