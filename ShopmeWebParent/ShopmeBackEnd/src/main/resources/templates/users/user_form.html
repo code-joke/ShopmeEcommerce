@@ -13,7 +13,7 @@
 		
 		<form th:action="@{/users/save}" method = "post" style="max-width: 700px; margin: 0 auto"
 			enctype="multipart/form-data"
-			th:object="${user}" onsubmit="return checkEmailUnique(this);">
+			th:object="${user}" onsubmit="return checkEmailUnique(this)">
 			<input type="hidden" th:field="*{id}">
 			<div class="border border-secondary rounded p-3">
 				<div class="form-group row">
@@ -84,24 +84,7 @@
 			</div>
 		</form>
 		
-		<div class="modal fade text-center" id="modalDialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="modalTitle"></h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-					
-					<div class="modal-body">
-						<span id="modalBody"></span>
-					</div>
-				
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
-					</div>
-			</div>
-		</div>
-		</div>
+		<div th:replace="modal_fragments :: modal_dialog"></div>
 		
 		&nbsp;&nbsp;
 		<div th:replace="fragments :: footer"></div>
@@ -122,21 +105,15 @@
 			if(response == "OK") {
 				form.submit();
 			} else if (response == "Duplicated") {
-				showModalDialog("Cảnh báo !", "Email: " + userEmail  + " đã được đăng ký trước đó");
+				showWarningModal("Email đã tồn tại: " + userEmail);
 			} else {
-				showModalDialog("Lỗi !", "Máy chủ hiện không phản hồi");
+				showErrorModal("Máy chủ hiện không phản hồi");
 			}
 		}).fail(function() {
-				showModalDialog("Lỗi !", "Không thể kết nối đến máy chủ");
+				showErrorModal("Không thể kết nối đến máy chủ");
 		});
 		
 		return false;
-	}
-	
-	function showModalDialog(title, message) {
-		$("#modalTitle").text(title);
-		$("#modalBody").text(message);
-		$("#modalDialog").modal();
 	}
 	
 </script>

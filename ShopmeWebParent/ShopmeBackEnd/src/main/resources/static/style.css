@@ -13,7 +13,7 @@
 }
 
 .dropdown-menu a:hover {
-	background-color: rgb(227, 226, 225);
+	background-color: #007bff;
 }
 
 @media screen and (max-width: 768px) {

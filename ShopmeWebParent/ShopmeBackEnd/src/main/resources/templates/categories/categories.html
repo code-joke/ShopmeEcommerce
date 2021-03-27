@@ -14,56 +14,39 @@
 			<a th:href="@{/categories/export/pdf}" class="fas fa-file-pdf fa-2x icon-gray mr-2" title="Xuất file PDF"></a>
 		</div>
 		
-		<div>
-			<form th:action="@{/categories/page/1}" class="form-inline m-2">
-				Lọc theo :&nbsp;
-				<input type="hidden" name="sortField" th:value="${sortField}">
-				<input type="hidden" name="sortDir" th:value="${sortDir}">
-				
-				<input type="search" name="keyword" th:value="${keyword}" class="form-control"  required>
-				&nbsp;
-				<button type="submit" title="Tìm kiếm" class="btn btn-primary">
-					<i class="fas fa-search"></i>
-				</button>
-				&nbsp;
-				<button type="button" title="Đặt lại" class="btn btn-secondary" onclick="clearFilter()">
-					<i class="fas fa-eraser"></i>
-				</button>
-			</form>
-		</div>
-		<div th:if="${message != null}" class="alert alert-success text-center">
-			[[${message}]]
-		</div>
-		
-		<div th:if="${errorMessage != null}" class="alert alert-danger text-center">
-			[[${errorMessage}]]
-		</div>
+		<div th:replace="fragments :: search_form_and_message('/categories/page/1')"></div>
 		
 		<div class="full-details">
 			<table class="table table-bordered table-striped table-hover table-responsive-xl ">
 				<thead class="thead-dark">
 					<tr>
+						<th>STT</th>
 						<th>ID</th>
-						<th>ẢNH</th>
-						<th>TÊN LOẠI HÀNG</th>
-						<th>BIỆT HIỆU</th>
+						<th style="text-align: center">ẢNH</th>
+						<th th:replace = "fragments :: column_link('/categories', 'name', 'TÊN', 'none')"/>
+						<th class="hideable-column">BIỆT HIỆU</th>
 						<th>KÍCH HOẠT</th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="category : ${listCategories}">
+					<tr th:each="category, state : ${listCategories}">
+						<td>[[${state.count}]]</td>
 						<td>[[${category.id}]]</td>
 						<td>
-							<img th:src=@{${category.imagePath}} />
+							<div align="center">
+								<div th:replace="fragments :: category_image"></div>
+							</div>
 						</td>
 						<td>[[${category.name}]]</td>
-						<td>[[${category.alias}]]</td>
+						<td class="hideable-column">[[${category.alias}]]</td>
 						<td>
-							<div th:replace="fragments :: category_status" />
+							<div th:replace="fragments :: status(${category.enabled}, 'loại hàng này', '/categories/' + ${category.id})"></div>
 						</td>
 						<td>
-							<div th:replace="fragments :: category_actions" />
+							<div th:replace="fragments :: edit('loại hàng này', '/categories/edit/' + ${category.id})"></div>
+							&nbsp; 
+							<div th:replace="fragments :: delete('loại hàng này', ${category.id}, '/categories/delete/' + ${category.id}, ${!category.hasChildren})"></div>
 						</td>
 					</tr>
 					
@@ -71,8 +54,51 @@
 			</table>
 		</div>
 		
+		<div class="less-details">
+			<div th:each="category : ${listCategories}" class="row m-1">
+				<div class="col-4">
+					<div th:replace="fragments :: category_image"></div>
+				</div>
+				<div class="col-8">
+					<div>[[${category.name}]]</div>
+					<div class="mt-2">
+						<div th:replace="fragments :: status(${category.enabled}, 'loại hàng này', '/categories/' + ${category.id})"></div>
+						&nbsp; 			
+						<div th:replace="fragments :: edit('loại hàng này', '/categories/edit/' + ${category.id})"></div>
+						&nbsp; 
+						<div th:replace="fragments :: delete('loại hàng này', ${category.id}, '/categories/delete/' + ${category.id}, ${!category.hasChildren})"></div>
+					</div>
+				</div>
+				<div>&nbsp;</div>
+			</div>
+		</div>
+		
 		&nbsp;&nbsp;
-	<div th:replace="fragments :: footer"></div>
-</div>
+		<div th:if="${keyword != null}" class="text-center">
+			<div th:replace="fragments :: pagination('/categories', 'loại hàng')"></div>
+			<span class="text-warning">Kết quả lọc sẽ không hiển thị phân cấp loại hàng</span>
+		</div>
+		
+		<th:block th:unless="${keyword != null}">
+			<div th:replace="fragments :: pagination('/categories', 'phân loại hàng cao nhất')"></div>
+		</div>
+		
+		<div th:replace="modal_fragments :: confirm_modal"></div>
+		
+		&nbsp;&nbsp;
+		<div th:replace="fragments :: footer"></div>
+
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+	moduleURL = "[[@{/categories}]]";
+
+	$(document).ready(function() {
+		$(".link-delete").on("click", function(e) {
+			e.preventDefault();
+			showDeleteConfirmModal($(this), 'loại hàng');
+		});
+	});
+	
+</script>
 </body>
 </html>

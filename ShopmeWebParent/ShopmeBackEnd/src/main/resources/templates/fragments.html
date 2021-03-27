@@ -20,79 +20,126 @@
 		<p>Shopme - Hệ thống quản lý - Copyright &copy; 2021</p>
 	</div>
 	
-	<!-- Users page -->
-	<!-- sort field in table -->
 	
-	<th th:fragment="column_link(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
+	<!-- pagination -->
+	<div th:fragment="pagination(moduleURL, entityName)" th:remove="tag">
+		<div th:if="${totalPages > 1}">
+			<nav aria-label="Page navigation example">
+			  <ul class="pagination justify-content-center flex-wrap">
+			  	<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+			  		<a th:replace="fragments :: page_link(${moduleURL}, 1, '<<')"></a>
+			  	</li>
+			    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+			    	<a th:replace="fragments :: page_link(${moduleURL}, ${currentPage - 1}, '<')"></a>
+			    </li>
+			    
+			    <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" th:each="i : ${#numbers.sequence(1, totalPages)}">
+			    	<a th:replace="fragments :: page_link(${moduleURL}, ${i}, ${i})"></a>
+			    </li>
+			    
+			    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+			    	<a th:replace="fragments :: page_link(${moduleURL}, ${currentPage + 1}, '>')"></a>
+			    </li>
+			    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+			    	<a th:replace="fragments :: page_link(${moduleURL}, ${totalPages}, '>>')"></a>
+			    </li>
+			  </ul>
+			</nav>
+		</div>		
+					
+		<div class="text-center m-1" th:if="${totalItems > 0}">
+			<span>Hiển thị # [[${startCount}]] tới [[${endCount}]] trên [[${totalItems}]] tổng số [[${entityName}]]</span>
+		</div>
+		<div class="text-center m-1" th:unless="${totalItems > 0}">
+			<span>Không có [[${entityName}]] nào</span>
+		</div>
+	</div>
+
+
+	<!-- sort -->
+	<a th:fragment="page_link(moduleURL, pageNum, label)"
+		class="page-link" 
+		th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]
+	</a>
+	
+	<th th:fragment="column_link(moduleURL, fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
 		<a class="text-white"
-			th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+			th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
 			[[${columnLabel}]]
 		</a>
 		<span th:if="${sortField == fieldName}"
 		    th:class="${sortDir == 'asc' ? 'fas fa-sort-up' : 'fas fa-sort-down'}">
 		</span>
 	</th>
-	
-	<!-- pagination -->
-	<a th:fragment="page_link(pageNum, label)"
-		class="page-link" 
-		th:href="@{'/users/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]</a>
 		
-	<!-- retrive table data (Users) -->
+		
+	<!-- Filter form -->
+	<div th:fragment = "search_form_and_message(moduleURL)">
+		<form th:action="@{${moduleURL}}" class="form-inline m-2">
+			Lọc theo :&nbsp;
+			<input type="hidden" name="sortField" th:value="${sortField}">
+			<input type="hidden" name="sortDir" th:value="${sortDir}">
+			
+			<input type="search" name="keyword" th:value="${keyword}" class="form-control"  required>
+			&nbsp;
+			<button type="submit" title="Tìm kiếm" class="btn btn-primary">
+				<i class="fas fa-search"></i>
+			</button>
+			&nbsp;
+			<button type="button" title="Đặt lại" class="btn btn-secondary" onclick="clearFilter()">
+				<i class="fas fa-eraser"></i>
+			</button>
+		</form>
+	
+		<div th:if="${message != null}" class="alert alert-success text-center">
+			[[${message}]]
+		</div>
+		
+		<div th:if="${errorMessage != null}" class="alert alert-danger text-center">
+			[[${errorMessage}]]
+		</div>
+	</div>
+	
+	
+	<!-- status, edit, delete button -->
+	<div th:fragment="status(enabled, entityName, entityURL)" th:remove="tag">
+		<a th:if="${enabled == true}" class="fas fa-check-circle fa-2x icon-green" 
+			th:href="@{${entityURL} + '/enabled/false'}"
+			th:title="'Hủy kích hoạt ' + ${entityName}">
+		</a>
+			
+		<a th:if="${enabled == false}" class="fas fa-circle fa-2x icon-gray" 
+			th:href="@{${entityURL} + '/enabled/true'}"
+			th:title="'Kích hoạt ' + ${entityName}">
+		</a>	
+	</div>
+	
+	<div th:fragment="edit(entityName, editURL)" th:remove="tag">
+		<a class="fas fa-edit fa-2x icon-green" th:href="@{${editURL}}"
+			th:title="'Sửa ' + ${entityName}">
+		</a>
+	</div>
+	
+	<div th:fragment="delete(entityName, entityId, deleteURL, visible)" th:remove="tag">
+		<th:block th:if="${visible}">		
+			<a class="fas fa-trash fa-2x icon-gray link-delete" 
+				th:href="@{${deleteURL}}"
+				th:entityId="${entityId}"
+				th:title="'Xóa ' + ${entityName}">
+			</a>
+		</th:block>	
+	</div>
+	
+		
+	<!-- user_photo -->
 	<div th:fragment="user_photos" th:remove="tag">
 		<span th:if="${user.photos == null}" class="fas fa-portrait fa-4x icon-silver"></span>
 		<img th:if="${user.photos != null}" class="rounded" th:src="@{${user.photosImagePath}}" style="width: 48px" height="64px">
 	</div>
 	
-	<div th:fragment="user_status" th:remove="tag">
-		<a th:if="${user.enabled == true}" class="fas fa-check-circle fa-2x icon-green" 
-			th:href="@{'/users/' + ${user.id} + '/enabled/false'}"
-			title="Hủy kích hoạt">
-		</a>
-		<a th:if="${user.enabled == false}" class="fas fa-circle fa-2x icon-gray" 
-			th:href="@{'/users/' + ${user.id} + '/enabled/true'}"
-			title="Kích hoạt">
-		</a>
-	</div>
-	
-	<div th:fragment="user_actions" th:remove="tag">
-		<a class="fas fa-edit fa-2x icon-green" th:href="@{'/users/edit/' + ${user.id}}"
-			title="Sửa tài khoản này">
-		</a>
-		&nbsp;
-		<a class="fas fa-trash fa-2x icon-gray link-delete" 
-			th:href="@{'/users/delete/' + ${user.id}}" 
-			th:userId="${user.id}"
-			title="Xóa tài khoản này">
-		</a>
-	</div>
-	
-	<!-- Categories page -->
-	<!-- sort field in table -->
-	
-	<!-- retrive table data (Users) -->
-	
-	<div th:fragment="category_status" th:remove="tag">
-		<a th:if="${category.enabled == true}" class="fas fa-check-circle fa-2x icon-green" 
-			th:href="@{'/categories/' + ${category.id} + '/enabled/false'}"
-			title="Hủy kích hoạt">
-		</a>
-		<a th:if="${category.enabled == false}" class="fas fa-circle fa-2x icon-gray" 
-			th:href="@{'/categories/' + ${category.id} + '/enabled/true'}"
-			title="Kích hoạt">
-		</a>
-	</div>
-	
-	<div th:fragment="category_actions" th:remove="tag">
-		<a class="fas fa-edit fa-2x icon-green" th:href="@{'/categories/edit/' + ${category.id}}"
-			title="Sửa loại hàng này">
-		</a>
-		&nbsp;
-		<a class="fas fa-trash fa-2x icon-gray link-delete" 
-			th:href="@{'/categories/delete/' + ${category.id}}" 
-			th:categoryId="${category.id}"
-			title="Xóa loại hàng này">
-		</a>
+	<div th:fragment="category_image" th:remove="tag">
+		<span th:if="${category.image == null}" class="fas fa-portrait fa-5x icon-silver" ></span>
+		<img th:if="${category.image != null}" class="rounded" th:src="@{${category.imagePath}}" style="width: 90px" height="80px">
 	</div>
 	
 </body>

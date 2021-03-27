@@ -27,7 +27,7 @@ public class Category {
 	@Column(length = 64, nullable = false, unique = true)
 	private String alias;
 	
-	@Column(length = 128, nullable = false)
+	@Column(length = 128)
 	private String image;
 	
 	private boolean enabled;
@@ -63,6 +63,12 @@ public class Category {
 		this.name = name;
 	}
 	
+	public Category(Integer id, String name, String alias) {
+		this.id = id;
+		this.name = name;
+		this.alias = alias;
+	}
+
 	public static Category copyIdAndName(Category category) {
 		Category copyCategory = new Category();
 		copyCategory.setId(category.getId());
@@ -86,6 +92,7 @@ public class Category {
 		copyCategory.setImage(category.getImage());
 		copyCategory.setAlias(category.getAlias());
 		copyCategory.setEnabled(category.isEnabled());
+		copyCategory.setHasChildren(category.getChildren().size() > 0);
 		
 		return copyCategory;
 	}
@@ -152,9 +159,22 @@ public class Category {
 	public void setChildren(Set<Category> children) {
 		this.children = children;
 	}
-	
+
 	@Transient
 	public String getImagePath() {
+		if(this.id == null || image == null) return "/images/image-thumbnail.png";
+		
 		return "/category-images/" + this.id + "/" + this.image;
 	}
+	
+	public boolean isHasChildren() {
+		return hasChildren;
+	}
+	
+	public void setHasChildren(boolean hasChildren) {
+		this.hasChildren = hasChildren;
+	}
+	
+	@Transient
+	private boolean hasChildren;
 }
