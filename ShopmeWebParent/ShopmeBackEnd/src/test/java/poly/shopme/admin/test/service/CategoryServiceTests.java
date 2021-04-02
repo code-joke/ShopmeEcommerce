@@ -1,4 +1,4 @@
-package poly.shopme.admin.category;
+package poly.shopme.admin.test.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

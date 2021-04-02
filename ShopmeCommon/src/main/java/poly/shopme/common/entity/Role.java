@@ -29,8 +29,6 @@ public class Role {
 		this.id = id;
 	}
 
-
-
 	public Role(String name) {
 		this.name = name;
 	}

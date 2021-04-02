@@ -12,6 +12,11 @@
 	margin-left: 10px;
 }
 
+.panel-tab {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
 .dropdown-menu a:hover {
 	background-color: #007bff;
 }

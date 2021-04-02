@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head(${pageTitle})"></head>
+<body>
+	<div class="container-fluid">
+			<!-- thanh công cụ -->
+		<div th:replace="navigation :: menu"></div>
+		&nbsp;
+		
+		<div class="text-title">
+			<h4>Sản phẩm | [[${pageTitle}]]</h4>&nbsp;
+		</div>
+		
+		<form th:action="@{/products/save}" method = "post" class="panel-tab"
+			th:object="${product}">
+			<input type="hidden" th:field="*{id}">
+			<div>
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+				  <li class="nav-item">
+				    <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Tổng quan</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link" data-toggle="tab" href="#description" role="tab">Mô tả</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link" data-toggle="tab" href="#images" role="tab">Ảnh</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link" data-toggle="tab" href="#details" role="tab">Chi tiết</a>
+				  </li>
+				</ul>
+
+				<!-- Tab panes -->
+				<div class="tab-content">
+				  <div class="tab-pane active p-3" id="overview" role="tabpanel">
+				  	<div th:replace="products/product_overview :: content"></div>
+				  </div>
+				  <div class="tab-pane" id="description" role="tabpanel">Mô tả</div>
+				  <div class="tab-pane" id="images" role="tabpanel">Ảnh</div>
+				  <div class="tab-pane" id="details" role="tabpanel">Chi tiết</div>
+				</div>
+			</div>
+			<div class="text-center">
+				<input type="submit" value="Lưu" class="btn btn-primary m-3">
+				<input type="button" value="Hủy bỏ" class="btn btn-secondary" id="buttonCancel">
+			</div>
+		</form>
+		
+		<div th:replace="modal_fragments :: modal_dialog"></div>
+		
+		&nbsp;&nbsp;
+		<div th:replace="fragments :: footer"></div>
+		
+	</div>
+<script type="text/javascript">
+	moduleURL = "[[@{/products}]]";
+	brandModuleURL = "[[@{/brands}]]";
+	
+	dropdownBrands = $("#brand");
+	dropdownCategories = $("#category");
+	
+	input = document.querySelectorAll(".currency");
+	
+	$(document).ready(function() {
+
+		input.addEventListener("input", e => {
+  			input.value = formatAmount(input.value, ',', '.');
+		)}
+		
+		//dropDownBrandChange
+		dropdownBrands.change(function() {
+			dropdownCategories.empty();
+			getCategories();
+		});
+		
+		getCategories();
+	});
+	
+	function getCategories() {
+		brandId = dropdownBrands.val();
+		url = brandModuleURL + "/" + brandId + "/categories";
+		
+		$.get(url, function(responseJson) {
+			$.each(responseJson, function(index, category){
+				$("<option>").val(category.id).text(category.name).appendTo(dropdownCategories);
+			});
+		});
+	}
+	
+	function formatAmount(str, thousandSeperator = ',', decimalPoint = '.') {
+	    if (!str) { return ''; }
+	    const value = str.toString().replace(new RegExp(thousandSeperator, 'g'), '');
+	    const parts = value.split(decimalPoint);
+	    
+	    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeperator);
+	    return parts[0];
+	 }
+		
+	
+			
+</script>
+<script th:src="@{/js/common_form.js}"></script>
+</body>
+</html>

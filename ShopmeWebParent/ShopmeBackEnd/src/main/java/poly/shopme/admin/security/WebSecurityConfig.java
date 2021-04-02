@@ -8,11 +8,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -46,7 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers("/users/**").hasAnyAuthority("Admin")
-			.antMatchers("/categories/**").hasAnyAuthority("Admin", "Biên tập")
+			.antMatchers("/categories/**", "/brands/**").hasAnyAuthority("Admin", "Biên tập")
+			.antMatchers("/products/**").hasAnyAuthority("Admin", "Bán hàng", "Biên tập", "Giao hàng")
 			.anyRequest().authenticated()
 			.and()
 			.formLogin()

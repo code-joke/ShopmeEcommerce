@@ -19,9 +19,6 @@ import com.lowagie.text.pdf.PdfWriter;
 
 import poly.shopme.admin.utils.AbstractExporter;
 import poly.shopme.common.entity.Category;
-// sử dụng thư viện openpdf: https://github.com/LibrePDF/OpenPDF
-// sử dụng thư viện open-font-extra để write utf-8
-import poly.shopme.common.entity.User;
 
 public class CategoryPdfExporter extends AbstractExporter {
 

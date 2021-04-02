@@ -1,4 +1,4 @@
-package poly.shopme.admin.category;
+package poly.shopme.admin.test.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 
+import poly.shopme.admin.exception.CategoryNotFoundException;
 import poly.shopme.admin.repository.CategoryRepository;
 import poly.shopme.common.entity.Category;
 
@@ -85,7 +86,7 @@ public class CategoryRepositoryTests {
 			}
 			
 			System.out.println(subCategory.getName());
-			
+
 			printChildren(subCategory, newSubLevel);
 		}
 	}
@@ -94,6 +95,20 @@ public class CategoryRepositoryTests {
 	public void testListRootCategories() {
 		List<Category> rootCategories = repo.findRootCategories(Sort.by("name").ascending());
 		rootCategories.forEach(cat -> System.out.println(cat.getName()));
+	}
+	
+	@Test
+	public void testListChilrenCategories() {
+		Category category = repo.findByName("Phụ kiện");
+		
+		Set<Category> children = category.getChildren();
+		
+		for(Category subCategory : children) {
+			System.out.println("--" + subCategory.getName());
+			printChildren(subCategory, 1);
+		}
+		
+		assertThat(children.size()).isGreaterThan(0);
 	}
 	
 	@Test

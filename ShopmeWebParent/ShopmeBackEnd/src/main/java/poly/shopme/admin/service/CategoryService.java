@@ -20,7 +20,6 @@ import poly.shopme.admin.exception.CategoryNotFoundException;
 import poly.shopme.admin.model.CategoryPageInfo;
 import poly.shopme.admin.repository.CategoryRepository;
 import poly.shopme.common.entity.Category;
-import poly.shopme.common.entity.User;
 
 @Service
 @Transactional
@@ -148,6 +147,40 @@ public class CategoryService {
 		}
 	}
 	
+	public List<Category> listSubCategoryById(Integer id) throws CategoryNotFoundException {
+		List<Category> subCategories = new ArrayList<>();
+		Category category = get(id);
+		subCategories.add(Category.copyIdAndName(category));
+		
+		Set<Category> children = category.getChildren();
+		
+		for(Category subCategory : children) {
+			subCategories.add(subCategory);
+			listSubCategory(subCategories, subCategory, 1);
+		}
+		
+		return subCategories;
+	}
+	
+	private void listSubCategory(List<Category> subCategories, Category parent, int subLevel) {
+		int newSubLevel = subLevel + 1;
+		Set<Category> children = parent.getChildren();
+		
+		for(Category subCategory : children) {
+			subCategories.add(subCategory);
+			listSubCategory(subCategories, subCategory, newSubLevel);
+		}
+	}
+	
+	public List<Category> listCategoryUsedInEditMode(Integer id) throws CategoryNotFoundException {
+		List<Category> listCategoriesEditMode = listCategoriesUsedInForm();
+		List<Category> subCategories = listSubCategoryById(id);
+		
+		listCategoriesEditMode.removeAll(subCategories);
+	
+		return listCategoriesEditMode;
+	}
+	
 	public Category save(Category category) {
 		return repo.save(category);
 	}
@@ -158,36 +191,6 @@ public class CategoryService {
 		} catch (NoSuchElementException ex) {
 			throw new CategoryNotFoundException("Không tìm thấy loại hàng nào với ID: " + id + " !");
 		}
-	}
-	
-	public String checkUnique(Integer id, String name, String alias) {
-		boolean isCreatingNew = (id == null || id == 0);
-		
-		Category categoryByName = repo.findByName(name);
-		
-		// if create new
-		if(isCreatingNew) {
-			if(categoryByName != null) {
-				return "DuplicateName";
-			}else {
-				Category categoryByAlias = repo.findByAlias(alias);
-				if(categoryByAlias != null) {
-					return "DuplicateAlias";
-				}
-			}
-		// if updating
-		}else {
-			if(categoryByName != null && categoryByName.getId() != id) {
-				return "DuplicateName";
-			}
-			
-			Category categoryByAlias = repo.findByAlias(alias);
-			if(categoryByAlias != null && categoryByAlias.getId() != id) {
-				return "DuplicateAlias";
-			}
-		}
-		
-		return "OK";
 	}
 	
 	private SortedSet<Category> sortSubCategories(Set<Category> children) {
@@ -225,4 +228,35 @@ public class CategoryService {
 		
 		repo.deleteById(id);
 	}
+	
+	public String checkUnique(Integer id, String name, String alias) {
+		boolean isCreatingNew = (id == null || id == 0);
+		
+		Category categoryByName = repo.findByName(name);
+		
+		// if create new
+		if(isCreatingNew) {
+			if(categoryByName != null) {
+				return "DuplicateName";
+			}else {
+				Category categoryByAlias = repo.findByAlias(alias);
+				if(categoryByAlias != null) {
+					return "DuplicateAlias";
+				}
+			}
+		// if updating
+		}else {
+			if(categoryByName != null && categoryByName.getId() != id) {
+				return "DuplicateName";
+			}
+			
+			Category categoryByAlias = repo.findByAlias(alias);
+			if(categoryByAlias != null && categoryByAlias.getId() != id) {
+				return "DuplicateAlias";
+			}
+		}
+		
+		return "OK";
+	}
+	
 }

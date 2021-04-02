@@ -5,8 +5,12 @@ $(document).ready(function() {
 	
 	$("#fileImage").change(function(){
 		fileSize = this.files[0].size;
+		fileName = this.files[0].name;
 		if(fileSize > 1048576) {
 			this.setCustomValidity("Bạn phải chọn tệp có kích cỡ nhỏ hơn 1MB !");
+			this.reportValidity();
+		} else if(fileName.length > 64) {
+			this.setCustomValidity("Tên tệp quá dài !");
 			this.reportValidity();
 		} else {
 			this.setCustomValidity("");

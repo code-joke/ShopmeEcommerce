@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Sản phẩm - Shopme Admin')"></head>
+<body>
+	<div class="container-fluid">
+		<!-- thanh công cụ -->
+		<div th:replace="navigation :: menu"></div>
+		&nbsp;
+		<div>
+			<h4 class="text-title">Quản lý sản phẩm</h4>&nbsp;
+			<a th:href="@{/products/new}" class="fas fa-plus fa-2x icon-gray mr-2" title="Thêm mới sản phẩm"></a>
+		</div>
+		
+		<div th:replace="fragments :: search_form_and_message('/products/page/1')"></div>
+		
+		<div class="full-details">
+			<table class="table table-bordered table-striped table-hover table-responsive-xl ">
+				<thead class="thead-dark">
+					<tr>
+						<th>STT</th>
+						<th>ID</th>
+						<th style="text-align: center">ẢNH</th>
+						<th>TÊN SẢN PHẨM</th>
+						<th>THƯƠNG HIỆU</th>
+						<th>LOẠI HÀNG</th>
+						<th>KÍCH HOẠT</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product, state : ${listProducts}">
+						<td>[[${state.count}]]</td>
+						<td class="hideable-column">[[${product.id}]]</td>
+						<td>
+							<!-- <div align="center">
+								<img th:src="@{${brand.logoPath}}" class="rounded" style="width: 100px" height="40px">
+							</div> -->
+						</td>
+						<td>[[${product.name}]]</td>
+						<td>[[${product.brand.name}]]</td>
+						<td>[[${product.category.name}]]</td>
+						<td>
+							<div th:replace="fragments :: status(${product.enabled}, 'sản phẩm này', '/products/' + ${product.id})"></div>
+						</td>
+						<td>
+							<a class="fas fa-file-alt fa-2x icon-green"
+								th:href="@{'/products/detail/' + ${product.id}}"
+								title="Xem chi tiết sản phẩm"></a>
+							&nbsp;
+							<div th:replace="fragments :: edit('sản phẩm này', '/products/edit/' + ${product.id})"></div>
+							&nbsp; 
+							<div th:replace="fragments :: delete('sản phẩm này', ${product.id}, '/products/delete/' + ${product.id}, true)"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		&nbsp;&nbsp;
+		
+		<div th:replace="modal_fragments :: confirm_modal"></div>
+		
+	&nbsp;&nbsp;
+	<div th:replace="fragments :: footer"></div>
+	
+</div>
+
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+	moduleURL = "[[@{/brands}]]";
+
+	$(document).ready(function() {
+		$(".link-delete").on("click", function(e) {
+			e.preventDefault();
+			showDeleteConfirmModal($(this), 'thương hiệu');
+		});
+	});
+	
+</script>
+</body>
+</html>

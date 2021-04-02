@@ -91,7 +91,7 @@ public class CategoryController {
 	@PostMapping("/categories/save")
 	public String saveCategory(Category category,
 			@RequestParam("fileImage") MultipartFile multipartFile,
-			RedirectAttributes redirectAttributes) throws IOException {
+			RedirectAttributes redirectAttributes) throws IOException, CategoryNotFoundException {
 		if(!multipartFile.isEmpty()) {
 			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			category.setImage(fileName);
@@ -117,9 +117,11 @@ public class CategoryController {
 		try {
 			Category category = service.get(id);
 			List<Category> listCategories = service.listCategoriesUsedInForm();
+			List<Category> listCategoriesEditMode = service.listCategoryUsedInEditMode(id);
 			
 			model.addAttribute("category", category);
 			model.addAttribute("listCategories", listCategories);
+			model.addAttribute("listCategoriesEditMode", listCategoriesEditMode);
 			model.addAttribute("pageTitle", "Sửa loại hàng (ID: " + id +")");
 			
 			return "categories/category_form";
