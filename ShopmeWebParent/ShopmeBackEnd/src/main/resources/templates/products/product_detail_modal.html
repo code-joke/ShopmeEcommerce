@@ -1,0 +1,120 @@
+<div class="modal-header">
+	<h4 class="modal-title" id="modalTitle">Chi tiết sản phẩm</h4>
+	<button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+	
+<div>
+	<div>
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs" id="myTab" role="tablist">
+		  <li class="nav-item">
+		    <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Tổng quan</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" data-toggle="tab" href="#description" role="tab">Mô tả</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" data-toggle="tab" href="#images" role="tab">Ảnh</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" data-toggle="tab" href="#details" role="tab">Thuộc tính</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" data-toggle="tab" href="#shipping" role="tab">Vận chuyển</a>
+		  </li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content">
+			  <div class="tab-pane active p-3" id="overview" role="tabpanel">
+			  	<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Tên sản phẩm:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" th:value="${product.name}" readonly />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Đường dẫn:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" th:value="${product.alias}" readonly>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Thương hiệu:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" th:value="${product.brand.name}" readonly>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Loại hàng:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" th:value="${product.category.name}" readonly>
+				</div>
+			</div>
+			&nbsp;
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Giá nhập:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" th:value="${product.cost}" readonly>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Giá bán niêm yết:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" th:value="${product.price}" readonly>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Giảm giá:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" th:value="${product.discountPercent}" readonly>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Kích hoạt:</label>
+				<div class="col-sm-10 mt-2">
+					<input type="checkbox" th:checked="${product.enabled}" onclick="return false;">
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Còn hàng:</label>
+				<div class="col-sm-10 mt-2">
+					<input type="checkbox" th:checked="${product.inStock}" onclick="return false;">
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Ngày cập nhật cuối:</label>
+				<div class="col-sm-10 mt-2">
+					<span th:text="${#dates.format(product.updatedTime, 'dd-MM-yyyy HH:mm:ss')}"></span>
+				</div>
+			</div>
+		  </div>
+		  
+		  <div class="tab-pane p-3" id="description" role="tabpanel">
+			<div th:replace="products/product_description_readonly :: content"></div>
+		  </div>
+		  
+		  <div class="tab-pane p-3" id="images" role="tabpanel">
+		  	<div th:replace="products/product_images_readonly :: content"></div>
+		  </div>
+		  
+		  <div class="tab-pane p-3" id="details" role="tabpanel">
+		  	<div th:replace="products/product_details_readonly :: content"></div>
+		  </div>
+		  
+		  <div class="tab-pane p-3" id="shipping" role="tabpanel">
+			 <div th:replace="products/product_shipping_readonly :: content"></div>
+		  </div>
+		</div>
+	</div>
+</div>
+					
+<div class="modal-footer">
+	<button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+</div>

@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import poly.shopme.admin.dto.CategoryDTO;
 import poly.shopme.admin.exception.BrandNotFoundException;
+import poly.shopme.admin.exception.BrandNotFoundRestException;
 import poly.shopme.admin.service.BrandService;
 import poly.shopme.common.entity.Brand;
 import poly.shopme.common.entity.Category;

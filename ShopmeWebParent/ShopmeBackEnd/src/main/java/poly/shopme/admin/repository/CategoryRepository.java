@@ -31,4 +31,9 @@ public interface CategoryRepository extends PagingAndSortingRepository<Category,
 	@Modifying
 	public void updateEnabledStatus(Integer id, boolean enabled);
 	
+	@Query(value = "SELECT category_id FROM brands_categories WHERE category_id = ?1", nativeQuery = true)
+	public List<Integer> findBrandRelation(Integer id);
+	
+	@Query(value = "SELECT category_id FROM products WHERE category_id = ?1", nativeQuery = true)
+	public List<Integer> findProductRelation(Integer id);
 }

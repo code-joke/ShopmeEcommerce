@@ -39,6 +39,7 @@ public class ProductRepositoryTests {
 		product.setAlias("Dell XPS ");
 		product.setShortDescription("Short description");
 		product.setFullDescription("full description");
+		product.setMainImage("main.png");
 		
 		product.setEnabled(true);
 		product.setInStock(true);
@@ -93,5 +94,34 @@ public class ProductRepositoryTests {
 		Optional<Product> result = repo.findById(id);
 		
 		assertThat(!result.isPresent());
+	}
+	
+	@Test
+	public void testSaveProductWithImages() {
+		Integer productId = 1;
+		Product product = repo.findById(productId).get();
+		
+		product.setMainImage("main image.png");
+		product.addExtraImage("ex image 1.png");
+		product.addExtraImage("ex image 2.png");
+		product.addExtraImage("ex image 3.png");
+		
+		Product savedProduct = repo.save(product);
+		
+		assertThat(savedProduct.getImages().size()).isEqualTo(3);
+	}
+	
+	@Test
+	public void testSaveProductWithDetails() {
+		Integer productId = 1;
+		Product product = repo.findById(productId).get();
+		
+		product.addDetail(productId, "CPU", "Intel Core i7-10510U");
+		product.addDetail(productId, "RAM", "16 GB, LPDDR3, 2133 MHz");
+		product.addDetail(productId, "Màn hình", "14.0\", 2560 x 1440 Pixel, WVA, 60 Hz, 300 nits, WVA Anti-glare LED Backlit Narrow Border");
+		
+		Product savedProduct = repo.save(product);
+		
+		assertThat(savedProduct.getDetails()).isNotEmpty();
 	}
 }

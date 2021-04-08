@@ -1,4 +1,4 @@
-package poly.shopme.admin.controller;
+package poly.shopme.admin.dto;
 
 public class CategoryDTO {
 	private Integer id;

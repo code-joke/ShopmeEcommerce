@@ -20,4 +20,7 @@ public interface BrandRepository extends PagingAndSortingRepository<Brand, Integ
 	
 	@Query("SELECT NEW Brand(b.id, b.name) FROM Brand b ORDER BY b.name ASC")
 	public List<Brand> findAll();
+	
+	@Query(value = "SELECT brand_id FROM products WHERE brand_id = ?1", nativeQuery = true)
+	public List<Integer> findProductRelation(Integer id);
 }

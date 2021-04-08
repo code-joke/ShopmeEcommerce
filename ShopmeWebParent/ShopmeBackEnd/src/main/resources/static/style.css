@@ -18,7 +18,7 @@
 }
 
 .dropdown-menu a:hover {
-	background-color: #007bff;
+	background-color: #dee2e6;
 }
 
 @media screen and (max-width: 768px) {
@@ -39,4 +39,3 @@
 	div.less-details {display: none;}
 	.hideable-column {display: table-cell;}
 }
-

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head(${pageTitle})"></head>
+<head th:replace="fragments :: page_head(${pageTitle}, 'none')"></head>
 <body>
 	<div class="container-fluid">
 			<!-- thanh công cụ -->
@@ -18,21 +18,21 @@
 			<input type="hidden" th:field="*{id}">
 			<div class="border border-secondary rounded p-3">
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label">Tên loại hàng</label>
+					<label class="col-sm-4 col-form-label">Tên loại hàng:</label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" th:field="*{name}" required minlength="2" maxlength="128">
+						<input type="text" class="form-control" th:field="*{name}" required minlength="2" maxlength="128" placeholder="Nhập tên loại hàng">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label">Biệt hiệu</label>
+					<label class="col-sm-4 col-form-label">Biệt hiệu:</label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" th:field="*{alias}" required minlength="2" maxlength="64">
+						<input type="text" class="form-control" th:field="*{alias}" required minlength="2" maxlength="64" placeholder="Nhập biệt hiệu">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label">Phân cấp loại hàng</label>
+					<label class="col-sm-4 col-form-label">Phân cấp loại hàng:</label>
 					<div class="col-sm-8">
 						<select th:if="${category.id} == null" class="form-control" th:field="*{parent}">
 							<option value="0">[Không]</option>
@@ -50,7 +50,7 @@
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label">Ảnh</label>
+					<label class="col-sm-4 col-form-label">Ảnh:</label>
 					<div class="col-sm-8">
 						<input type="hidden" th:field="*{image}">
 						<input type="file" id="fileImage" name="fileImage" accept="image/png, image/jpeg"
@@ -64,8 +64,8 @@
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label">Kích hoạt</label>
-					<div class="col-sm-8">
+					<label class="col-sm-4 col-form-label">Kích hoạt:</label>
+					<div class="col-sm-8 mt-2">
 						<input type="checkbox" th:field="*{enabled}">
 					</div>
 				</div>

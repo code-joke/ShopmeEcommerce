@@ -22,7 +22,7 @@ import poly.shopme.common.entity.User;
 @Service
 @Transactional
 public class UserService {
-	public static final int USER_PER_PAGE = 5;
+	public static final int USER_PER_PAGE = 10;
 	
 	@Autowired
 	private UserRepository userRepo;

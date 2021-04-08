@@ -4,20 +4,33 @@ $(document).ready(function() {
 	});
 	
 	$("#fileImage").change(function(){
-		fileSize = this.files[0].size;
-		fileName = this.files[0].name;
-		if(fileSize > 1048576) {
-			this.setCustomValidity("Bạn phải chọn tệp có kích cỡ nhỏ hơn 1MB !");
-			this.reportValidity();
-		} else if(fileName.length > 64) {
-			this.setCustomValidity("Tên tệp quá dài !");
-			this.reportValidity();
-		} else {
-			this.setCustomValidity("");
-			showImageThumbnail(this);
+		if(!validateFileUpload(this)) {
+			return;
 		}
+		
+		showImageThumbnail(this);
 	});
 });
+
+function validateFileUpload(fileInput) {
+	fileSize = fileInput.files[0].size;
+	fileName = fileInput.files[0].name;
+	if(fileSize > 1048576) {
+		fileInput.setCustomValidity("Bạn phải chọn tệp có kích cỡ nhỏ hơn 1MB !");
+		fileInput.reportValidity();
+		
+		return false;
+	} else if(fileName.length > 255) {
+		fileInput.setCustomValidity("Tên tệp quá dài !");
+		fileInput.reportValidity();
+		
+		return false;
+	} else {
+		fileInput.setCustomValidity("");
+		
+		return true;
+	}
+}
 		
 function showImageThumbnail(fileInput) {
 	var file = fileInput.files[0];

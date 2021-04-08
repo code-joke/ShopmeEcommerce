@@ -133,15 +133,19 @@ public class CategoryController {
 	
 	@GetMapping("/categories/{id}/enabled/{status}")
 	public String updateCategoryEnabledStatus(@PathVariable("id") Integer id,
-			@PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes) throws CategoryNotFoundException {
-			Category category = service.get(id);
+			@PathVariable("status") boolean enabled, RedirectAttributes redirectAttributes){
+		try {
+			service.get(id);
 			
 			service.updateCategoryEnabledStatus(id, enabled);
 			String status = enabled ? "Kích hoạt" : "Hủy kích hoạt";
 			String message = status + " thành công";
 			redirectAttributes.addFlashAttribute("message", message);
+		} catch (CategoryNotFoundException ex) {
+			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+		}
 			
-		return getRedirectURLtoAffectedCategory(category);
+		return "redirect:/categories";
 	}
 	
 	@GetMapping("/categories/delete/{id}")
@@ -149,12 +153,16 @@ public class CategoryController {
 			Model model,
 			RedirectAttributes redirectAttributes) {
 		try {
-			service.delete(id);
-			String categoryDir = "../category-images/" + id;
-			FileUploadUtil.removeDir(categoryDir);
-			
-			redirectAttributes.addFlashAttribute("message",
-					"Xóa thành công");
+			if(service.checkBrandAndProductRelation(id)) {
+				redirectAttributes.addFlashAttribute("errorMessage", " Không thể xóa, loại hàng tồn tại thương hiệu hoặc sản phẩm liên quan !");
+			} else {
+				service.delete(id);
+				String categoryDir = "../category-images/" + id;
+				FileUploadUtil.removeDir(categoryDir);
+				
+				redirectAttributes.addFlashAttribute("message",
+						"Xóa thành công");
+			}
 		} catch (CategoryNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
 		}

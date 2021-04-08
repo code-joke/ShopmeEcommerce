@@ -45,7 +45,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/users/**").hasAnyAuthority("Admin")
 			.antMatchers("/categories/**", "/brands/**").hasAnyAuthority("Admin", "Biên tập")
-			.antMatchers("/products/**").hasAnyAuthority("Admin", "Bán hàng", "Biên tập", "Giao hàng")
+			
+			.antMatchers("/products/new", "/products/delete/**").hasAnyAuthority("Admin", "Biên tập")
+			
+			.antMatchers("/products/edit/**", "/products/save", "/products/check_unique")
+				.hasAnyAuthority("Admin", "Biên tập", "Bán hàng")
+			
+			.antMatchers("/products", "/products/", "/products/detail/**", "/products/page/**")
+				.hasAnyAuthority("Admin", "Biên tập", "Bán hàng", "Giao hàng")
+				
+			.antMatchers("/products/**").hasAnyAuthority("Admin", "Biên tập")
+			
 			.anyRequest().authenticated()
 			.and()
 			.formLogin()
@@ -64,6 +74,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**");
 	}
-	
 	
 }

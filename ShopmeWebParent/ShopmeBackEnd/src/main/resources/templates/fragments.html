@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:fragment="page_head(title)">
+<head th:fragment="page_head(title, remove)" th:remove="${remove}">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 	
@@ -59,12 +59,12 @@
 	<!-- sort -->
 	<a th:fragment="page_link(moduleURL, pageNum, label)"
 		class="page-link" 
-		th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${label}]]
+		th:href="@{${moduleURL} + '/page/' + ${pageNum} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">[[${label}]]
 	</a>
 	
 	<th th:fragment="column_link(moduleURL, fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
 		<a class="text-white"
-			th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}">
+			th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''} + ${categoryId != null ? '&categoryId=' + categoryId : ''}}">
 			[[${columnLabel}]]
 		</a>
 		<span th:if="${sortField == fieldName}"
@@ -138,8 +138,8 @@
 	</div>
 	
 	<div th:fragment="category_image" th:remove="tag">
-		<span th:if="${category.image == null}" class="fas fa-portrait fa-5x icon-silver" ></span>
-		<img th:if="${category.image != null}" class="rounded" th:src="@{${category.imagePath}}" style="width: 90px" height="80px">
+		<span th:if="${cat.image == null}" class="fas fa-portrait fa-5x icon-silver" ></span>
+		<img th:if="${cat.image != null}" class="rounded" th:src="@{${cat.imagePath}}" style="width: 90px" height="80px">
 	</div>
 	
 </body>

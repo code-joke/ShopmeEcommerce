@@ -151,14 +151,19 @@ public class UserController {
 	@GetMapping("/users/{id}/enabled/{status}")
 	public String updateUserEnabledStatus(@PathVariable("id") Integer id,
 			@PathVariable("status") boolean enabled,
-			RedirectAttributes redirectAttributes) throws UserNotFoundException {
-		User user = service.get(id);
-		service.updateUserEnabledStatus(id, enabled);
-		String status = enabled ? "Kích hoạt" : "Hủy kích hoạt";
-		String message = status + " thành công";
-		redirectAttributes.addFlashAttribute("message", message);
-		
-		return getRedirectURLtoAffectedUser(user);
+			RedirectAttributes redirectAttributes) {
+		try {
+			service.get(id);
+			
+			service.updateUserEnabledStatus(id, enabled);
+			String status = enabled ? "Kích hoạt" : "Hủy kích hoạt";
+			String message = status + " thành công";
+			redirectAttributes.addFlashAttribute("message", message);
+		} catch (UserNotFoundException ex) {
+			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+		}
+
+		return "redirect:/users";
 	}
 	
 	@GetMapping("/users/export/csv")

@@ -18,7 +18,7 @@ import poly.shopme.common.entity.Brand;
 @Service
 @Transactional
 public class BrandService {
-	public static final int BRANDS_PER_PAGE = 5;
+	public static final int BRANDS_PER_PAGE = 10;
 	
 	@Autowired
 	BrandRepository repo;
@@ -76,5 +76,11 @@ public class BrandService {
 		}
 		
 		return "OK";
+	}
+	
+	public boolean checkProductRelation(Integer id) {
+		List<Integer> brandsId = repo.findProductRelation(id);
+		
+		return (brandsId.size() > 0 && !brandsId.isEmpty()) ? true : false;
 	}
 }

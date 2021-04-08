@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('Thương hiệu - Shopme Admin')"></head>
+<head th:replace="fragments :: page_head('Thương hiệu - Shopme Admin', 'none')"></head>
 <body>
 	<div class="container-fluid">
 		<!-- thanh công cụ -->
@@ -14,7 +14,7 @@
 		<div th:replace="fragments :: search_form_and_message('/brands/page/1')"></div>
 		
 		<div class="full-details">
-			<table class="table table-bordered table-striped table-hover table-responsive-xl ">
+			<table class="table table-bordered table-striped table-hover table-responsive-xs ">
 				<thead class="thead-dark">
 					<tr>
 						<th>STT</th>
@@ -31,7 +31,7 @@
 						<td class="hideable-column">[[${brand.id}]]</td>
 						<td>
 							<div align="center">
-								<img th:src="@{${brand.logoPath}}" class="rounded" style="width: 100px" height="40px">
+								<img th:src="@{${brand.logoPath}}" class="rounded" style="width: 80px" height="40px">
 							</div>
 						</td>
 						<td>[[${brand.name}]]</td>

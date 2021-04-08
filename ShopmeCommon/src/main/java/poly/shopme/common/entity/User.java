@@ -1,6 +1,7 @@
 package poly.shopme.common.entity;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -34,7 +35,7 @@ public class User {
 	@Column(name = "last_name", length = 45, nullable = false)
 	private String lastName;
 	
-	@Column(length = 64)
+	@Column(length = 255)
 	private String photos;
 	
 	private boolean enabled;
@@ -169,6 +170,19 @@ public class User {
 	@Transient
 	public String getFullName() {
 		return firstName + " " + lastName;
+	}
+	
+	public boolean hasRole(String roleName) {
+		Iterator<Role> iterator = roles.iterator();
+		
+		while(iterator.hasNext()) {
+			Role role = iterator.next();
+			if(role.getName().equals(roleName)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 }

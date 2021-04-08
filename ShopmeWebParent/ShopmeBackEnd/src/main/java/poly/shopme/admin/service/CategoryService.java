@@ -182,6 +182,12 @@ public class CategoryService {
 	}
 	
 	public Category save(Category category) {
+		Category parent = category.getParent();
+		if(parent != null) {
+			String allParentIds = parent.getAllParentIDs() == null ? "-" : parent.getAllParentIDs();
+			allParentIds += String.valueOf(parent.getId()) + "-";
+			category.setAllParentIDs(allParentIds);
+		}
 		return repo.save(category);
 	}
 	
@@ -257,6 +263,14 @@ public class CategoryService {
 		}
 		
 		return "OK";
+	}
+	
+	public boolean checkBrandAndProductRelation(Integer id) {
+		List<Integer> categoriesId = new ArrayList<>();
+		categoriesId.addAll(repo.findBrandRelation(id));
+		categoriesId.addAll(repo.findProductRelation(id));
+		
+		return (categoriesId.size() > 0 && !categoriesId.isEmpty()) ? true : false;
 	}
 	
 }

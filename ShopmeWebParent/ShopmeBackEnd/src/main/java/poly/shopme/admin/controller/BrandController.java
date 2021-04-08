@@ -126,12 +126,16 @@ public class BrandController {
 			Model model,
 			RedirectAttributes redirectAttributes) {
 		try {
-			brandService.delete(id);
-			String brandDir = "../brand-logos/" + id;
-			FileUploadUtil.removeDir(brandDir);
-			
-			redirectAttributes.addFlashAttribute("message",
-					"Xóa thành công");
+			if(brandService.checkProductRelation(id)) {
+				redirectAttributes.addFlashAttribute("errorMessage", " Không thể xóa, thương hiệu tồn tại sản phẩm liên quan !");
+			} else {
+				brandService.delete(id);
+				String brandDir = "../brand-logos/" + id;
+				FileUploadUtil.removeDir(brandDir);
+				
+				redirectAttributes.addFlashAttribute("message",
+						"Xóa thành công");
+			}
 		} catch (BrandNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
 		}

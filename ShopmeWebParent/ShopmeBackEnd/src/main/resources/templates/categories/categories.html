@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('Loại hàng - Shopme Admin')"></head>
+<head th:replace="fragments :: page_head('Loại hàng - Shopme Admin', 'none')"></head>
 <body>
 	<div class="container-fluid">
 		<!-- thanh công cụ -->
@@ -17,7 +17,7 @@
 		<div th:replace="fragments :: search_form_and_message('/categories/page/1')"></div>
 		
 		<div class="full-details">
-			<table class="table table-bordered table-striped table-hover table-responsive-xl ">
+			<table class="table table-bordered table-striped table-hover table-responsive-xs ">
 				<thead class="thead-dark">
 					<tr>
 						<th>STT</th>
@@ -30,23 +30,23 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="category, state : ${listCategories}">
+					<tr th:each="cat, state : ${listCategories}">
 						<td>[[${state.count}]]</td>
-						<td>[[${category.id}]]</td>
+						<td>[[${cat.id}]]</td>
 						<td>
 							<div align="center">
 								<div th:replace="fragments :: category_image"></div>
 							</div>
 						</td>
-						<td>[[${category.name}]]</td>
-						<td class="hideable-column">[[${category.alias}]]</td>
+						<td>[[${cat.name}]]</td>
+						<td class="hideable-column">[[${cat.alias}]]</td>
 						<td>
-							<div th:replace="fragments :: status(${category.enabled}, 'loại hàng này', '/categories/' + ${category.id})"></div>
+							<div th:replace="fragments :: status(${cat.enabled}, 'loại hàng này', '/categories/' + ${cat.id})"></div>
 						</td>
 						<td>
-							<div th:replace="fragments :: edit('loại hàng này', '/categories/edit/' + ${category.id})"></div>
+							<div th:replace="fragments :: edit('loại hàng này', '/categories/edit/' + ${cat.id})"></div>
 							&nbsp; 
-							<div th:replace="fragments :: delete('loại hàng này', ${category.id}, '/categories/delete/' + ${category.id}, ${!category.hasChildren})"></div>
+							<div th:replace="fragments :: delete('loại hàng này', ${cat.id}, '/categories/delete/' + ${cat.id}, ${!cat.hasChildren})"></div>
 						</td>
 					</tr>
 					
@@ -55,18 +55,18 @@
 		</div>
 		
 		<div class="less-details">
-			<div th:each="category : ${listCategories}" class="row m-1">
+			<div th:each="cat : ${listCategories}" class="row m-1">
 				<div class="col-4">
 					<div th:replace="fragments :: category_image"></div>
 				</div>
 				<div class="col-8">
-					<div>[[${category.name}]]</div>
+					<div>[[${cat.name}]]</div>
 					<div class="mt-2">
-						<div th:replace="fragments :: status(${category.enabled}, 'loại hàng này', '/categories/' + ${category.id})"></div>
+						<div th:replace="fragments :: status(${cat.enabled}, 'loại hàng này', '/categories/' + ${cat.id})"></div>
 						&nbsp; 			
-						<div th:replace="fragments :: edit('loại hàng này', '/categories/edit/' + ${category.id})"></div>
+						<div th:replace="fragments :: edit('loại hàng này', '/categories/edit/' + ${cat.id})"></div>
 						&nbsp; 
-						<div th:replace="fragments :: delete('loại hàng này', ${category.id}, '/categories/delete/' + ${category.id}, ${!category.hasChildren})"></div>
+						<div th:replace="fragments :: delete('loại hàng này', ${cat.id}, '/categories/delete/' + ${cat.id}, ${!cat.hasChildren})"></div>
 					</div>
 				</div>
 				<div>&nbsp;</div>

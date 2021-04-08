@@ -1,4 +1,4 @@
-package poly.shopme.admin.controller;
+package poly.shopme.admin.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -27,10 +27,13 @@ public class Category {
 	@Column(length = 64, nullable = false, unique = true)
 	private String alias;
 	
-	@Column(length = 128)
+	@Column(length = 255)
 	private String image;
 	
 	private boolean enabled;
+	
+	@Column(name = "all_parent_ids", length = 256, nullable = true)
+	private String allParentIDs;
 	
 	@OneToOne
 	@JoinColumn(name = "parent_id")
@@ -158,6 +161,14 @@ public class Category {
 
 	public void setChildren(Set<Category> children) {
 		this.children = children;
+	}
+	
+	public String getAllParentIDs() {
+		return allParentIDs;
+	}
+
+	public void setAllParentIDs(String allParentIDs) {
+		this.allParentIDs = allParentIDs;
 	}
 
 	@Transient
