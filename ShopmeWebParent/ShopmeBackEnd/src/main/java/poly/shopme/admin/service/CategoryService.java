@@ -188,6 +188,14 @@ public class CategoryService {
 			allParentIds += String.valueOf(parent.getId()) + "-";
 			category.setAllParentIDs(allParentIds);
 		}
+		
+		if(category.getAlias() == null || category.getAlias().isEmpty()) {
+			String defaultAlias = category.getName().replaceAll(" ", "-");
+			category.setAlias(defaultAlias);
+		} else {
+			category.setAlias(category.getAlias().replaceAll(" ", "-"));
+		}
+		
 		return repo.save(category);
 	}
 	

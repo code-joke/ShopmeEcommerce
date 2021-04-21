@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Lỗi - Shopme', 'none')"></head>
+<body>
+<div class="container-fluid">
+		<div th:replace="navigation :: header_menu"></div>
+		&nbsp;
+		<div class="text-center">
+			<img th:src="@{/images/error500.jpg}" style="width: 35%"/>
+			<br>
+			&nbsp;
+			<h4 class="text-danger font-weight-bold">XIN LỖI, MÁY CHỦ ĐÃ GẶP PHẢI SỰ CỐ KHI XỬ LÍ YÊU CẦU CỦA BẠN</h4>
+			<br><a th:href="@{/}">Click vào đây</a> để quay trở về trang chủ<br>
+		</div>
+
+		&nbsp;&nbsp;
+		<div th:replace="fragments :: footer"></div>
+		
+</div>
+</body>
+</html>

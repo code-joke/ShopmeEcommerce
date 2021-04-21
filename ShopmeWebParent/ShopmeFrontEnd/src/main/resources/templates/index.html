@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Shopme', 'none')">
 <meta charset="ISO-8859-1">
-<title>Shopme Admin Control Panel</title>
 </head>
 <body>
-	<h1>Chào mừng đến với Shopme</h1>
+<div class="container-fluid">
+	<div th:replace="navigation :: header_menu"></div>
+	<br>
+	<h4 class="pl-2">Mua sắm theo danh mục</h4>
+      <div class="row mr-0 ml-0 p-4 pt-0">
+        <div class="col-sm-4 col-md-3 p-0" th:each="cat : ${listCategories}">
+          <div class="shop__thumb">
+            <a th:href="@{'/c/' + ${cat.alias}}">
+              <div class="shop-thumb__img">
+                <img th:src="@{${cat.imagePath}}" width="80px" height="80px" class="img-responsive" alt="...">
+              </div>
+              <h5 class="shop-thumb__title">
+                [[${cat.name}]]
+              </h5>
+            </a>
+          </div>
+        </div>
+      </div> <!-- / .row -->
+  <!-- / .row -->
+	
+	&nbsp;&nbsp;
+	<div th:replace="navigation :: footer_menu"></div>
+	<div th:replace="fragments :: footer"></div>
+</div>
 </body>
 </html>

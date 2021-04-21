@@ -101,16 +101,40 @@ public class ProductService {
 		repo.save(productInDB);
 	}
 	
-	public String checkUnique(Integer id, String name) {
+	public String checkUnique(Integer id, String name, String alias, String code) {
 		boolean isCreatingNew = (id == null || id == 0);
 		
 		Product productByName = repo.findByName(name);
 		
+		// if creating new
 		if(isCreatingNew) {
-			if(productByName != null) return "Duplicate";
+			if(productByName != null) {
+				return "DuplicateName";
+			} 
+			
+			Product productByAlias = repo.findByAlias(alias);
+			if(productByAlias != null) {
+				return "DuplicateAlias";
+			} 
+			
+			if(code != null && !code.isEmpty()) {
+				Product productByCode = repo.findByCode(code);
+				if (productByCode != null) return "DuplicateCode";
+			}
+		// if updating
 		} else {
 			if(productByName != null && productByName.getId() != id) {
-				return "Duplicate";
+				return "DuplicateName";
+			}
+			
+			Product productByAlias = repo.findByAlias(alias);
+			if(productByAlias != null && productByAlias.getId() != id) {
+				return "DuplicateAlias";
+			}
+			
+			if(code != null && !code.isEmpty()) {
+				Product productByCode = repo.findByCode(code);
+				if(productByCode != null && productByCode.getId() != id) return "DuplicateCode";
 			}
 		}
 		

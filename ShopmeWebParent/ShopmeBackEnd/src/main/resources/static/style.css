@@ -3,6 +3,7 @@
 *.icon-green {color: green}
 *.icon-gray {color: gray}
 *.icon-dark {color: black}
+*.icon-red {color: red}
 
 .container-fluid {
 	padding: 0px;
@@ -20,6 +21,11 @@
 .dropdown-menu a:hover {
 	background-color: #dee2e6;
 }
+
+.required:after {
+    content:" *";
+    color: red;
+  }
 
 @media screen and (max-width: 768px) {
 	/* small screen */

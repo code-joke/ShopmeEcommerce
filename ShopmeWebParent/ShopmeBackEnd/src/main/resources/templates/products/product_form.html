@@ -41,6 +41,9 @@
 				  <li class="nav-item">
 				    <a class="nav-link" data-toggle="tab" href="#shipping" role="tab">Vận chuyển</a>
 				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link" data-toggle="tab" href="#warehouse" role="tab">Kho hàng</a>
+				  </li>
 				</ul>
 
 				<!-- Tab panes -->
@@ -89,6 +92,15 @@
 				  		<div th:replace="products/product_shipping :: content"></div>
 				  	</th:block>
 				  </div>
+				  
+				  <div class="tab-pane p-3" id="warehouse" role="tabpanel">
+				  	<th:block sec:authorize="hasAnyAuthority('Bán hàng')">
+				  		<div th:replace="products/product_warehouse_readonly :: content"></div>
+				  	</th:block>
+				  	<th:block sec:authorize="hasAnyAuthority('Admin', 'Biên tập')">
+				  		<div th:replace="products/product_warehouse :: content"></div>
+				  	</th:block>
+				  </div>
 				</div>
 			</div>
 			<div class="text-center">
@@ -109,8 +121,9 @@
 	brandModuleURL = "[[@{/brands}]]";
 	defaultImageThumbnailSrc = "[[@{/images/image-thumbnail.png}]]";
 	checkUniqueUrl = "[[@{/products/check_unique}]]";
-	
+
 </script>
+	
 <script th:src="@{/js/common_form.js}"></script>
 <script th:src="@{/js/product_form_overview.js}"></script>
 <script th:src="@{/js/product_form_images.js}"></script>

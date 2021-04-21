@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+<body>
+<div th:fragment="header_menu">
+	<nav class="navbar navbar-expand-lg bg-dark navbar-dark p-0 pl-4">
+		<a class="navbar-brand" th:href="@{/}">
+			<img th:src="@{/images/ShopmeAdminSmall.png}" width="90%"/>
+		</a>
+		
+			<!-- responsive -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		&nbsp;&nbsp;
+		<div class="collapse navbar-collapse" id="topNavbar">
+			<form class="form-inline">
+			    <input class="form-control mr-sm-2" type="search" placeholder="Nhập tên điện thoại, máy tính, phụ kiện... cần tìm" aria-label="Search" size="50px">
+			    <button class="btn btn-warning my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+ 			</form>
+		</div>
+	</nav>
+</div>
+
+<div th:fragment="footer_menu">
+
+	<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+			<!-- responsive -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bottomNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse" id="bottomNavbar">
+  			<div>
+			<ul class="nav flex-column">
+				<li class="nav-item">
+					<a class="nav-link text-light" href="">Giới thiệu</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link text-light" href="">Liên hệ</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link text-light" href="">Thanh toán</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link text-light" href="">Vận chuyển</a>
+				</li>
+				
+			</ul>
+			</div>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			<div>
+			<ul class="nav flex-column">
+			
+				<li class="nav-item">
+					<a class="nav-link text-light" href="">Chính sách bảo hành</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link text-light" href="">Chính sách đổi trả</a>
+				</li>
+			
+				<li class="nav-item">
+					<a class="nav-link text-light" href="">Quy chế hoạt động</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link text-light" href="">Quyền riêng tư</a>
+				</li>
+			</ul>
+			</div>			
+		</div>
+	</nav>
+</div>
+</body>
+</html>

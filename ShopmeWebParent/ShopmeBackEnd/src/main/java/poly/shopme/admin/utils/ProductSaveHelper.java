@@ -18,7 +18,7 @@ import poly.shopme.common.entity.ProductImage;
 public class ProductSaveHelper {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductSaveHelper.class);
 	
-	public static void deleteExtraImagesWereRemovedOnForm(Product product) {
+	public static void deleteExtraImagesWeredRemovedOnForm(Product product) {
 		String extraImageDir = "../product-images/" + product.getId() + "/extras";
 		Path dirPath = Paths.get(extraImageDir);
 		
@@ -71,7 +71,7 @@ public class ProductSaveHelper {
 		}
 	}
 
-	public static void savedUploadedImages(MultipartFile mainImageMultipart, MultipartFile[] extraImageMultiparts,
+	public static void saveUploadedImages(MultipartFile mainImageMultipart, MultipartFile[] extraImageMultiparts,
 			Product savedProduct) throws IOException {
 		if(!mainImageMultipart.isEmpty()) {
 			String fileName = StringUtils.cleanPath(mainImageMultipart.getOriginalFilename());
@@ -83,6 +83,7 @@ public class ProductSaveHelper {
 		
 		if(extraImageMultiparts.length > 0) {
 			String uploadDir = "../product-images/" + savedProduct.getId() + "/extras";
+			
 			for(MultipartFile multipartFile : extraImageMultiparts) {
 				if(multipartFile.isEmpty()) continue;
 				
@@ -113,4 +114,5 @@ public class ProductSaveHelper {
 			product.setMainImage(fileName);
 		}
 	}
+
 }

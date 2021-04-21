@@ -22,6 +22,9 @@
 		  <li class="nav-item">
 		    <a class="nav-link" data-toggle="tab" href="#shipping" role="tab">Vận chuyển</a>
 		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link" data-toggle="tab" href="#warehouse" role="tab">Kho hàng</a>
+		  </li>
 		</ul>
 
 		<!-- Tab panes -->
@@ -55,22 +58,37 @@
 			&nbsp;
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label">Giá nhập:</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" th:value="${product.cost}" readonly>
+				<div class="col-sm-3">
+					<div class="input-group">
+						<input type="text" class="form-control" th:value="${#numbers.formatDecimal(product.cost, 0, 'POINT', 0, 'POINT')}" readonly>
+						<div class="input-group-append">
+	    					<span class="input-group-text">₫</span>
+	  					</div>
+	  				</div>
 				</div>
 			</div>
 			
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label">Giá bán niêm yết:</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" th:value="${product.price}" readonly>
+				<div class="col-sm-3">
+					<div class="input-group">
+						<input type="text" class="form-control" th:value="${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')}" readonly>
+						<div class="input-group-append">
+		    				<span class="input-group-text">₫</span>
+		  				</div>
+		  			</div>
 				</div>
 			</div>
 			
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label">Giảm giá:</label>
-				<div class="col-sm-10">
-					<input type="text" class="form-control" th:value="${product.discountPercent}" readonly>
+				<div class="col-sm-3">
+					<div class="input-group">
+						<input type="text" class="form-control" th:value="${#numbers.formatDecimal(product.discountPercent, 0, 'POINT', 0, 'POINT')}" readonly>
+						<div class="input-group-append">
+			    			<span class="input-group-text">₫</span>
+			  			</div>
+			  		</div>
 				</div>
 			</div>
 			
@@ -110,6 +128,10 @@
 		  
 		  <div class="tab-pane p-3" id="shipping" role="tabpanel">
 			 <div th:replace="products/product_shipping_readonly :: content"></div>
+		  </div>
+		  
+		  <div class="tab-pane p-3" id="warehouse" role="tabpanel">
+			 <div th:replace="products/product_warehouse_readonly :: content"></div>
 		  </div>
 		</div>
 	</div>

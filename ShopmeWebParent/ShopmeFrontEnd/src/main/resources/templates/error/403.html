@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Lỗi - Shopme', 'none')"></head>
+<body>
+<div class="container-fluid">
+		<div th:replace="navigation :: header_menu"></div>
+		&nbsp;
+		<div class="text-center">
+			<img th:src="@{/images/403error.png}" style="width: 25%"/>
+			<br>
+			&nbsp;
+			<h3 class="text-danger font-weight-bold">XIN LỖI, TRUY CẬP BỊ TỪ CHỐI</h3>
+			<br><a th:href="@{/}">Click vào đây</a> để quay trở về trang chủ<br>
+		</div>
+
+		&nbsp;&nbsp;
+		<div th:replace="fragments :: footer"></div>
+</div>
+</body>
+</html>

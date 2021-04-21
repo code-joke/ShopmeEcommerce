@@ -4,7 +4,7 @@
 	<div th:fragment="content" th:remove="tag">
 		<div class="row" id="divProductImages">
 			<div class="col border m-3 p-2">
-				<div><label class="text-secondary">Ảnh đại diện: [[${product.mainImage}]]</label></div>
+				<div><label class="text-secondary required">Ảnh đại diện: [[${product.mainImage}]]</label></div>
 				<div class="m-2">
 					<img id="thumbnail" alt="Xem trước ảnh đại diện" class="img-fluid"
 						th:src="@{${product.mainImagePath}}"/>

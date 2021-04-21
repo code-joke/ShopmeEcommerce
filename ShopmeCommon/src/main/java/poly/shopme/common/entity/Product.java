@@ -49,17 +49,27 @@ public class Product {
 	@Column(name = "in_stock")
 	private boolean inStock;
 	
-	private float cost;
+	private int cost;
 	
-	private float price;
+	private int price;
 	
 	@Column(name = "discount_percent")
-	private float discountPercent;
+	private int discountPercent;
 	
 	private float length;
 	private float width;
 	private float height;
 	private float weight;
+	
+	private String code;
+	
+	@Column(name = "bar_code")
+	private String barCode;
+	
+	private Integer amount;
+	
+	@Column(name = "allow_order", columnDefinition = "BIT default 0")
+	private boolean allowOrder;
 	
 	@Column(name = "main_image", nullable = false)
 	private String mainImage;
@@ -150,27 +160,27 @@ public class Product {
 		this.inStock = inStock;
 	}
 
-	public float getCost() {
+	public int getCost() {
 		return cost;
 	}
 
-	public void setCost(float cost) {
+	public void setCost(int cost) {
 		this.cost = cost;
 	}
 
-	public float getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
-	public float getDiscountPercent() {
+	public int getDiscountPercent() {
 		return discountPercent;
 	}
 
-	public void setDiscountPercent(float discountPercent) {
+	public void setDiscountPercent(int discountPercent) {
 		this.discountPercent = discountPercent;
 	}
 
@@ -204,6 +214,38 @@ public class Product {
 
 	public void setWeight(float weight) {
 		this.weight = weight;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getBarCode() {
+		return barCode;
+	}
+
+	public void setBarCode(String barCode) {
+		this.barCode = barCode;
+	}
+
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
+	}
+
+	public boolean isAllowOrder() {
+		return allowOrder;
+	}
+
+	public void setAllowOrder(boolean allowOrder) {
+		this.allowOrder = allowOrder;
 	}
 
 	public Category getCategory() {
@@ -267,10 +309,18 @@ public class Product {
 	
 	@Transient
 	public String getShortName() {
-		if(name.length() > 70) {
-			return name.substring(0, 70).concat("...");
+		if(name.length() > 40) {
+			return name.substring(0, 40).concat("...");
 		}
 		return name;
+	}
+	
+	@Transient
+	public int getDiscountPrice() {
+		if(discountPercent > 0) {
+			return price - discountPercent;
+		}
+		return this.price;
 	}
 		
 	@Override
