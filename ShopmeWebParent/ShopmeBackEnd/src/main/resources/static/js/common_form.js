@@ -10,6 +10,7 @@ $(document).ready(function() {
 		
 		showImageThumbnail(this);
 	});
+	
 });
 
 function validateFileUpload(fileInput) {

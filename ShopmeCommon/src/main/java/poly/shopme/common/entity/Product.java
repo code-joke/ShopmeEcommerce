@@ -32,10 +32,10 @@ public class Product {
 	@Column(unique = true, length = 256, nullable = false)
 	private String alias;
 	
-	@Column(name = "short_description", length = 4096, nullable = false)
+	@Column(name = "short_description", length = 4096)
 	private String shortDescription;
 	
-	@Column(name = "full_description", columnDefinition = "TEXT", nullable = false)
+	@Column(name = "full_description", columnDefinition = "TEXT")
 	private String fullDescription;
 	
 	@Column(name = "created_time")

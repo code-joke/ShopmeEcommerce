@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import poly.shopme.common.entity.Category;
 import poly.shopme.site.service.CategoryService;
+import poly.shopme.site.service.ProductService;
 
 @Controller
 public class MainController {
 	
 	@Autowired CategoryService categoryService;
+	
+	@Autowired ProductService productService;
 	
 	@GetMapping("")
 	public String viewHomePage(Model model) {

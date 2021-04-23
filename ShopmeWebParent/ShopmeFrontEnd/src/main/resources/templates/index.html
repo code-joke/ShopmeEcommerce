@@ -7,21 +7,25 @@
 <div class="container-fluid">
 	<div th:replace="navigation :: header_menu"></div>
 	<br>
-	<h4 class="pl-2">Mua sắm theo danh mục</h4>
-      <div class="row mr-0 ml-0 p-4 pt-0">
-        <div class="col-sm-4 col-md-3 p-0" th:each="cat : ${listCategories}">
-          <div class="shop__thumb">
-            <a th:href="@{'/c/' + ${cat.alias}}">
-              <div class="shop-thumb__img">
-                <img th:src="@{${cat.imagePath}}" width="80px" height="80px" class="img-responsive" alt="...">
-              </div>
-              <h5 class="shop-thumb__title">
-                [[${cat.name}]]
-              </h5>
-            </a>
-          </div>
+	<div class="pl-4 pr-4">
+		<h4>Mua sắm theo danh mục</h4>
+		<div class="card card-grid">
+	      <div class="row mr-0 ml-0 pt-0">
+	        <div class="col-sm-4 col-md-3 p-0" th:each="cat : ${listCategories}">
+	          <div class="shop__thumb">
+	            <a th:href="@{'/c/' + ${cat.alias}}">
+	              <div class="shop-thumb__img">
+	                <img th:src="@{${cat.imagePath}}" width="80px" height="80px" class="img-responsive" alt="...">
+	              </div>
+	              <h5 class="shop-thumb__title">
+	                [[${cat.name}]]
+	              </h5>
+	            </a>
+	          </div>
+	        </div>
+	      </div>
         </div>
-      </div> <!-- / .row -->
+    </div> <!-- / .row -->
   <!-- / .row -->
 	
 	&nbsp;&nbsp;

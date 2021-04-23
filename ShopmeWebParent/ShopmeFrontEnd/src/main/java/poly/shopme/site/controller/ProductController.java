@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import poly.shopme.common.entity.Brand;
 import poly.shopme.common.entity.Category;
 import poly.shopme.common.entity.Product;
 import poly.shopme.common.exception.CategoryNotFoundException;
@@ -38,6 +39,8 @@ public class ProductController {
 		try {
 			Category category = categoryService.getCategory(alias);
 			
+			List<Brand> listBrandByCategory = categoryService.listByBrand(category.getId());
+			
 			List<Category> listCategoryParents =  categoryService.getCategoryParents(category);
 			
 			Page<Product> pageProduct =  productService.listByCategory(pageNum, category.getId());
@@ -60,6 +63,7 @@ public class ProductController {
 			model.addAttribute("pageTitle", category.getName());
 			model.addAttribute("category", category);
 			model.addAttribute("listCategoryParents", listCategoryParents);
+			model.addAttribute("listBrandByCategory", listBrandByCategory);
 			
 			return "product/product_by_category";
 		} catch (CategoryNotFoundException ex) {

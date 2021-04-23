@@ -6,23 +6,28 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import poly.shopme.common.entity.Brand;
 import poly.shopme.common.entity.Category;
 import poly.shopme.common.exception.CategoryNotFoundException;
+import poly.shopme.site.repository.BrandRepository;
 import poly.shopme.site.repository.CategoryRepository;
 
 @Service
 public class CategoryService {
 	
 	@Autowired
-	private CategoryRepository repo;
+	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private BrandRepository brandRepository;
 
 	public List<Category> listRootCategories() {
-		List<Category> listRootCategories = repo.findRootCategoryEnabled();
+		List<Category> listRootCategories = categoryRepository.findRootCategoryEnabled();
 		return listRootCategories;
 	}
 	
 	public Category getCategory(String alias) throws CategoryNotFoundException {
-		Category category = repo.findByAliasEnabled(alias);
+		Category category = categoryRepository.findByAliasEnabled(alias);
 		if(category == null) {
 			throw new CategoryNotFoundException("Không tìm thấy danh mục nào với đường dẫn " + alias);
 		}
@@ -43,5 +48,9 @@ public class CategoryService {
 		listParents.add(child);
 		
 		return listParents;
+	}
+	
+	public List<Brand> listByBrand(int categoryId) {
+		return brandRepository.listBrandByCategory(categoryId);
 	}
 }

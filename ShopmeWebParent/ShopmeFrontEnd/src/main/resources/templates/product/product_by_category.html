@@ -9,7 +9,7 @@
 	
 	<div th:replace="breadcrumb :: content"></div>
 	
-	<div class="row mr-0 ml-0 p-4 pt-0">
+	<div class="row mr-0 ml-0 p-4">
         <div class="col-sm-3 col-md-2 p-0" th:each="cat : ${category.children}"  th:if="${cat.enabled == true}">
           <div class="shop__thumb">
             <a th:href="@{'/c/' + ${cat.alias}}">
@@ -23,50 +23,65 @@
           </div>
         </div>
     </div> 
+	<br>
+	<div class="pl-4 pr-4">
+		<div class="card card-grid">
+			<div class="row">
+				<h3 class="font-weight-bold pt-2" style="padding-left: 25px">[[${category.name}]]</h3> &nbsp; <h5 class="font-weight-normal text-secondary pt-3">([[${totalItems}]] sản phẩm)</h5> 
+			</div>
+			<hr>
+			<div class="row" style="padding-left: 25px">
+			<div th:each="brand : ${listBrandByCategory}">
+				<div class="mr-2 ml-2 mb-3">
+					<img class="image-thumbnail" th:src="@{${brand.logoPath}}" width="90px" height="50px" style="vertical-align: middle;"/>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
+	<br><br>
 	
-	<hr>
+	<div class="pl-4 pr-4">
+	<div class="card card-grid">
+	    <div class="row mr-0 ml-0 p-0">
+	        <div class="col-sm-4 col-md-3 p-0" th:each="product : ${listProducts}">
+	          <div class="shop__thumb" style="height: 500px">
+	            <a th:href="@{'/p/' + ${product.alias}}">
+	              <div class="shop-thumb__img">
+	                <img th:src="@{${product.mainImagePath}}" width="200px" height="170px" class="img-responsive" alt="...">
+	                <div th:if="${product.discountPercent > 0}">
+	                	<span th:inline="text" class="shop-thumb-img_discount badge badge-warning">Giảm [[${#numbers.formatDecimal(product.discountPercent, 0, 'POINT', 0, 'POINT')}]] ₫</span>
+	                </div>
+	              </div>
+	              <h5 class="shop-thumb__title">
+	                [[${product.shortName}]]
+	              </h5>
+	            </a>
+	              <hr>
+	              <div th:if="${product.discountPercent <= 0}">
+	              	<span class="shop-thumb__price badge badge-pill badge-success">[[${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')}]] ₫</span>
+	              </div>
+	              
+	              <div th:if="${product.discountPercent > 0}">
+					<span class="shop-thumb-price_new badge badge-pill badge-danger">[[${#numbers.formatDecimal(product.discountPrice, 0, 'POINT', 0, 'POINT')}]] ₫</span>
+	              	<span class="shop-thumb-price_old">[[${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')}]] ₫</span>
+	              </div>
+	              <br>
+	            <div class="shop-thumb__info">
+	            <th:block th:each="detail,pStat : ${product.details}" th:unless="${pStat.index > 1}">
+	            	<span class="badge badge-light text-secondary" on>[[${detail.value}]]</span>
+	            </th:block>
+	            </div>
 	
-	<div>
-		<h4 class="pl-2">[[${category.name}]]</h4> <h5 class="font-weight-light pl-2">([[${totalItems}]] sản phẩm) </h5>
-	</div> 
-	
-    <div class="row mr-0 ml-0 p-4">
-        <div class="col-sm-4 col-md-3 p-2" th:each="product : ${listProducts}">
-          <div class="shop__thumb" style="height: 500px">
-            <a th:href="@{'/p/' + ${product.alias}}">
-              <div class="shop-thumb__img">
-                <img th:src="@{${product.mainImagePath}}" width="200px" height="170px" class="img-responsive" alt="...">
-                <div th:if="${product.discountPercent > 0}">
-                	<span th:inline="text" class="shop-thumb-img_discount badge badge-warning">Giảm [[${#numbers.formatDecimal(product.discountPercent, 0, 'POINT', 0, 'POINT')}]] ₫</span>
-                </div>
-              </div>
-              <h5 class="shop-thumb__title">
-                [[${product.shortName}]]
-              </h5>
-            </a>
-              <hr>
-              <div th:if="${product.discountPercent <= 0}">
-              	<span class="shop-thumb__price badge badge-pill badge-success">[[${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')}]] ₫</span>
-              </div>
-              
-              <div th:if="${product.discountPercent > 0}">
-				<span class="shop-thumb-price_new badge badge-pill badge-danger">[[${#numbers.formatDecimal(product.discountPrice, 0, 'POINT', 0, 'POINT')}]] ₫</span>
-              	<span class="shop-thumb-price_old">[[${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')}]] ₫</span>
-              </div>
-              <br>
-            <div class="shop-thumb__info">
-            <th:block th:each="detail,pStat : ${product.details}" th:unless="${pStat.index > 1}">
-            	<span class="badge badge-light text-secondary" on>[[${detail.value}]]</span>
-            </th:block>
-            </div>
-
-            <div class="hide" style="padding-top: 20px">
-            	 <a class="btn btn-danger font-weight-bold" th:href="@{'/p/' + ${product.alias}}">MUA NGAY</a>
-        	</div>
-        </div>
+	            <div class="hide" style="padding-top: 20px">
+	            	 <a class="btn btn-danger font-weight-bold" th:href="@{'/p/' + ${product.alias}}">MUA NGAY</a>
+	        	</div>
+	        </div>
+		</div>
 	</div>
 </div>
-	<hr>
+</div>
+	<br><br>
 	
 	<div th:replace="fragments :: pagination('/c/' + ${category.alias}, 'sản phẩm')"></div>
     

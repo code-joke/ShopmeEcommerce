@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
 	<div th:fragment="content" th:remove="tag">
 		<div class="mt-2">
 			<label class="text-success">Mô tả ngắn gọn:</label>
-			<textarea class="form-control" th:field="*{shortDescription}" rows="5" required></textarea>
+			<textarea class="form-control" th:field="*{shortDescription}" rows="5"></textarea>
 		</div>
 		
 		<div class="mt-2">
 			<label class="text-success">Mô tả đầy đủ:</label>
-			<textarea class="form-control" th:field="*{fullDescription}" rows="10" required></textarea>
+			<textarea class="form-control" th:field="*{fullDescription}" rows="10"></textarea>
 		</div>
 	</div>		
 </body>

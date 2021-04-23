@@ -59,10 +59,10 @@ public class ProductService {
 		}
 		
 		if(product.getAlias() == null || product.getAlias().isEmpty()) {
-			String defaultAlias = product.getName().replaceAll(" ", "-");
+			String defaultAlias = product.getName().trim().replaceAll(" ", "-").trim().replaceAll(" ", "-").replaceAll("\\?", "").replaceAll("/", "");
 			product.setAlias(defaultAlias);
 		} else {
-			product.setAlias(product.getAlias().replaceAll(" ", "-"));
+			product.setAlias(product.getAlias().trim().replaceAll(" ", "-").trim().replaceAll(" ", "-").replaceAll("\\?", "").replaceAll("/", ""));
 		}
 		
 		product.setUpdatedTime(new Date());

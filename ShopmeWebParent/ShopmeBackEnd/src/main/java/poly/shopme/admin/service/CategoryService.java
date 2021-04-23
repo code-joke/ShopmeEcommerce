@@ -190,10 +190,10 @@ public class CategoryService {
 		}
 		
 		if(category.getAlias() == null || category.getAlias().isEmpty()) {
-			String defaultAlias = category.getName().replaceAll(" ", "-");
+			String defaultAlias = category.getName().trim().trim().replaceAll(" ", "-").replaceAll("?", null).replaceAll("/", null);
 			category.setAlias(defaultAlias);
 		} else {
-			category.setAlias(category.getAlias().replaceAll(" ", "-"));
+			category.setAlias(category.getAlias().trim().replaceAll(" ", "-").replaceAll("?", null).replaceAll("/", null));
 		}
 		
 		return repo.save(category);

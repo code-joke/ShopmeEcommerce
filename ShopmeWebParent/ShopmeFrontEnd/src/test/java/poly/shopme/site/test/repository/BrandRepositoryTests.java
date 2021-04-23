@@ -1,6 +1,6 @@
 package poly.shopme.site.test.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,21 +8,21 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import poly.shopme.common.entity.Product;
-import poly.shopme.site.repository.ProductRepository;
+import poly.shopme.common.entity.Brand;
+import poly.shopme.site.repository.BrandRepository;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-public class ProductRepositoryTests {
+public class BrandRepositoryTests {
 	
 	@Autowired
-	ProductRepository repo;
+	private BrandRepository brandRepo;
 	
 	@Test
-	public void testFindByAlias() {
-		String alias = "laptop-acer-aspire-3-a315-23-r8ba-r3-3250u/4gb/256gb/win-10";
-		Product product = repo.findByAlias(alias);
-		
-		assertThat(product).isNotNull();
+	public void testListBrandByCategory() {
+		List<Brand> listBrandByCategory = brandRepo.listBrandByCategory(1);
+		listBrandByCategory.forEach(brand -> {
+			System.out.print(brand.getId());
+		});
 	}
 }
