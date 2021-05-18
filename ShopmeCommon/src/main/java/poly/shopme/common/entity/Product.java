@@ -66,7 +66,8 @@ public class Product {
 	@Column(name = "bar_code")
 	private String barCode;
 	
-	private Integer amount;
+	@Column(name = "quantity_in_stock")
+	private Integer quantityInStock;
 	
 	@Column(name = "allow_order", columnDefinition = "BIT default 0")
 	private boolean allowOrder;
@@ -232,12 +233,12 @@ public class Product {
 		this.barCode = barCode;
 	}
 
-	public Integer getAmount() {
-		return amount;
+	public Integer getQuantityInStock() {
+		return quantityInStock;
 	}
 
-	public void setAmount(Integer amount) {
-		this.amount = amount;
+	public void setQuantityInStock(Integer quantityInStock) {
+		this.quantityInStock = quantityInStock;
 	}
 
 	public boolean isAllowOrder() {
@@ -341,4 +342,29 @@ public class Product {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
 }

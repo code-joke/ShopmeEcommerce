@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Đơn hàng - Shopme Admin', 'none')"></head>
+<body>
+	<div class="container-fluid">
+		<!-- thanh công cụ -->
+		<div th:replace="navigation :: menu"></div>
+		&nbsp;
+		<div>
+			<h4 class="text-title">Quản lý đơn hàng</h4>&nbsp;
+			<a th:href="@{/users/new}" class="fas fa-plus fa-2x icon-gray mr-2" title="Thêm mới tài khoản"></a>
+			<a th:href="@{/users/export/csv}" class="fas fa-file-csv fa-2x icon-gray mr-2" title="Xuất file CSV"></a>
+			<a th:href="@{/users/export/excel}" class="fas fa-file-excel fa-2x icon-gray mr-2" title="Xuất file Excel"></a>
+			<a th:href="@{/users/export/pdf}" class="fas fa-file-pdf fa-2x icon-gray mr-2" title="Xuất file PDF"></a>
+		</div>
+		
+		<div th:replace="fragments :: search_form_and_message('/orders/page/1')"></div>
+		
+		<div class="full-details">
+			<table class="table table-bordered table-striped table-hover table-responsive-xl">
+				<thead class="thead-dark">
+					<tr>
+						<th>STT</th>
+						<th>ID</th>
+						<th>KHÁCH HÀNG</th>
+						<th>NGÀY ĐẶT</th>
+						<th>GIÁ TRỊ</th>
+						<th>LOẠI</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="order, state : ${listOrders}">
+						<td>[[${state.count}]]</td>
+						<td>[[${order.id}]]<i class="fas fa-check icon-green ml-2"></i></td>
+						<td>[[${order.customerName}]]</td>
+						<td th:text="${#dates.format(order.orderTime, 'dd-MM-yyyy HH:mm:ss')}"></td>
+						<td>[[${#numbers.formatDecimal(order.total, 0, 'POINT', 0, 'POINT')}]] ₫</td>
+						<td>[[${order.type}]]</td>
+						<td>
+							<a class="fas fa-file-alt fa-2x icon-green"
+								th:href="@{'/orders/detail/' + ${order.id}}"
+								title="Xem chi tiết đơn hàng"></a>
+							&nbsp;
+							<div th:replace="fragments :: edit('đơn hàng này', '/orders/edit/' + ${order.id})"></div>
+							&nbsp;&nbsp;
+							<div th:replace="fragments :: delete('đơn hàng này', ${order.id}, '/orders/delete/' + ${order.id}, true)"></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		
+		
+		<div th:replace="modal_fragments :: confirm_modal"></div>
+		
+	&nbsp;&nbsp;
+	<div th:replace="fragments :: footer"></div>
+	
+</div>
+
+<script th:src="@{/js/common_list.js}"></script>
+<script type="text/javascript">
+	moduleURL = "[[@{/orders}]]";
+
+	$(document).ready(function() {
+		$(".link-delete").on("click", function(e) {
+			e.preventDefault();
+			showDeleteConfirmModal($(this), 'đơn hàng');
+		});
+	});
+	
+</script>
+</body>
+</html>

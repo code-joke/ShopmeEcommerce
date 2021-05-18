@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: page_head('Shopme', 'none')">
+<meta charset="ISO-8859-1">
+</head>
+<style>
+.card-body{
+    box-shadow: 0 1px 15px 1px rgba(52,40,104,.08);    
+}
+</style>
+<body>
+<div class="container-fluid">
+	<div th:replace="navigation :: header_menu"></div>
+    <!-- Shopping cart table -->
+    <div class="card">
+        <div class="card-header">
+            <h4>GIỎ HÀNG CỦA BẠN</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered m-0">
+                <thead>
+                  <tr>
+                    <!-- Set columns width -->
+                    <th>STT</th>
+                    <th class="text-center py-3 px-4">Tên hàng</th>
+                    <th class="text-center py-3 px-4" style="width: 150px;">Giá</th>
+                    <th class="text-center py-3 px-4" style="width: 250px;">Số lượng</th>
+                    <th class="text-center py-3 px-4" style="width: 150px;">Tổng tiền</th>
+                    <th class="text-center align-middle py-3 px-0" style="width: 40px;"><a href="#" class="shop-tooltip float-none text-light" title="" data-original-title="Clear cart"><i class="ino ion-md-trash"></i></a></th>
+                  </tr>
+                </thead>
+                <tbody>
+                
+                <th:block th:if="${session.cart.totalQuantity == 0}">
+                <div class=" text-center p-3">
+        			<h4 class="text-success">Chưa có sản phẩm nào trong giỏ</h4>
+        			<br><br>
+        			</div>
+	            </th:block>
+	            
+        		<th:block th:each="item, status : ${session.cart.items}">
+                  <tr>
+                  	<td>[[${status.count}]]</td>
+                    <td class="p-4">
+                      <div class="media align-items-center">
+                        <img th:src="@{${item.key.mainImagePath}}" class="img-fluid mr-4" width="128px" height="128px" alt="">
+                        <div class="media-body">
+                          <a th:href="@{'/p/' + ${item.key.alias}}" target="_blank" class="d-block text-primary">[[${item.key.name}]]</a>
+                          <span th:if="${item.key.code != ''}">
+                          <small>
+                            <span class="text-muted">SKU: [[${item.key.code}]]</span>
+                          </small>
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-right font-weight-bold text-danger align-middle p-1">
+                    	<th:block th:if="${item.key.discountPercent > 0}">
+                    	<div class="shop-price_new col"><p class="h6">[[${#numbers.formatDecimal(item.key.discountPrice, 0, 'POINT', 0, 'POINT')}]] ₫</p></div>
+                    	<div class="shop-thumb-price_old font-weight-light col">[[${#numbers.formatDecimal(item.key.price, 0, 'POINT', 0, 'POINT')}]] ₫</div>
+                    	</th:block>
+                    	<th:block th:if="${item.key.discountPercent <= 0}">
+                    	<div class="shop-price_new col"><p class="h6">[[${#numbers.formatDecimal(item.key.discountPrice, 0, 'POINT', 0, 'POINT')}]] ₫</p></div>
+                    	</th:block>
+                    </td>
+                    <td class="align-middle p-4">
+                    	<div class="align-middle p-4">
+                            <div th:replace="cart/quantity_control :: quantity_control(${item.value}, ${item.key.id})"></div>
+                        </div>
+                    </td>
+                    <th:block th:if="${item.key.discountPercent > 0}">
+                    <td class="text-right font-weight-semibold align-middle p-4">[[${#numbers.formatDecimal(item.value * item.key.discountPrice, 0, 'POINT', 0, 'POINT')}]] ₫</td>
+                    </th:block>
+                    <th:block th:if="${item.key.discountPercent <= 0}">
+                    <td class="text-right font-weight-semibold align-middle p-4">[[${#numbers.formatDecimal(item.value * item.key.price, 0, 'POINT', 0, 'POINT')}]] ₫</td>
+                    </th:block>
+                    <td class="text-center align-middle px-0"><a th:href="@{'/remove_item/' + ${item.key.id}}" class="fas fa-trash icon-gray" title="Xóa sản phẩm khỏi giỏ"></a></td>
+                  </tr>
+        
+                </tbody>
+              </table>
+            </div>
+            <!-- / Shopping cart table -->
+        
+            <div class="d-flex flex-wrap justify-content-between align-items-center pb-4">
+              <div class="mt-4">
+                <label class="text-muted font-weight-normal">Tổng số lượng sản phẩm</label>
+                <div class="text-large"><strong>[[${session.cart.totalQuantity}]]</strong></div>
+              </div>
+              <div class="d-flex">
+                <div class="text-right mt-4 mr-5">
+                  <label class="text-muted font-weight-normal m-0">Tổng tiền giảm</label>
+                  <div class="text-large"><strong>[[${#numbers.formatDecimal(session.cart.totalDiscountAmount, 0, 'POINT', 0, 'POINT')}]] ₫</strong></div>
+                </div>
+                <div class="text-right mt-4">
+                  <label class="text-muted font-weight-normal m-0">Cần thanh toán</label>
+                  <div class="text-large"><strong>[[${#numbers.formatDecimal(session.cart.totalAmount, 0, 'POINT', 0, 'POINT')}]] ₫</strong></div>
+                </div>
+              </div>
+            </div>
+            </th:block>
+            
+            <div class="float-right">
+              <a class="btn btn-lg btn-default md-btn-flat mt-2 mr-3 text-primary" th:href="@{/}">TIẾP TỤC MUA SẮM</a>
+              <th:block th:if="${session.cart.totalQuantity > 0}">
+              <a class="btn btn-lg btn-danger mt-2 link-checkout" th:href="@{'/check_out'}">THANH TOÁN</a>
+              </th:block>
+            </div>
+         </div>
+         
+
+    </div>
+    
+    <div class="modal fade" id="detailModal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content"></div>
+		</div>
+	</div>
+	
+	&nbsp;&nbsp;
+	<div th:replace="navigation :: footer_menu"></div>
+	<div th:replace="fragments :: footer"></div>
+</div>
+<script type="text/javascript">
+	moduleURL = "[[@{/products}]]";
+
+	$(document).ready(function() {	
+		$(".link-checkout").on("click", function(e) {
+			e.preventDefault();
+			linkDetailURL = $(this).attr("href");
+			$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
+		});
+	});
+	
+</script>
+</body>
+</html>

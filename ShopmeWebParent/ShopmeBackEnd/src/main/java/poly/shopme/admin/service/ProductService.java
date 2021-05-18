@@ -54,9 +54,9 @@ public class ProductService {
 	}
 	
 	public Product save(Product product) {
-		if(product.getId() == null) {
-			product.setCreatedTime(new Date());
-		}
+		if(product.getId() == null) product.setCreatedTime(new Date());
+		
+		if(product.getQuantityInStock() == null) product.setInStock(false);
 		
 		if(product.getAlias() == null || product.getAlias().isEmpty()) {
 			String defaultAlias = product.getName().trim().replaceAll(" ", "-").trim().replaceAll(" ", "-").replaceAll("\\?", "").replaceAll("/", "");

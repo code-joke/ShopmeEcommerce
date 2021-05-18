@@ -3,10 +3,10 @@
 <body>
  <div class="shop__thumb" th:fragment="content" style="height: 500px">
       	<a th:href="@{'/p/' + ${product.alias}}">
-          <div class="shop-thumb__img">
+          <div class="shop-thumb__img zoom">
             <img th:src="@{${product.mainImagePath}}" width="200px" height="170px" class="img-responsive" alt="...">
             <div th:if="${product.discountPercent > 0}">
-            	<span th:inline="text" class="shop-thumb-img_discount badge badge-warning">Giảm [[${#numbers.formatDecimal(product.discountPercent, 0, 'POINT', 0, 'POINT')}]] ₫</span>
+            	<span th:inline="text" class="shop-thumb-img_discount badge badge-warning mt-2 mb-3">Giảm [[${#numbers.formatDecimal(product.discountPercent, 0, 'POINT', 0, 'POINT')}]] ₫</span>
             </div>
           </div>
           <h5 class="shop-thumb__title">

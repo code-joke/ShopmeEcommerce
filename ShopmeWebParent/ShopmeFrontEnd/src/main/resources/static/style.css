@@ -4,6 +4,7 @@
 *.icon-gray {color: gray}
 *.icon-dark {color: black}
 *.icon-red {color: red}
+*.icon-yellow {color: #ffc107;}
 
 .container-fluid {
 	padding: 0px;
@@ -95,6 +96,28 @@
   color: #495057;
   box-shadow: 0 0 3px 0 #dee2e6;
   border-radius: 6px;
+}
+
+.zoom-brand {
+  transition: transform .2s;
+  margin: 0 auto;
+}
+
+.zoom-brand:hover {
+  -ms-transform: scale(1.1); /* IE 9 */
+  -webkit-transform: scale(1.1); /* Safari 3-8 */
+  transform: scale(1.1); 
+}
+
+.zoom {
+  transition: transform .2s;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  -ms-transform: scale(1.05); /* IE 9 */
+  -webkit-transform: scale(1.05); /* Safari 3-8 */
+  transform: scale(1.05); 
 }
 
 .form-control,
