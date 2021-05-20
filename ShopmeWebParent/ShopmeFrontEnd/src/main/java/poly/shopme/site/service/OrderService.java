@@ -16,6 +16,7 @@ public class OrderService {
 	
 	public Order create(Order order) {
 		order.setOrderTime(new Date());
+		order.setStatus("Chờ xác nhận");
 		
 		return repo.save(order);
 	}

@@ -171,9 +171,9 @@ hr {
 
                             <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90 mr-1">Mã đơn hàng: </span>#[[${order.id}]]</div>
 
-                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90 mr-1">Ngày đặt hàng: </span><span th:text="${#dates.format(order.orderTime, 'dd-MM-yyyy HH:mm:ss')}"></span></div>
+                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90 mr-1">Ngày đặt hàng: </span><span th:text="${#dates.format(order.orderTime, 'dd/MM/yyyy HH:mm:ss')}"></span></div>
 
-                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90 mr-1">Trạng thái: </span> <span class="badge badge-warning badge-pill px-25">Đang chờ</span></div>
+                            <div class="my-2"><i class="fa fa-circle text-blue-m2 text-xs mr-1"></i> <span class="text-600 text-90 mr-1">Trạng thái: </span> <span class="badge badge-warning badge-pill px-25">[[${order.status}]]</span></div>
                         </div>
                     </div>
                     <!-- /.col -->

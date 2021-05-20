@@ -2,6 +2,7 @@ package poly.shopme.common.entity;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "orders")
@@ -36,14 +38,23 @@ public class Order {
 	@Column(length = 500)
 	private String note;
 	
+	@Column(name = "shipping_cost")
+	private Integer shippingCost;
+	
+	@Column(name = "discount_total")
+	private Integer discountTotal;
+	
+	@Column(name = "discount_note", length = 256)
+	private String discountNote;
+	
 	@Column
 	private int total;
 	
-	@Column
-	private boolean type;
-	
 	@Column(name = "order_time")
 	private Date orderTime;
+	
+	@Column
+	private String status;
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<OrderDetail> orderDetails = new HashSet<>();
@@ -99,6 +110,30 @@ public class Order {
 	public void setNote(String note) {
 		this.note = note;
 	}
+	
+	public Integer getShippingCost() {
+		return shippingCost;
+	}
+
+	public void setShippingCost(Integer shippingCost) {
+		this.shippingCost = shippingCost;
+	}
+
+	public Integer getDiscountTotal() {
+		return discountTotal;
+	}
+
+	public void setDiscountTotal(Integer discountTotal) {
+		this.discountTotal = discountTotal;
+	}
+
+	public String getDiscountNote() {
+		return discountNote;
+	}
+
+	public void setDiscountNote(String discountNote) {
+		this.discountNote = discountNote;
+	}
 
 	public int getTotal() {
 		return total;
@@ -106,14 +141,6 @@ public class Order {
 
 	public void setTotal(int total) {
 		this.total = total;
-	}
-
-	public boolean isType() {
-		return type;
-	}
-
-	public void setType(boolean type) {
-		this.type = type;
 	}
 
 	public Date getOrderTime() {
@@ -127,9 +154,32 @@ public class Order {
 	public Set<OrderDetail> getOrderDetails() {
 		return orderDetails;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public void setOrderDetails(Set<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
+	}
+	
+	@Transient
+	public int getTotalQuantity() {
+		int total = 0;
+		
+		Iterator<OrderDetail> iterator = orderDetails.iterator();
+		
+		while (iterator.hasNext()) {
+			OrderDetail next = iterator.next();
+			Integer quantity = next.getQuantity();
+			total += quantity;
+		}
+		
+		return total;
 	}
 
 	@Override
