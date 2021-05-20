@@ -44,6 +44,21 @@ public class OrderService {
 		return repo.findAll(pageable);
 	}
 	
+	public Page<Order> listByPageInShipping(int pageNum, String sortField, String sortDir, 
+			String keyword) {
+		Sort sort = Sort.by(sortField);
+		
+		sort = sortDir.equals("asc") ? sort.ascending() : sort.descending();
+		
+		Pageable pageable = PageRequest.of(pageNum - 1, ORDERS_PER_PAGE, sort);
+		
+		if(keyword != null) {
+			return repo.searchAllInShipping(keyword, pageable);
+		}
+		
+		return repo.findAllInShipping(keyword, pageable);
+	}
+	
 	public Order get(Integer id) throws OrderNotFoundException {
 		try {
 			return repo.findById(id).get();

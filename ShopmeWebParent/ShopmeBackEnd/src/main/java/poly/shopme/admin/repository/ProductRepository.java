@@ -43,5 +43,7 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 	public Page<Product> searchInCategory(Integer categoryId, String categoryIdMatch,
 			String keyword, Pageable pageable);
 	
-	
+	@Query("UPDATE Product p SET p.quantityInStock = ?2 WHERE p.id = ?1")
+	@Modifying
+	public void updateQuantityInStock(Integer id, Integer quantityInStock);
 }

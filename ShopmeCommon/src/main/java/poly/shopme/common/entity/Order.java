@@ -53,11 +53,14 @@ public class Order {
 	@Column(name = "order_time")
 	private Date orderTime;
 	
-	@Column
+	@Column(length = 20)
 	private String status;
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<OrderDetail> orderDetails = new HashSet<>();
+	
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<OrderTrack> orderTracks = new HashSet<>();
 	
 	public Order() {
 		
@@ -155,6 +158,14 @@ public class Order {
 		return orderDetails;
 	}
 	
+	public Set<OrderTrack> getOrderTracks() {
+		return orderTracks;
+	}
+
+	public void setOrderTracks(Set<OrderTrack> orderTracks) {
+		this.orderTracks = orderTracks;
+	}
+
 	public String getStatus() {
 		return status;
 	}

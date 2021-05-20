@@ -56,6 +56,8 @@ public class ProductService {
 	public Product save(Product product) {
 		if(product.getId() == null) product.setCreatedTime(new Date());
 		
+		if(product.getQuantityInStock() == null) product.setQuantityInStock(0);
+		
 		if(product.getQuantityInStock() == null) product.setInStock(false);
 		
 		if(product.getAlias() == null || product.getAlias().isEmpty()) {
@@ -139,5 +141,9 @@ public class ProductService {
 		}
 		
 		return "OK";
+	}
+	
+	public void updateQuantityInStock(Integer id, Integer quantityInStock) {
+		repo.updateQuantityInStock(id, quantityInStock);
 	}
 }

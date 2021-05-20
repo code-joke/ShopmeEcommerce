@@ -12,24 +12,39 @@
 		</div>
 		
 		<th:block th:if="${order.status == 'Chờ xác nhận'}">
-		<div class="pl-3">
-			<a class="btn btn-danger" th:href="@{'/order/accept/' + ${order.id}}">XÁC NHẬN ĐƠN HÀNG</a>
+		<div class="pr-3 pl-3">
+			<a class="btn btn-primary" th:href="@{'/order/accept/' + ${order.id}}">XÁC NHẬN ĐƠN HÀNG</a>
+			<a class="btn btn-danger float-right" th:href="@{'/order/reject/' + ${order.id}}"><i class="fas fa-times"></i> HỦY ĐƠN HÀNG</a>
 		</div>
 		</th:block>
 		
 		<th:block th:if="${order.status == 'Đã xác nhận'}">
 		<div class="pl-3">
-			<i class="fas fa-check-circle icon-green"></i> Đơn hàng đã được xác nhận
+			<i class="fas fa-check-circle icon-green"> </i> <span class="text-secondary">Đơn hàng đã được xác nhận</span>
+		</div>
+		</th:block>
+		
+		<th:block th:if="${order.status == 'Hoàn trả / từ chối'}">
+		<div class="pl-3">
+			<i class="fas fa-times-circle icon-red"></i> <span class="text-secondary">Đơn hàng đã bị hủy</span>
+		</div>
+		</th:block>
+		
+		<th:block th:if="${order.status == 'Đang lấy hàng'}">
+		<div class="pl-3">
+			<i class="fas fa-truck icon-gray"></i> <span class="text-secondary">Đã chuyển giao hàng</span>
 		</div>
 		</th:block>
 		
 		<th:block th:if="${order.status == 'Đã xác nhận'}">
-		<div class="pr-3 float-right">
-			<a class="btn btn-danger" th:href="@{'/orders/add_item/' + ${order.id}}"><i class="fas fa-shipping-fast"></i> CHUYỂN GIAO HÀNG</a>
+		<div class="p-3">
+			<a class="btn btn-danger" th:href="@{'/order/delivery/' + ${order.id}}"><i class="fas fa-shipping-fast"></i> CHUYỂN GIAO HÀNG</a>
 		</div>
 		</th:block>
-
-			<div class="p-3">
+		
+			<div class="pr-3 pl-3">
+			<hr>
+			
 			<h6 class="text-success">Chi tiết đơn hàng:</h6>
 			<div th:if="${message != null}" class="alert alert-success text-center">
 				[[${message}]]
@@ -54,11 +69,11 @@
 						<th>GIÁ</th>
 						<th class="text-center" width="250px">SỐ LƯỢNG</th>
 						<th>THÀNH TIỀN</th>
-						<th></th>
+						<th th:if="${order.status == 'Chờ xác nhận'}"></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="item, state : ${order.orderDetails}">
+					<tr th:each="item, state : ${detailsSorted}">
 						<td>[[${state.count}]]</td>
 						<td>
 							<a th:href="@{'/products/edit/' + ${item.product.id}}"
@@ -68,9 +83,11 @@
 						</td>
 						<td>
 						[[${#numbers.formatDecimal(item.price, 0, 'POINT', 0, 'POINT')}]] ₫</td>
-						<td>
+						<td class="text-center">
+							<th:block th:if="${order.status == 'Chờ xác nhận'}">
 							<nav>
 							<ul class="pagination pl-5">
+
 								<li class="page-item">
 									<a class="page-link minusButton" th:href="@{'/orders/minus_one/' + ${order.id} + '/' + ${item.id}}"><i class="fas fa-minus"></i></a>
 								</li>
@@ -84,20 +101,26 @@
 								</li>
 							</ul>
 							</nav>
+							</th:block>
+							<span th:unless="${order.status == 'Chờ xác nhận'}">[[${item.quantity}]]</span>
 						</td>
 						<td><b>[[${#numbers.formatDecimal(item.subTotal, 0, 'POINT', 0, 'POINT')}]]  ₫</b></td>
-						<td><div th:replace="fragments :: delete('mục này', ${item.id}, '/orders/remove_item/' + ${order.id} + '/' + ${item.id}, true)"></div></td>
+						<td th:if="${order.status == 'Chờ xác nhận'}">
+							<div th:replace="fragments :: delete('mục này', ${item.id}, '/orders/remove_item/' + ${order.id} + '/' + ${item.id}, true)"></div>
+						</td>
 					</tr>
 					<tr>
 						<td colspan="3" align="right">
 						<b><i>PHÍ GIAO HÀNG:</i></b>
 						<td></td>
 						<td><b>[[${#numbers.formatDecimal(order.shippingCost, 0, 'POINT', 0, 'POINT')}]]  ₫</b></td>
+						<th:block th:if="${order.status == 'Chờ xác nhận'}">
 						<td>
 							<a class="fas fa-edit fa-2x icon-green link-shippingCost" th:href="@{'/orders/edit_shippingCost/' + ${order.id}}"
 								title="Sửa phí giao hàng">
 							</a>
 						</td>
+						</th:block>
 							
 					</tr>
 					<tr>
@@ -105,23 +128,35 @@
 						<b><i>GIẢM GIÁ CHO ĐƠN HÀNG:</i></b>
 						<td></td>
 						<td><b>[[${#numbers.formatDecimal(order.discountTotal, 0, 'POINT', 0, 'POINT')}]]  ₫</b></td>
+						<th:block th:if="${order.status == 'Chờ xác nhận'}">
 						<td>
 							<a class="fas fa-edit fa-2x icon-green link-discountTotal" th:href="@{'/orders/edit_discountTotal/' + ${order.id}}"
 								title="Sửa giảm giá cho đơn hàng">
 							</a>
 						</td>
+						</th:block>
 					</tr>
 					<tr>
 						<td colspan="3" align="right">
 						<b><i>TỔNG:</i></b>
 						<td class="text-center"><b>[[${order.TotalQuantity}]]</b></td>
 						<td><b>[[${#numbers.formatDecimal(order.total, 0, 'POINT', 0, 'POINT')}]]  ₫</b></td>
-						<td></td>
 					</tr>
 				</tbody>
 			</table>
-
+			
+			<th:block th:if="${order.discountNote} != null">
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label">Lý do giảm giá (NV ghi): </label>
+					<label class="col-sm-4 col-form-label">
+					[[${order.discountNote}]]
+					</label>
+				</div>
+			</th:block>
+			
+			<th:block th:if="${order.status == 'Chờ xác nhận'}">
 			<a class="btn btn-primary link-product-modal" th:href="@{'/orders/add_item/' + ${order.id}}">Thêm mục khác</a>
+			</th:block>
 			
 			<hr>
 			<h6 class="text-success">Thông tin giao hàng:</h6>
@@ -129,14 +164,14 @@
 				th:object="${order}">
 
 				<div class="form-group row">
-					<label class="col-sm-2 col-form-label">Khách hàng: </label>
+					<label class="col-sm-2 col-form-label">Tên khách hàng: </label>
 					<label class="col-sm-4 col-form-label">
 					[[${order.customerName}]]
 					</label>
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-2 col-form-label">Ngày đặt: </label>
+					<label class="col-sm-2 col-form-label">Ngày đặt hàng: </label>
 					<label class="col-sm-2 col-form-label" th:text="${#dates.format(order.orderTime, 'dd/MM/yyyy HH:mm:ss')}">
 					</label>
 				</div>
@@ -156,14 +191,14 @@
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-2 col-form-label required">Giao đến:</label>
+					<label class="col-sm-2 col-form-label required">Giao đến địa chỉ:</label>
 					<div class="col-sm-4">
 						<input type="text" class="form-control" th:field="*{address}" required minlength="2" maxlength="500" placeholder="Nhập email">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-2 col-form-label">Ghi chú:</label>
+					<label class="col-sm-2 col-form-label">Ghi chú từ khách hàng:</label>
 					<div class="col-sm-4">
 						<textarea th:field="*{note}" class="form-control" maxlength="500"></textarea>
 					</div>
@@ -174,6 +209,18 @@
 				<input type="button" value="Hủy bỏ" class="btn btn-secondary" id="buttonCancel">
 			</div>
 		</form>
+		
+		<hr>
+		<h6 class="text-success">Lịch sử đơn hàng</h6>
+		<br>
+		<div th:each="item : ${tracksSorted}">
+		<i class="fa fa-circle icon-navy"></i>
+		<b th:text="${#dates.format(item.time, 'dd/MM/yyyy HH:mm:ss')}"></b> -
+		<span class="text-primary">[[${item.user.email}]]</span> :
+		<span class="text-secondary">[[${item.status}]]</span>
+		<br><br>
+		</div>
+		
 		</div>
 		
 		<div class="modal fade" id="productModal">

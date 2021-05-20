@@ -4,6 +4,9 @@
 *.icon-gray {color: gray}
 *.icon-dark {color: black}
 *.icon-red {color: red}
+*.icon-navy {color: #7790b6}
+*.icon-yellow {color: yellow;}
+*.icon-blue {color: blue;}
 
 .container-fluid {
 	padding: 0px;

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('Đơn hàng - Shopme Admin', 'none')"></head>
+<head th:replace="fragments :: page_head('Giao hàng - Shopme Admin', 'none')"></head>
 <body>
 	<div class="container-fluid">
 		<!-- thanh công cụ -->
 		<div th:replace="navigation :: menu"></div>
 		&nbsp;
 		<div>
-			<h4 class="text-title">Quản lý đơn hàng</h4>&nbsp;
+			<h4 class="text-title">Quản lý giao hàng</h4>&nbsp;
 		</div>
 		
-		<div th:replace="fragments :: search_form_and_message('/orders/page/1')"></div>
+		<div th:replace="fragments :: search_form_and_message('/shipping/page/1')"></div>
 		
 		<div class="full-details">
 			<table class="table table-bordered table-striped table-hover table-responsive-xl">
@@ -18,10 +18,10 @@
 					<tr>
 						<th>STT</th>
 						<th>ID</th>
-						<th th:replace = "fragments :: column_link('/orders', 'customerName', 'KHÁCH HÀNG', 'none')"/>
-						<th th:replace = "fragments :: column_link('/orders', 'orderTime', 'NGÀY ĐẶT', 'none')"/>
-						<th th:replace = "fragments :: column_link('/orders', 'total', 'GIÁ TRỊ', 'none')"/>
-						<th th:replace = "fragments :: column_link('/orders', 'status', 'TRẠNG THÁI', 'none')"/>
+						<th th:replace = "fragments :: column_link('/shipping', 'customerName', 'KHÁCH HÀNG', 'none')"/>
+						<th th:replace = "fragments :: column_link('/shipping', 'orderTime', 'NGÀY ĐẶT', 'none')"/>
+						<th th:replace = "fragments :: column_link('/shipping', 'total', 'GIÁ TRỊ', 'none')"/>
+						<th th:replace = "fragments :: column_link('/shipping', 'status', 'TRẠNG THÁI', 'none')"/>
 						<th></th>
 					</tr>
 				</thead>
@@ -30,36 +30,39 @@
 						<td>[[${state.count}]]</td>
 						<td>
 						[[${order.id}]]
-						<th:block th:if="${order.status == 'Đã xác nhận'}">
-							<i class="fas fa-check icon-green ml-2"></i>
-						</th:block>
 						</td>
 						<td>[[${order.customerName}]]</td>
 						<td th:text="${#dates.format(order.orderTime, 'dd/MM/yyyy HH:mm:ss')}"></td>
 						<td>[[${#numbers.formatDecimal(order.total, 0, 'POINT', 0, 'POINT')}]] ₫</td>
 						<td>
-							<span th:if="${order.status == 'Chờ xác nhận'}" class="badge badge-warning badge-pill">[[${order.status}]]</span>
-							<span th:if="${order.status == 'Đã xác nhận'}" class="badge badge-info badge-pill">[[${order.status}]]</span>
 							<span th:if="${order.status == 'Đang lấy hàng'}" class="badge badge-secondary badge-pill">[[${order.status}]]</span>
 							<span th:if="${order.status == 'Đang giao'}" class="badge badge-primary badge-pill">[[${order.status}]]</span>
 							<span th:if="${order.status == 'Hoàn trả / từ chối'}" class="badge badge-danger badge-pill">[[${order.status}]]</span>
 							<span th:if="${order.status == 'Hoàn thành / đã giao'}" class="badge badge-success badge-pill">[[${order.status}]]</span>
 						</td>
-						<td>
+						<td width="200px">
 							<a class="fas fa-file-alt fa-2x icon-green link-detail"
 								th:href="@{'/orders/detail/' + ${order.id}}"
 								title="Xem chi tiết đơn hàng"></a>
 							&nbsp;
-							<div th:replace="fragments :: edit('đơn hàng này', '/orders/edit/' + ${order.id})"></div>
-							&nbsp;&nbsp;
-							<div th:replace="fragments :: delete('đơn hàng này', ${order.id}, '/orders/delete/' + ${order.id}, true)"></div>
+							<a class="fas fa-truck fa-2x icon-gray"
+								th:href="@{'/order/shipping/' + ${order.id}}"
+								title="Đi giao đơn hàng"></a>
+								&nbsp;
+							<a class="fas fa-check-circle fa-2x icon-gray"
+								th:href="@{'/order/complete/' + ${order.id}}"
+								title="Đã giao đơn hàng"></a>
+								&nbsp;
+							<a class="fas fa-window-close fa-2x icon-gray"
+								th:href="@{'/order/refused/' + ${order.id}}"
+								title="Hủy đơn hàng"></a>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 		&nbsp;&nbsp;
-		<div th:replace="fragments :: pagination('/orders', 'đơn hàng')"></div>
+		<div th:replace="fragments :: pagination('/shipping', 'đơn hàng')"></div>
 		
 		<div th:replace="modal_fragments :: confirm_modal"></div>
 		
@@ -76,19 +79,12 @@
 
 <script th:src="@{/js/common_list.js}"></script>
 <script type="text/javascript">
-	moduleURL = "[[@{/orders}]]";
+	moduleURL = "[[@{/shipping}]]";
 	
 	$(".link-detail").on("click", function(e) {
 		e.preventDefault();
 		linkDetailURL = $(this).attr("href");
 		$("#detailModal").modal("show").find(".modal-content").load(linkDetailURL);
-	});
-
-	$(document).ready(function() {
-		$(".link-delete").on("click", function(e) {
-			e.preventDefault();
-			showDeleteConfirmModal($(this), 'đơn hàng');
-		});
 	});
 	
 </script>

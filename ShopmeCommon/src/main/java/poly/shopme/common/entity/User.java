@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -49,6 +51,9 @@ public class User {
 			inverseJoinColumns = @JoinColumn(name = "role_id")
 			)
 	private Set<Role> roles = new HashSet<>();
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<OrderTrack> orderTracks = new HashSet<>();
 
 	public User() {
 		
@@ -127,6 +132,14 @@ public class User {
 	
 	public void addRole(Role role) {
 		this.roles.add(role);
+	}
+	
+	public Set<OrderTrack> getOrderTracks() {
+		return orderTracks;
+	}
+
+	public void setOrderTracks(Set<OrderTrack> orderTracks) {
+		this.orderTracks = orderTracks;
 	}
 
 	@Override
