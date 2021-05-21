@@ -35,7 +35,6 @@ import poly.shopme.common.entity.Order;
 import poly.shopme.common.entity.OrderDetail;
 import poly.shopme.common.entity.OrderTrack;
 import poly.shopme.common.entity.Product;
-import poly.shopme.common.entity.ProductImage;
 import poly.shopme.common.entity.User;
 
 @Controller
@@ -266,47 +265,12 @@ public class OrderController {
 		return "redirect:/orders/edit/" + orderId;
 	}
 	
-	@GetMapping("/order/refused/{orderId}")
-	public String setOrderRefused(Model model,
-			@PathVariable(name = "orderId") Integer orderId,
-			@AuthenticationPrincipal ShopmeUserDetails loggedUser) throws ProductNotFoundException {
-		
-		String email = loggedUser.getUsername();
-		User user = userService.getByEmail(email);
-		
-		Order order = orderRepo.findById(orderId).get();
-		order.setStatus("Hoàn trả / từ chối");
-		
-		Set<OrderDetail> orderDetails = order.getOrderDetails();
-		
-		Iterator<OrderDetail> iterator = orderDetails.iterator();
-		
-		while(iterator.hasNext()) {
-			OrderDetail detail = iterator.next();
-			Integer quantityInStock = detail.getProduct().getQuantityInStock();
-			Integer quantityRefused = detail.getQuantity();
-			Integer newTotalQuantityInStock = quantityInStock + quantityRefused;
-			
-			productService.updateQuantityInStock(detail.getProduct().getId(), newTotalQuantityInStock);
-		}
-		
-		
-		OrderTrack orderTrack = new OrderTrack();
-		orderTrack.setOrder(order);
-		orderTrack.setStatus("Đã hủy đơn hàng");
-		orderTrack.setUser(user);
-		orderTrack.setTime(new Date());
-		
-		orderTrackRepo.save(orderTrack);
-		orderRepo.save(order);
-
-		
-		return "redirect:/shipping";
-	}
+	
 	
 	@GetMapping("/order/delivery/{orderId}")
 	public String setOrderDelivery(Model model,
 			@PathVariable(name = "orderId") Integer orderId,
+			@RequestParam(value="quantityExport", required = false) String checkboxValue,
 			@AuthenticationPrincipal ShopmeUserDetails loggedUser) {
 		
 		String email = loggedUser.getUsername();
@@ -314,6 +278,30 @@ public class OrderController {
 		
 		Order order = orderRepo.findById(orderId).get();
 		order.setStatus("Đang lấy hàng");
+		
+		if(checkboxValue != null) {
+			order.setExport(true);
+			Set<OrderDetail> orderDetails = order.getOrderDetails();
+			
+			Iterator<OrderDetail> iterator = orderDetails.iterator();
+			
+			while(iterator.hasNext()) {
+				OrderDetail detail = iterator.next();
+				Integer quantityInStock = detail.getProduct().getQuantityInStock();
+				Integer quantityExport = detail.getQuantity();
+				Integer newTotalQuantityInStock = quantityInStock - quantityExport;
+				
+				productService.updateQuantityInStock(detail.getProduct().getId(), newTotalQuantityInStock);
+			}
+			
+			OrderTrack orderTrack = new OrderTrack();
+			orderTrack.setOrder(order);
+			orderTrack.setStatus("Đã xuất từ kho " + order.getTotalQuantity() + " sản phẩm cho đơn hàng");
+			orderTrack.setUser(user);
+			orderTrack.setTime(new Date());
+			
+			orderTrackRepo.save(orderTrack);
+		}
 		
 		OrderTrack orderTrack = new OrderTrack();
 		orderTrack.setOrder(order);
@@ -465,6 +453,28 @@ public class OrderController {
 		return "orders/discount_total_modal";
 	}
 	
+	@GetMapping("/orders/delete/{id}")
+	public String deleteOrder(@PathVariable(name = "id") Integer id,
+			Model model,
+			RedirectAttributes redirectAttributes) {
+		try {
+			Order order = orderService.get(id);
+			
+			if(order.getStatus().equals("Hoàn trả / từ chối")) {
+				orderService.delete(id);
+				
+				redirectAttributes.addFlashAttribute("message", "Xóa thành công");
+			} else {
+				redirectAttributes.addFlashAttribute("errorMessage", "Chỉ xóa được đơn hàng đã hủy");
+			}
+			
+		}catch (OrderNotFoundException ex) {
+			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+		}
+		
+		return "redirect:/orders";
+	}
+	
 	//shipping form
 	
 	@GetMapping("/shipping")
@@ -505,4 +515,116 @@ public class OrderController {
 		return "shipping/shipping";
 	}
 	
+	@GetMapping("/shipping/refused_note/{orderId}")
+	public String showEditRefusedNoteModal(Model model,
+			@PathVariable(name = "orderId") Integer orderId) {
+		
+		Order order = orderRepo.findById(orderId).get();
+
+		model.addAttribute("order", order);
+
+		return "shipping/refused_note_modal";
+	}
+	
+	@PostMapping("/shipping/refused")
+	public String setOrderRefused(Model model,
+			@RequestParam(name = "orderId") Integer orderId,
+			@RequestParam(name = "refusedNote", required = false) String refusedNote,
+			RedirectAttributes redirectAttributes,
+			@AuthenticationPrincipal ShopmeUserDetails loggedUser) throws ProductNotFoundException {
+		
+		String email = loggedUser.getUsername();
+		User user = userService.getByEmail(email);
+		
+		Order order = orderRepo.findById(orderId).get();
+		order.setStatus("Hoàn trả / từ chối");
+		
+		if(order.isExport()) {
+			Set<OrderDetail> orderDetails = order.getOrderDetails();
+			
+			Iterator<OrderDetail> iterator = orderDetails.iterator();
+			
+			while(iterator.hasNext()) {
+				OrderDetail detail = iterator.next();
+				Integer quantityInStock = detail.getProduct().getQuantityInStock();
+				Integer quantityRefused = detail.getQuantity();
+				Integer newTotalQuantityInStock = quantityInStock + quantityRefused;
+				
+				productService.updateQuantityInStock(detail.getProduct().getId(), newTotalQuantityInStock);
+			}
+			
+			OrderTrack orderTrack = new OrderTrack();
+			orderTrack.setOrder(order);
+			orderTrack.setStatus("Đã nhập trả " + order.getTotalQuantity() + " sản phẩm của đơn hàng vào kho");
+			orderTrack.setUser(user);
+			orderTrack.setTime(new Date());
+			
+			orderTrackRepo.save(orderTrack);
+		}
+		
+		OrderTrack orderTrack = new OrderTrack();
+		orderTrack.setOrder(order);
+		orderTrack.setStatus("Đã hủy đơn hàng. Lý do: " + refusedNote);
+		orderTrack.setUser(user);
+		orderTrack.setTime(new Date());
+		
+		orderTrackRepo.save(orderTrack);
+		orderRepo.save(order);
+		
+		redirectAttributes.addFlashAttribute("message", "Hủy đơn hàng thành công");
+		
+		return "redirect:/shipping";
+	}
+	
+	@GetMapping("/shipping/{orderId}")
+	public String setOrderShipping(Model model,
+			@PathVariable(name = "orderId") Integer orderId,
+			RedirectAttributes redirectAttributes,
+			@AuthenticationPrincipal ShopmeUserDetails loggedUser) {
+		
+		String email = loggedUser.getUsername();
+		User user = userService.getByEmail(email);
+		
+		Order order = orderRepo.findById(orderId).get();
+		order.setStatus("Đang giao");
+		
+		OrderTrack orderTrack = new OrderTrack();
+		orderTrack.setOrder(order);
+		orderTrack.setStatus("Đã nhận giao đơn hàng");
+		orderTrack.setUser(user);
+		orderTrack.setTime(new Date());
+		
+		orderTrackRepo.save(orderTrack);
+		orderRepo.save(order);
+		
+		redirectAttributes.addFlashAttribute("message", "Nhận giao hàng thành công");
+		
+		return "redirect:/shipping";
+	}
+	
+	@GetMapping("/shipping/complete/{orderId}")
+	public String setOrderComplete(Model model,
+			@PathVariable(name = "orderId") Integer orderId,
+			RedirectAttributes redirectAttributes,
+			@AuthenticationPrincipal ShopmeUserDetails loggedUser) {
+		
+		String email = loggedUser.getUsername();
+		User user = userService.getByEmail(email);
+		
+		Order order = orderRepo.findById(orderId).get();
+		order.setStatus("Hoàn thành / đã giao");
+		
+		OrderTrack orderTrack = new OrderTrack();
+		orderTrack.setOrder(order);
+		orderTrack.setStatus("Đã giao thành công đơn hàng");
+		orderTrack.setUser(user);
+		orderTrack.setTime(new Date());
+		
+		orderTrackRepo.save(orderTrack);
+		orderRepo.save(order);
+		
+		redirectAttributes.addFlashAttribute("message", "Cập nhật trạng thái giao hàng thành công");
+		
+		return "redirect:/shipping";
+	}
 }

@@ -9,3 +9,11 @@ function showDeleteConfirmModal(link, entityName) {
 	
 	$("#confirmModal").modal();	
 }
+
+function showConfirmModal(link, entityName) {
+	
+	$("#yesButton").attr("href", link.attr("href"));
+	$("#confirmText").text("Bạn có chắc muốn " + entityName + " này ?");
+	
+	$("#confirmModal").modal();	
+}

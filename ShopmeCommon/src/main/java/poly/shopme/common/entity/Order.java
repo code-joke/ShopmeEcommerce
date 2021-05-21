@@ -50,6 +50,9 @@ public class Order {
 	@Column
 	private int total;
 	
+	@Column(name = "is_export", columnDefinition = "BIT default 0")
+	private boolean isExport;
+	
 	@Column(name = "order_time")
 	private Date orderTime;
 	
@@ -144,6 +147,14 @@ public class Order {
 
 	public void setTotal(int total) {
 		this.total = total;
+	}
+	
+	public boolean isExport() {
+		return isExport;
+	}
+
+	public void setExport(boolean isExport) {
+		this.isExport = isExport;
 	}
 
 	public Date getOrderTime() {

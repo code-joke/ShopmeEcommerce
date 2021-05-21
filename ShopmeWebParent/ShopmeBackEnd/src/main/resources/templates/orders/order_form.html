@@ -13,20 +13,26 @@
 		
 		<th:block th:if="${order.status == 'Chờ xác nhận'}">
 		<div class="pr-3 pl-3">
-			<a class="btn btn-primary" th:href="@{'/order/accept/' + ${order.id}}">XÁC NHẬN ĐƠN HÀNG</a>
-			<a class="btn btn-danger float-right" th:href="@{'/order/reject/' + ${order.id}}"><i class="fas fa-times"></i> HỦY ĐƠN HÀNG</a>
+			<a class="btn btn-primary link-accept" th:href="@{'/order/accept/' + ${order.id}}">XÁC NHẬN ĐƠN HÀNG</a>
+			<a class="btn btn-danger float-right link-reject" th:href="@{'/order/reject/' + ${order.id}}"><i class="fas fa-times"></i> HỦY ĐƠN HÀNG</a>
 		</div>
 		</th:block>
 		
 		<th:block th:if="${order.status == 'Đã xác nhận'}">
 		<div class="pl-3">
-			<i class="fas fa-check-circle icon-green"> </i> <span class="text-secondary">Đơn hàng đã được xác nhận</span>
+			<i class="fas fa-check-circle icon-green"> </i> <span class="text-secondary ml-1">Đơn hàng đã được xác nhận</span>
 		</div>
 		</th:block>
 		
 		<th:block th:if="${order.status == 'Hoàn trả / từ chối'}">
 		<div class="pl-3">
-			<i class="fas fa-times-circle icon-red"></i> <span class="text-secondary">Đơn hàng đã bị hủy</span>
+			<i class="fas fa-times-circle icon-red"></i> <span class="text-secondary ml-1">Đơn hàng đã bị hủy</span>
+		</div>
+		</th:block>
+		
+		<th:block th:if="${order.isExport == true}">
+		<div class="pl-3">
+			<i class="fas fa-check-circle icon-green"></i> <span class="text-secondary ml-1">Đã xuất từ kho [[${order.totalQuantity}]] sản phẩm</span>
 		</div>
 		</th:block>
 		
@@ -38,7 +44,11 @@
 		
 		<th:block th:if="${order.status == 'Đã xác nhận'}">
 		<div class="p-3">
-			<a class="btn btn-danger" th:href="@{'/order/delivery/' + ${order.id}}"><i class="fas fa-shipping-fast"></i> CHUYỂN GIAO HÀNG</a>
+			<form th:action="@{'/order/delivery/' + ${order.id}}">
+			<button class="btn btn-danger" type="submit"><i class="fas fa-shipping-fast"></i> CHUYỂN GIAO HÀNG</button>
+			<br><br>
+				<input type="checkbox" name="quantityExport" checked="checked"> Lựa chọn xuất kho cho đơn hàng này
+			</form>
 		</div>
 		</th:block>
 		
@@ -217,7 +227,7 @@
 		<i class="fa fa-circle icon-navy"></i>
 		<b th:text="${#dates.format(item.time, 'dd/MM/yyyy HH:mm:ss')}"></b> -
 		<span class="text-primary">[[${item.user.email}]]</span> :
-		<span class="text-secondary">[[${item.status}]]</span>
+		<span class="text-secondary text-danger">[[${item.status}]]</span>
 		<br><br>
 		</div>
 		
@@ -274,6 +284,16 @@
 			e.preventDefault();
 			linkDetailURL = $(this).attr("href");
 			$("#discountTotal").modal("show").find(".modal-content").load(linkDetailURL);
+		});
+		
+		$(".link-accept").on("click", function(e) {
+			e.preventDefault();
+			showConfirmModal($(this), 'xác nhận đơn hàng');
+		});
+		
+		$(".link-reject").on("click", function(e) {
+			e.preventDefault();
+			showConfirmModal($(this), 'hủy đơn hàng');
 		});
 	
 	});

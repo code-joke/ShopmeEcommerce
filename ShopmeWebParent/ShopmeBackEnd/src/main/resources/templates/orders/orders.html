@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+ 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="fragments :: page_head('Đơn hàng - Shopme Admin', 'none')"></head>
 <body>
 	<div class="container-fluid">
@@ -50,9 +51,13 @@
 								th:href="@{'/orders/detail/' + ${order.id}}"
 								title="Xem chi tiết đơn hàng"></a>
 							&nbsp;
-							<div th:replace="fragments :: edit('đơn hàng này', '/orders/edit/' + ${order.id})"></div>
-							&nbsp;&nbsp;
-							<div th:replace="fragments :: delete('đơn hàng này', ${order.id}, '/orders/delete/' + ${order.id}, true)"></div>
+							<th:block sec:authorize="hasAnyAuthority('Admin', 'Bán hàng')">
+								<div th:replace="fragments :: edit('đơn hàng này', '/orders/edit/' + ${order.id})"></div>
+							</th:block>
+							&nbsp;
+							<th:block sec:authorize="hasAnyAuthority('Admin')">
+								<div th:replace="fragments :: delete('đơn hàng này', ${order.id}, '/orders/delete/' + ${order.id}, true)"></div>
+							</th:block>
 						</td>
 					</tr>
 				</tbody>

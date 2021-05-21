@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import poly.shopme.admin.exception.OrderNotFoundException;
-import poly.shopme.admin.exception.UserNotFoundException;
 import poly.shopme.admin.repository.OrderRepository;
 import poly.shopme.common.entity.Order;
-import poly.shopme.common.entity.Product;
 
 @Service
 @Transactional
@@ -77,5 +75,15 @@ public class OrderService {
 	
 	public void save(Order order) {
 		repo.save(order);
+	}
+	
+	public void delete(Integer id) throws OrderNotFoundException {
+		Long countById = repo.countById(id);
+		
+		if(countById == null || countById == 0) {
+			throw new OrderNotFoundException("Không tìm thấy tài khoản nào với ID: " + id + " !");
+		}
+		
+		repo.deleteById(id);
 	}
 }

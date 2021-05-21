@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import poly.shopme.admin.exception.OrderDetailNotFoundException;
-import poly.shopme.admin.exception.UserNotFoundException;
 import poly.shopme.admin.repository.OrderDetailRepository;
+import poly.shopme.common.entity.OrderDetail;
 
 @Service
 @Transactional
@@ -27,6 +27,10 @@ public class OrderDetailService {
 		}
 		
 		repo.deleteById(id);
+	}
+	
+	public void save(OrderDetail detail) {
+		repo.save(detail);
 	}
 	
 }

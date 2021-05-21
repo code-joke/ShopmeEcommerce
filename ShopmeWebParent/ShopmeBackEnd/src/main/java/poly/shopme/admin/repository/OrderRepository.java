@@ -21,7 +21,8 @@ public interface OrderRepository extends PagingAndSortingRepository<Order, Integ
 	
 	@Query(value = "SELECT * FROM orders WHERE (status NOT LIKE '%Đã xác nhận%' AND status NOT LIKE '%Chờ xác nhận%') "
 			+ "AND ("
-			+ "total LIKE %?1% "
+			+ "id LIKE %?1% "
+			+ "OR total LIKE %?1% "
 			+ "OR status LIKE %?1%)", nativeQuery = true)
 	public Page<Order> searchAllInShipping(String keyword, Pageable pageable);
 	
@@ -32,4 +33,6 @@ public interface OrderRepository extends PagingAndSortingRepository<Order, Integ
 	@Query("UPDATE Order o SET o.phone = ?2, o.email = ?3, o.address = ?4, o.note = ?5 WHERE o.id = ?1")
 	@Modifying
 	public void updateInfoCustomer(Integer id, String phone, String email, String address, String note);
+	
+	public Long countById(Integer id);
 }
