@@ -25,7 +25,7 @@ import poly.shopme.common.entity.User;
 public class UserPdfExporter extends AbstractExporter {
 
 	public void export(List<User> listUsers, HttpServletResponse response) throws IOException {
-		super.setResponseHeader(response, "application/pdf;charset=UTF-8", ".pdf", "taikhoan_");
+		super.setResponseHeader(response, "application/pdf;charset=UTF-8", ".pdf", "users_");
 		
 		Document document = new Document(PageSize.A4);
 		PdfWriter.getInstance(document, response.getOutputStream());
@@ -36,7 +36,7 @@ public class UserPdfExporter extends AbstractExporter {
 		font.setSize(18);
 		font.setColor(Color.BLUE);
 		
-		Paragraph paragraph = new Paragraph("Danh sách tài khoản", font);
+		Paragraph paragraph = new Paragraph("List of user", font);
 		paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 		
 		document.add(paragraph);
@@ -62,7 +62,7 @@ public class UserPdfExporter extends AbstractExporter {
 			table.addCell(user.getFirstName());
 			table.addCell(user.getLastName());
 			table.addCell(user.getRoles().toString());
-			table.addCell(user.isEnabled() == true ? "Có": "Không");
+			table.addCell(String.valueOf(user.isEnabled()));
 		}
 	}
 
@@ -80,16 +80,16 @@ public class UserPdfExporter extends AbstractExporter {
 		cell.setPhrase(new Phrase("E-mail", font));
 		table.addCell(cell);
 		
-		cell.setPhrase(new Phrase("Họ", font));
+		cell.setPhrase(new Phrase("First Name", font));
 		table.addCell(cell);
 		
-		cell.setPhrase(new Phrase("Tên", font));
+		cell.setPhrase(new Phrase("Last Name", font));
 		table.addCell(cell);
 		
-		cell.setPhrase(new Phrase("Vai trò", font));
+		cell.setPhrase(new Phrase("Roles", font));
 		table.addCell(cell);
 		
-		cell.setPhrase(new Phrase("Kích hoạt", font));
+		cell.setPhrase(new Phrase("Enabled", font));
 		table.addCell(cell);
 	}
 	

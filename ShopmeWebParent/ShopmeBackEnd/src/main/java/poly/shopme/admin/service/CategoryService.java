@@ -203,7 +203,7 @@ public class CategoryService {
 		try {
 			return repo.findById(id).get();
 		} catch (NoSuchElementException ex) {
-			throw new CategoryNotFoundException("Không tìm thấy loại hàng nào với ID: " + id + " !");
+			throw new CategoryNotFoundException("Could not find any category with ID: " + id + " !");
 		}
 	}
 	
@@ -237,7 +237,7 @@ public class CategoryService {
 		Long countById = repo.countById(id);
 		
 		if(countById == null || countById == 0) {
-			throw new CategoryNotFoundException("Không tìm thấy loại hàng nào với ID: " + id + " !");
+			throw new CategoryNotFoundException("Could not find any category with ID: " + id + " !");
 		}
 		
 		repo.deleteById(id);

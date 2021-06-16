@@ -3,25 +3,25 @@
 <body>
 	<div th:fragment="content" th:remove="tag">
 		<div class="form-group row">
-			<label class="col-sm-2 col-form-label required">Tên sản phẩm:</label>
+			<label class="col-sm-2 col-form-label required">Product Name:</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:field="*{name}" 
-					th:readonly="${#authorization.expression('hasAuthority(''Bán hàng'')')}"
-					required minlength="2" maxlength="256" placeholder="Nhập tên sản phẩm">
+					th:readonly="${#authorization.expression('hasAuthority(''Salesperson'')')}"
+					required minlength="2" maxlength="256">
 			</div>
 		</div>
 		<div class="form-group row">
-			<label class="col-sm-2 col-form-label">Đường dẫn:</label>
+			<label class="col-sm-2 col-form-label">Alias:</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" th:field="*{alias}"
-					th:readonly="${#authorization.expression('hasAuthority(''Bán hàng'')')}"
-					placeholder="--Thay thế bằng tên sản phẩm nếu để trống, thay thế khoảng trắng nhập vào bằng dấu gạch nối--" minlength="2" maxlength="256">
+					th:readonly="${#authorization.expression('hasAuthority(''Salesperson'')')}"
+					placeholder="--Default is product name (spaces are replaced by dashes)--" minlength="2" maxlength="256">
 			</div>
 		</div>
 		<div class="form-group row">
-			<label class="col-sm-2 col-form-label">Thương hiệu:</label>
+			<label class="col-sm-2 col-form-label">Brand:</label>
 			<div class="col-sm-3">
-			<th:block sec:authorize="hasAnyAuthority('Admin', 'Biên tập')">
+			<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 				<select th:field="*{brand}" class="form-control" required>
 					<th:block th:each="brand : ${listBrands}">
 						<option th:value="${brand.id}">[[${brand.name}]]</option>
@@ -29,16 +29,16 @@
 				</select>
 			</th:block>
 			
-			<th:block sec:authorize="hasAnyAuthority('Bán hàng')">
+			<th:block sec:authorize="hasAnyAuthority('Salesperson')">
 				<input type="text" class="form-control" th:value="${product.brand.name}" readonly>
 			</th:block>
 			</div>
 		</div>
 		
 		<div class="form-group row">
-			<label class="col-sm-2 col-form-label">Loại hàng:</label>
+			<label class="col-sm-2 col-form-label">Category:</label>
 			<div class="col-sm-3">
-			<th:block sec:authorize="hasAnyAuthority('Admin', 'Biên tập')">
+			<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 				<th:block th:if="${product.category != null}">
 					<select th:field="*{category}" class="form-control" required>
 						<th:block th:each="cat : ${product.brand.categories}">
@@ -53,61 +53,61 @@
 				</th:block>
 			</th:block>
 			
-			<th:block sec:authorize="hasAnyAuthority('Bán hàng')">
+			<th:block sec:authorize="hasAnyAuthority('Salesperson')">
 				<input type="text" class="form-control" th:value="${product.category.name}" readonly>
 			</th:block>
 			</div>
 		</div>
 		&nbsp;
 		<div class="form-group row">
-			<label class="col-sm-2 col-form-label">Giá nhập:</label>
+			<label class="col-sm-2 col-form-label">Cost:</label>
 			<div class="col-sm-3">
 				<div class="input-group">
 					<input type="text" class="form-control" th:field="*{cost}">
 					<div class="input-group-append">
-    					<span class="input-group-text">₫</span>
+    					<span class="input-group-text">$</span>
   					</div>
 				</div>
 			</div>
 		</div>
 		
 		<div class="form-group row">
-			<label class="col-sm-2 col-form-label">Giá bán niêm yết:</label>
+			<label class="col-sm-2 col-form-label">Price:</label>
 			<div class="col-sm-3">
 				<div class="input-group">
 					<input type="text" class="form-control" th:field="*{price}">
 					<div class="input-group-append">
-    					<span class="input-group-text">₫</span>
+    					<span class="input-group-text">$</span>
   					</div>
 				</div>
 			</div>
 		</div>
 		
 		<div class="form-group row">
-			<label class="col-sm-2 col-form-label">Giảm giá:</label>
+			<label class="col-sm-2 col-form-label">Discount:</label>
 			<div class="col-sm-3">
 				<div class="input-group">
 					<input type="text" class="form-control" th:field="*{discountPercent}">
 					<div class="input-group-append">
-    					<span class="input-group-text">₫</span>
+    					<span class="input-group-text">$</span>
   					</div>
 				</div>
 			</div>
 		</div>
 		&nbsp;
 		<div class="form-group row">
-			<label class="col-sm-2 col-form-label">Kích hoạt:</label>
+			<label class="col-sm-2 col-form-label">Enabled:</label>
 			<div class="col-sm-10 mt-2">
 				<input type="checkbox" th:field="*{enabled}"
-				th:disabled="${#authorization.expression('hasAuthority(''Bán hàng'')')}">
+				th:disabled="${#authorization.expression('hasAuthority(''Salesperson'')')}">
 			</div>
 		</div>
 		
 		<div class="form-group row">
-			<label class="col-sm-2 col-form-label">Còn hàng:</label>
+			<label class="col-sm-2 col-form-label">In-stock:</label>
 			<div class="col-sm-10 mt-2">
 				<input type="checkbox" th:field="*{inStock}"
-				th:disabled="${#authorization.expression('hasAuthority(''Bán hàng'')')}">
+				th:disabled="${#authorization.expression('hasAuthority(''Salesperson'')')}">
 			</div>
 		</div>
 	</div>

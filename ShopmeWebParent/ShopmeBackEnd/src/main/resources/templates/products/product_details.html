@@ -2,33 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 	<div th:fragment="content" id="divProductDetails">
-		<div class="form-group-row text-success">
-			Bạn có thể nhập các thông số kỹ thuật cho sản phẩm:
-		</div>
-		&nbsp;
 		<th:block th:each="detail, status : ${product.details}">
 			<div class="form-inline" th:id="'divDetail' + ${status.index}">
 				<input type="hidden" name="detailIDs" th:value="${detail.id}"/>
-				<label class="m-3">Tên:</label>
+				<label class="m-3">Name:</label>
 				<input type="text" class="form-control w-25" name="detailNames" maxlength="255"
-					 placeholder="Nhập tên" title="Nhập tên thông số VD: màu sắc ..."
 					 th:value="${detail.name}"/>
-				<label class="m-3">Giá trị:</label>
+				<label class="m-3">Value:</label>
 				<input type="text" class="form-control w-25" name="detailValues" maxlength="255" 
-				     placeholder="Nhập giá trị" title="Nhập giá trị cho thông số VD: xanh ..." 
 				     th:value="${detail.value}"/>
 				<a name="linkRemoveDetail" class="btn fas fa-times-circle fa-2x icon-gray"
-				     title="Xóa thông số này">
+				     title="Remove this detail">
 				</a>
 			</div>
 		</th:block>
 
 		<div class="form-inline" th:id="'divDetail' + ${#lists.size(product.details)}">
 			<input type="hidden" name="detailIDs" value="0">
-			<label class="m-3">Tên:</label>
-			<input type="text" class="form-control w-25" name="detailNames" maxlength="255" placeholder="--Nhập tên--" title="Nhập tên thông số VD: màu sắc ..."/>
-			<label class="m-3">Giá trị:</label>
-			<input type="text" class="form-control w-25" name="detailValues" maxlength="255" placeholder="--Nhập giá trị--" title="Nhập giá trị cho thông số VD: xanh ..." />
+			<label class="m-3">Name:</label>
+			<input type="text" class="form-control w-25" name="detailNames" maxlength="255"/>
+			<label class="m-3">Value:</label>
+			<input type="text" class="form-control w-25" name="detailValues" maxlength="255"/>
 		</div>
 	</div>		
 </body>

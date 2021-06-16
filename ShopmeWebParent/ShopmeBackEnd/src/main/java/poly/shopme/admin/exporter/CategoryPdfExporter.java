@@ -23,7 +23,7 @@ import poly.shopme.common.entity.Category;
 public class CategoryPdfExporter extends AbstractExporter {
 
 	public void export(List<Category> listCategories, HttpServletResponse response) throws IOException {
-		super.setResponseHeader(response, "application/pdf;charset=UTF-8", ".pdf", "taikhoan_");
+		super.setResponseHeader(response, "application/pdf;charset=UTF-8", ".pdf", "categories_");
 		
 		Document document = new Document(PageSize.A4);
 		PdfWriter.getInstance(document, response.getOutputStream());
@@ -34,7 +34,7 @@ public class CategoryPdfExporter extends AbstractExporter {
 		font.setSize(18);
 		font.setColor(Color.BLUE);
 		
-		Paragraph paragraph = new Paragraph("Danh sách loại hàng", font);
+		Paragraph paragraph = new Paragraph("List of category", font);
 		paragraph.setAlignment(Paragraph.ALIGN_CENTER);
 		
 		document.add(paragraph);
@@ -58,7 +58,7 @@ public class CategoryPdfExporter extends AbstractExporter {
 			table.addCell(String.valueOf(category.getId()));
 			table.addCell(category.getName());
 			table.addCell(category.getAlias());
-			table.addCell(category.isEnabled() == true ? "Có": "Không");
+			table.addCell(String.valueOf(category.isEnabled()));
 		}
 	}
 
@@ -73,13 +73,13 @@ public class CategoryPdfExporter extends AbstractExporter {
 		cell.setPhrase(new Phrase("ID", font));
 		table.addCell(cell);
 		
-		cell.setPhrase(new Phrase("Tên", font));
+		cell.setPhrase(new Phrase("Category Name", font));
 		table.addCell(cell);
 		
-		cell.setPhrase(new Phrase("Biệt hiệu", font));
+		cell.setPhrase(new Phrase("Alias", font));
 		table.addCell(cell);
 		
-		cell.setPhrase(new Phrase("Kích hoạt", font));
+		cell.setPhrase(new Phrase("Enabled", font));
 		table.addCell(cell);
 	}
 	

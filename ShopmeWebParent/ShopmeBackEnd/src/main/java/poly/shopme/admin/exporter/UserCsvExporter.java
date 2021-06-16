@@ -15,12 +15,12 @@ import poly.shopme.common.entity.User;
 public class UserCsvExporter extends AbstractExporter {
 
 	public void export(List<User> listUsers, HttpServletResponse response) throws IOException {
-		super.setResponseHeader(response, "text/csv;charset=UTF-8", ".csv", "taikhoan_");
+		super.setResponseHeader(response, "text/csv;charset=UTF-8", ".csv", "users_");
 		
 		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(),
 				CsvPreference.STANDARD_PREFERENCE);
 		
-		String[] csvHeader = {"ID", "E-mail", "Họ", "Tên", "Vai trò", "Kích hoạt"};
+		String[] csvHeader = {"ID", "E-mail", "First Name", "Last Name", "Roles", "Enabled"};
 		String[] fieldMapping = {"id", "email", "firstName", "lastName", "roles", "enabled"};
 		
 		csvWriter.writeHeader(csvHeader);

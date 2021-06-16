@@ -79,7 +79,8 @@ public class UserController {
 		
 		model.addAttribute("listRoles", listRoles);
 		model.addAttribute("user", user);
-		model.addAttribute("pageTitle", "Tạo mới tài khoản");
+		model.addAttribute("pageTitle", "New User");
+		
 		return "users/user_form";
 	}
 	
@@ -101,7 +102,7 @@ public class UserController {
 			service.save(user);
 		}
 		
-		redirectAttributes.addFlashAttribute("message", "Lưu thành công");
+		redirectAttributes.addFlashAttribute("message", "Save successfully");
 
 		return getRedirectURLtoAffectedUser(user);
 	}
@@ -122,7 +123,7 @@ public class UserController {
 			
 			model.addAttribute("user", user);
 			model.addAttribute("listRoles", listRoles);
-			model.addAttribute("pageTitle", "Sửa tài khoản (ID: " + id +")");
+			model.addAttribute("pageTitle", "Edit User (ID: " + id +")");
 			
 			return "users/user_form";
 		} catch (UserNotFoundException ex) {
@@ -140,7 +141,7 @@ public class UserController {
 			String userDir = "user-photos/" + id;
 			FileUploadUtil.removeDir(userDir);
 			
-			redirectAttributes.addFlashAttribute("message", "Xóa thành công");
+			redirectAttributes.addFlashAttribute("message", "Delete successfully");
 		}catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
 		}
@@ -156,8 +157,8 @@ public class UserController {
 			service.get(id);
 			
 			service.updateUserEnabledStatus(id, enabled);
-			String status = enabled ? "Kích hoạt" : "Hủy kích hoạt";
-			String message = status + " thành công";
+			String status = enabled ? "Enabled" : "Disabled";
+			String message = status + " successfully";
 			redirectAttributes.addFlashAttribute("message", message);
 		} catch (UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());

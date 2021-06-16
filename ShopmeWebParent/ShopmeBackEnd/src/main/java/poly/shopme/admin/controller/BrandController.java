@@ -77,7 +77,7 @@ public class BrandController {
 		
 		model.addAttribute("listCategories", listCategories);
 		model.addAttribute("brand", new Brand());
-		model.addAttribute("pageTitle", "Tạo mới thương hiệu");
+		model.addAttribute("pageTitle", "New Brand");
 		
 		return "brands/brand_form";
 	}
@@ -98,7 +98,7 @@ public class BrandController {
 			brandService.save(brand);
 		}
 		
-		redirectAttributes.addFlashAttribute("message", "Lưu thành công");
+		redirectAttributes.addFlashAttribute("message", "Save successfully");
 		
 		return getRedirectURLtoAffectedBrand(brand);
 	}
@@ -112,7 +112,7 @@ public class BrandController {
 			
 			model.addAttribute("listCategories", listCategories);
 			model.addAttribute("brand", brand);
-			model.addAttribute("pageTitle", "Sửa thương hiệu (ID: " + id +")");
+			model.addAttribute("pageTitle", "Edit Brand (ID: " + id +")");
 			
 			return "brands/brand_form";
 		} catch (BrandNotFoundException ex) {
@@ -127,14 +127,14 @@ public class BrandController {
 			RedirectAttributes redirectAttributes) {
 		try {
 			if(brandService.checkProductRelation(id)) {
-				redirectAttributes.addFlashAttribute("errorMessage", " Không thể xóa, thương hiệu tồn tại sản phẩm liên quan !");
+				redirectAttributes.addFlashAttribute("errorMessage", "Can't delete this !");
 			} else {
 				brandService.delete(id);
 				String brandDir = "../brand-logos/" + id;
 				FileUploadUtil.removeDir(brandDir);
 				
 				redirectAttributes.addFlashAttribute("message",
-						"Xóa thành công");
+						"Delete successfully");
 			}
 		} catch (BrandNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());

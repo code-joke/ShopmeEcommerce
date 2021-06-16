@@ -20,7 +20,7 @@ public class ShopmeUserDetailsService implements UserDetailsService {
 			return new ShopmeUserDetails(user);
 		}
 		
-		throw new UsernameNotFoundException("Không tìm thấy tài khoản nào với email: " + email);
+		throw new UsernameNotFoundException("Could not find user with email: " + email);
 
 	}
 

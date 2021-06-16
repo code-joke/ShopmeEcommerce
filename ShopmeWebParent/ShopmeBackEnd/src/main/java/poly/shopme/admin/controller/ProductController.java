@@ -92,7 +92,7 @@ public class ProductController {
 		model.addAttribute("product", product);
 		model.addAttribute("listBrands", listBrands);
 		model.addAttribute("numberOfExistingExtraImages", 0);
-		model.addAttribute("pageTitle", "Tạo mới sản phẩm");
+		model.addAttribute("pageTitle", "New Product");
 		
 		return "products/product_form";
 	}
@@ -108,9 +108,9 @@ public class ProductController {
 			@RequestParam(name = "imageNames", required = false) String[] imageNames,
 			@AuthenticationPrincipal ShopmeUserDetails loggedUser) throws IOException{
 		
-		if(loggedUser.hasRole("Bán hàng")) {
+		if(loggedUser.hasRole("Salesperson")) {
 			productService.saveProductPrice(product);
-			redirectAttributes.addFlashAttribute("message", "Lưu thành công");
+			redirectAttributes.addFlashAttribute("message", "Save successfully");
 			
 			return "redirect:/products";
 		}
@@ -126,7 +126,7 @@ public class ProductController {
 		
 		ProductSaveHelper.deleteExtraImagesWeredRemovedOnForm(product);
 		
-		redirectAttributes.addFlashAttribute("message", "Lưu thành công");
+		redirectAttributes.addFlashAttribute("message", "Save successfully");
 		
 		return "redirect:/products";
 	}
@@ -140,8 +140,8 @@ public class ProductController {
 			productService.get(id);
 			
 			productService.updateProductEnabledStatus(id, enabled);
-			String status = enabled ? "Kích hoạt" : "Hủy kích hoạt";
-			String message = status + " thành công";
+			String status = enabled ? "Enabled" : "Disabled";
+			String message = status + " successfully";
 			redirectAttributes.addFlashAttribute("message", message);
 			
 		} catch (ProductNotFoundException ex) {
@@ -163,7 +163,7 @@ public class ProductController {
 			FileUploadUtil.removeDir(productExtraImagesDir);
 			FileUploadUtil.removeDir(productImagesDir);
 			
-			redirectAttributes.addFlashAttribute("message", "Xóa thành công");
+			redirectAttributes.addFlashAttribute("message", "Delete successfully");
 		} catch (ProductNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
 		}
@@ -181,7 +181,7 @@ public class ProductController {
 
 			model.addAttribute("product", product);
 			model.addAttribute("listBrands", listBrands);
-			model.addAttribute("pageTitle", "Sửa sản phẩm (ID: " + id +")");
+			model.addAttribute("pageTitle", "Edit Product (ID: " + id +")");
 			model.addAttribute("numberOfExistingExtraImages", numberOfExistingExtraImages);
 			
 			return "products/product_form";

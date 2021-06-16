@@ -55,7 +55,7 @@ public class AccountController {
 		
 		loggedUser.setFirstName(user.getFirstName());
 		
-		redirectAttributes.addFlashAttribute("message", "Hồ sơ của bạn đã được cập nhật");
+		redirectAttributes.addFlashAttribute("message", "Your profile has been updated");
 
 		return "redirect:/account";
 	}

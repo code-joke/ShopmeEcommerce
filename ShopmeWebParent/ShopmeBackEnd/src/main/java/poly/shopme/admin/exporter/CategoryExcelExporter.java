@@ -26,7 +26,7 @@ public class CategoryExcelExporter extends AbstractExporter {
 	}
 	
 	private void writeHeaderLine() {
-		sheet = workbook.createSheet("Loại hàng");
+		sheet = workbook.createSheet("Categories");
 		XSSFRow row = sheet.createRow(0);
 		
 		XSSFCellStyle cellStyle = workbook.createCellStyle();
@@ -36,9 +36,9 @@ public class CategoryExcelExporter extends AbstractExporter {
 		cellStyle.setFont(font);
 		
 		createCell(row, 0, "ID", cellStyle);
-		createCell(row, 1, "Tên", cellStyle);
-		createCell(row, 2, "Biệt hiệu", cellStyle);
-		createCell(row, 3, "Kích hoạt", cellStyle);
+		createCell(row, 1, "Category Name", cellStyle);
+		createCell(row, 2, "Alias", cellStyle);
+		createCell(row, 3, "Enabled", cellStyle);
 	}
 	
 	private void createCell(XSSFRow row, int columnIndex, Object value, CellStyle style) {
@@ -57,7 +57,7 @@ public class CategoryExcelExporter extends AbstractExporter {
 	}
 
 	public void export(List<Category> listCategories, HttpServletResponse response) throws IOException {
-		super.setResponseHeader(response, "application/octet-stream", ".xlsx", "loaihang_");
+		super.setResponseHeader(response, "application/octet-stream", ".xlsx", "category_");
 
 		writeHeaderLine();
 		writeDataLine(listCategories);
@@ -83,7 +83,7 @@ public class CategoryExcelExporter extends AbstractExporter {
 			createCell(row, columnIndex++, category.getId(), cellStyle);
 			createCell(row, columnIndex++, category.getName(), cellStyle);
 			createCell(row, columnIndex++, category.getAlias(), cellStyle);
-			createCell(row, columnIndex++, category.isEnabled() == true ? "Có": "Không" , cellStyle);
+			createCell(row, columnIndex++, category.isEnabled(), cellStyle);
 		}
 		
 	}

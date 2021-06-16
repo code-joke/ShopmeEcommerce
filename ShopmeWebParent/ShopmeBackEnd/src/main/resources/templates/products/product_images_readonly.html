@@ -4,9 +4,9 @@
 <div th:fragment="content" th:remove="tag">
 	<div class="row">
 		<div class="col border m-3 p-2">
-			<div><label class="text-secondary">Ảnh đại diện: [[${product.mainImage}]]</label></div>
+			<div><label class="text-secondary">Main Image: [[${product.mainImage}]]</label></div>
 			<div class="m-2">
-				<img alt="Xem trước ảnh đại diện" class="img-fluid"
+				<img alt="Main image preview" class="img-fluid"
 					th:src="@{${product.mainImagePath}}"/>
 			</div>
 		</div>
@@ -14,10 +14,10 @@
 		<th:block th:each="productImage, status : ${product.images}">
 		<div class="col border m-3 p-2">
 			<div>
-				<label class="text-secondary">Ảnh #[[${status.index + 1}]]: [[${productImage.name}]]</label>
+				<label class="text-secondary">Extra Image #[[${status.index + 1}]]: [[${productImage.name}]]</label>
 			</div>
 			<div class="m-2">
-				<img th:alt="'Xem trước ảnh ' + ${status.index + 1}" class="img-fluid"
+				<img th:alt="'Extra image #' + ${status.index + 1}" class="img-fluid"
 					th:src="@{${productImage.imagePath}}" />
 			</div>
 		</div>

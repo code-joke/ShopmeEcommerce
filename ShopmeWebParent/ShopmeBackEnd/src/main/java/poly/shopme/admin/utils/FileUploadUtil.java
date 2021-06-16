@@ -26,7 +26,7 @@ public class FileUploadUtil {
 			Path filePath = uploadPath.resolve(fileName);
 			Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 		}catch (IOException ex) {
-			throw new IOException("Không thể lưu tệp: " + fileName, ex);
+			throw new IOException("Couldn't save file: " + fileName, ex);
 		}
 	}
 	
@@ -39,24 +39,22 @@ public class FileUploadUtil {
 					try {
 						Files.delete(file);
 					} catch (IOException e) {
-						LOGGER.error("Không thể xóa tệp " + file);
-						//System.out.println("Không thể xóa tệp " + file);
+						LOGGER.error("Couldn't delete file: " + file);
 					}
 				}
 			});
 		} catch (Exception e) {
-			LOGGER.error("Không thể tải danh sách tệp " + dirPath);
-			//System.out.println("Không thể tải danh sách tệp " + dirPath);
+			LOGGER.error("Couldn't list directory " + dirPath);
 		}
 	}
 
-	public static void removeDir(String categoryDir) {
-		cleanDir(categoryDir);
+	public static void removeDir(String dir) {
+		cleanDir(dir);
 		
 		try {
-			Files.delete(Paths.get(categoryDir));
+			Files.delete(Paths.get(dir));
 		} catch (Exception e) {
-			LOGGER.error("Không thể xóa tệp " + categoryDir);
+			LOGGER.error("Could not remove directory: " + dir);
 		}
 	}
 }

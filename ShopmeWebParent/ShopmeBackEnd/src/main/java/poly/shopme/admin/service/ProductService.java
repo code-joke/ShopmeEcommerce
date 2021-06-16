@@ -56,15 +56,11 @@ public class ProductService {
 	public Product save(Product product) {
 		if(product.getId() == null) product.setCreatedTime(new Date());
 		
-		if(product.getQuantityInStock() == null) product.setQuantityInStock(0);
-		
-		if(product.getQuantityInStock() == null) product.setInStock(false);
-		
 		if(product.getAlias() == null || product.getAlias().isEmpty()) {
-			String defaultAlias = product.getName().trim().replaceAll(" ", "-").trim().replaceAll(" ", "-").replaceAll("\\?", "").replaceAll("/", "");
+			String defaultAlias = product.getName().trim().replaceAll(" ", "-");
 			product.setAlias(defaultAlias);
 		} else {
-			product.setAlias(product.getAlias().trim().replaceAll(" ", "-").trim().replaceAll(" ", "-").replaceAll("\\?", "").replaceAll("/", ""));
+			product.setAlias(product.getAlias().trim().replaceAll(" ", "-"));
 		}
 		
 		product.setUpdatedTime(new Date());
@@ -76,7 +72,7 @@ public class ProductService {
 		try {
 			return repo.findById(id).get();
 		} catch (NoSuchElementException ex) {
-			throw new ProductNotFoundException("Không tìm thấy sản phẩm nào với ID: " + id + " !");
+			throw new ProductNotFoundException("Could not find any product with ID: " + id + " !");
 		}
 	}
 	
@@ -88,7 +84,7 @@ public class ProductService {
 		Long countById = repo.countById(id);
 		
 		if(countById == null || countById == 0) {
-			throw new ProductNotFoundException("Không tìm thấy sản phẩm nào với ID: " + id + " !");
+			throw new ProductNotFoundException("Could not find any product with ID: " + id + " !");
 		}
 		
 		repo.deleteById(id);
@@ -143,7 +139,4 @@ public class ProductService {
 		return "OK";
 	}
 	
-	public void updateQuantityInStock(Integer id, Integer quantityInStock) {
-		repo.updateQuantityInStock(id, quantityInStock);
-	}
 }

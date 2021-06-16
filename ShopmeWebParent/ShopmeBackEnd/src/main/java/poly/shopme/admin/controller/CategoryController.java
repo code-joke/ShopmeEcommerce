@@ -83,7 +83,7 @@ public class CategoryController {
 		
 		model.addAttribute("category", new Category());
 		model.addAttribute("listCategories", listCategories);
-		model.addAttribute("pageTitle", "Tạo mới loại hàng");
+		model.addAttribute("pageTitle", "New Category");
 		
 		return "categories/category_form";
 	}
@@ -106,7 +106,7 @@ public class CategoryController {
 			service.save(category);
 		}
 		
-		redirectAttributes.addFlashAttribute("message", "Lưu thành công");
+		redirectAttributes.addFlashAttribute("message", "Save successfully");
 		
 		return getRedirectURLtoAffectedCategory(category);
 	}
@@ -122,7 +122,7 @@ public class CategoryController {
 			model.addAttribute("category", category);
 			model.addAttribute("listCategories", listCategories);
 			model.addAttribute("listCategoriesEditMode", listCategoriesEditMode);
-			model.addAttribute("pageTitle", "Sửa loại hàng (ID: " + id +")");
+			model.addAttribute("pageTitle", "Edit Category (ID: " + id +")");
 			
 			return "categories/category_form";
 		} catch (CategoryNotFoundException ex) {
@@ -138,8 +138,8 @@ public class CategoryController {
 			service.get(id);
 			
 			service.updateCategoryEnabledStatus(id, enabled);
-			String status = enabled ? "Kích hoạt" : "Hủy kích hoạt";
-			String message = status + " thành công";
+			String status = enabled ? "Enabled" : "Disabled";
+			String message = status + " successfully";
 			redirectAttributes.addFlashAttribute("message", message);
 		} catch (CategoryNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
@@ -154,14 +154,14 @@ public class CategoryController {
 			RedirectAttributes redirectAttributes) {
 		try {
 			if(service.checkBrandAndProductRelation(id)) {
-				redirectAttributes.addFlashAttribute("errorMessage", " Không thể xóa, loại hàng tồn tại thương hiệu hoặc sản phẩm liên quan !");
+				redirectAttributes.addFlashAttribute("errorMessage", "Can't delete this !");
 			} else {
 				service.delete(id);
 				String categoryDir = "../category-images/" + id;
 				FileUploadUtil.removeDir(categoryDir);
 				
 				redirectAttributes.addFlashAttribute("message",
-						"Xóa thành công");
+						"Delete successfully");
 			}
 		} catch (CategoryNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());

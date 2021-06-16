@@ -44,25 +44,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers("/users/**").hasAnyAuthority("Admin")
-			.antMatchers("/categories/**", "/brands/**").hasAnyAuthority("Admin", "Biên tập")
+			.antMatchers("/categories/**", "/brands/**").hasAnyAuthority("Admin", "Editor")
 			
-			.antMatchers("/products/new", "/products/delete/**").hasAnyAuthority("Admin", "Biên tập")
+			.antMatchers("/products/new", "/products/delete/**").hasAnyAuthority("Admin", "Editor")
 			
 			.antMatchers("/products/edit/**", "/products/save", "/products/check_unique")
-				.hasAnyAuthority("Admin", "Biên tập", "Bán hàng")
+				.hasAnyAuthority("Admin", "Editor", "Salesperson")
 			
 			.antMatchers("/products", "/products/", "/products/detail/**", "/products/page/**")
-				.hasAnyAuthority("Admin", "Biên tập", "Bán hàng", "Giao hàng")
+				.hasAnyAuthority("Admin", "Editor", "Salesperson", "Shipper")
 				
-			.antMatchers("/products/**").hasAnyAuthority("Admin", "Biên tập")
-			
-			.antMatchers("/orders/delete/**").hasAnyAuthority("Admin")
-			
-			.antMatchers("/orders/edit/**").hasAnyAuthority("Admin", "Bán hàng")
-			
-			.antMatchers("/orders/**").hasAnyAuthority("Admin", "Bán hàng", "Giao hàng")
-			
-			.antMatchers("/shipping/**").hasAnyAuthority("Admin", "Giao hàng")
+			.antMatchers("/products/**").hasAnyAuthority("Admin", "Editor")
 			
 			.anyRequest().authenticated()
 			.and()

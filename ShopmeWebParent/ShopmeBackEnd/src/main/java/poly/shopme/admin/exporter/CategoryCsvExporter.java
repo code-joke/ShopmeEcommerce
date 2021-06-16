@@ -15,12 +15,12 @@ import poly.shopme.common.entity.Category;
 public class CategoryCsvExporter extends AbstractExporter {
 	public void export(List<Category> listCategories, HttpServletResponse response) 
 			throws IOException {
-		super.setResponseHeader(response, "text/csv", ".csv", "loaihang_");
+		super.setResponseHeader(response, "text/csv", ".csv", "categories_");
 		
 		ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), 
 				CsvPreference.STANDARD_PREFERENCE);
 		
-		String[] csvHeader = {"ID", "Tên"};
+		String[] csvHeader = {"ID", "Category Name"};
 		String[] fieldMapping = {"id", "name"};
 		
 		csvWriter.writeHeader(csvHeader);

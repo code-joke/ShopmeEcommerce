@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('Thương hiệu - Shopme Admin', 'none')"></head>
+<head th:replace="fragments :: page_head('Brands - Shopme Admin', 'none')"></head>
 <body>
 	<div class="container-fluid">
-		<!-- thanh công cụ -->
 		<div th:replace="navigation :: menu"></div>
 		&nbsp;
 		<div>
-			<h4 class="text-title">Quản lý thương hiệu</h4>&nbsp;
-			<a th:href="@{/brands/new}" class="fas fa-plus fa-2x icon-gray mr-2" title="Thêm mới thương hiệu"></a>
+			<h4 class="text-title">Manage Brands</h4>&nbsp;
+			<a th:href="@{/brands/new}" class="fas fa-plus fa-2x icon-gray mr-2" title="New brand"></a>
 		</div>
 		
 		<div th:replace="fragments :: search_form_and_message('/brands/page/1')"></div>
@@ -17,11 +16,11 @@
 			<table class="table table-bordered table-striped table-hover table-responsive-xs ">
 				<thead class="thead-dark">
 					<tr>
-						<th>STT</th>
-						<th class="hideable-column">ID</th>
-						<th style="text-align: center">ẢNH</th>
-						<th th:replace = "fragments :: column_link('/brands', 'name', 'TÊN THƯƠNG HIỆU', 'none')"/>
-						<th>LOẠI HÀNG</th>
+						<th>NO</th>
+						<th class="hideable-column">Brand ID</th>
+						<th style="text-align: center">Brand Logo</th>
+						<th th:replace = "fragments :: column_link('/brands', 'name', 'Brand Name', 'none')"/>
+						<th>Categories</th>
 						<th></th>
 					</tr>
 				</thead>
@@ -42,9 +41,9 @@
 						</td>
 						
 						<td>
-							<div th:replace="fragments :: edit('thương hiệu này', '/brands/edit/' + ${brand.id})"></div>
+							<div th:replace="fragments :: edit('brand', '/brands/edit/' + ${brand.id})"></div>
 							&nbsp; 
-							<div th:replace="fragments :: delete('thương hiệu này', ${brand.id}, '/brands/delete/' + ${brand.id}, true)"></div>
+							<div th:replace="fragments :: delete('brand', ${brand.id}, '/brands/delete/' + ${brand.id}, true)"></div>
 						</td>
 					</tr>
 				</tbody>
@@ -59,9 +58,9 @@
 				<div class="col-6">
 					<div><b>[[${brand.name}]]</b></div>
 					<div class="mt-2">
-						<div th:replace="fragments :: edit('thương hiệu này', '/brands/edit/' + ${brand.id})"></div>
+						<div th:replace="fragments :: edit('brand', '/brands/edit/' + ${brand.id})"></div>
 							&nbsp; 
-						<div th:replace="fragments :: delete('thương hiệu này', ${brand.id}, '/brands/delete/' + ${brand.id}, true)"></div>
+						<div th:replace="fragments :: delete('brand', ${brand.id}, '/brands/delete/' + ${brand.id}, true)"></div>
 					</div>
 				</div>
 				<div>&nbsp;</div>
@@ -69,7 +68,7 @@
 		</div>	
 		&nbsp;&nbsp;
 		
-		<div th:replace="fragments :: pagination('/brands', 'thương hiệu')"></div>
+		<div th:replace="fragments :: pagination('/brands', 'brand')"></div>
 		
 		<div th:replace="modal_fragments :: confirm_modal"></div>
 		
@@ -85,7 +84,7 @@
 	$(document).ready(function() {
 		$(".link-delete").on("click", function(e) {
 			e.preventDefault();
-			showDeleteConfirmModal($(this), 'thương hiệu');
+			showDeleteConfirmModal($(this), 'brand');
 		});
 	});
 	

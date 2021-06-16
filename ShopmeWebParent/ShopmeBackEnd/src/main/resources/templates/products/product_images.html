@@ -4,9 +4,9 @@
 	<div th:fragment="content" th:remove="tag">
 		<div class="row" id="divProductImages">
 			<div class="col border m-3 p-2">
-				<div><label class="text-secondary required">Ảnh đại diện: [[${product.mainImage}]]</label></div>
+				<div><label class="text-secondary required">Main Image: [[${product.mainImage}]]</label></div>
 				<div class="m-2">
-					<img id="thumbnail" alt="Xem trước ảnh đại diện" class="img-fluid"
+					<img id="thumbnail" alt="Main image preview" class="img-fluid"
 						th:src="@{${product.mainImagePath}}"/>
 				</div>
 				<div>
@@ -20,12 +20,12 @@
 			<th:block th:each="productImage, status : ${product.images}">
 			<div class="col border m-3 p-2" th:id="'divExtraImage' + ${status.index}">
 				<div>
-					<label class="text-secondary">Ảnh #[[${status.index + 1}]]: [[${productImage.name}]]</label>
+					<label class="text-secondary">Extra Image #[[${status.index + 1}]]: [[${productImage.name}]]</label>
 					<a name="linkRemoveExtraImage" class="btn fas fa-times-circle fa-2x icon-gray float-right"
-						title="Xóa ảnh này"></a>
+						title="Remove this image"></a>
 				</div>
 				<div class="m-2">
-					<img th:id="'extraThumbnail' + ${status.index}" th:alt="'Xem trước ảnh ' + ${status.index + 1}" class="img-fluid"
+					<img th:id="'extraThumbnail' + ${status.index}" th:alt="'Extra image #' + ${status.index + 1}" class="img-fluid"
 						th:src="@{${productImage.imagePath}}" />
 				</div>
 				<div>
@@ -41,11 +41,11 @@
 		
 			<div class="col border m-3 p-2" th:id="'divExtraImage' + ${numberOfExistingExtraImages}">
 				<div th:id="'extraImageHeader' + ${numberOfExistingExtraImages}">
-					<label class="text-secondary">Ảnh #[[${numberOfExistingExtraImages + 1}]]:</label>
+					<label class="text-secondary">Extra Image #[[${numberOfExistingExtraImages + 1}]]:</label>
 				</div>
 				<div class="m-2">
 					<img th:id="'extraThumbnail' + ${numberOfExistingExtraImages}" 
-							th:alt="'Xem trước ảnh ' + ${numberOfExistingExtraImages}" class="img-fluid"
+							th:alt="'Extra image ' + ${numberOfExistingExtraImages}" class="img-fluid"
 							th:src="@{/images/image-thumbnail.png}">
 				</div>
 				<div>

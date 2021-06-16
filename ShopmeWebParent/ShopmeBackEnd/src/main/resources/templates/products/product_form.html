@@ -8,12 +8,11 @@
 </head>
 <body>
 	<div class="container-fluid">
-			<!-- thanh công cụ -->
 		<div th:replace="navigation :: menu"></div>
 		&nbsp;
 		
 		<div class="text-title">
-			<h4>Sản phẩm | [[${pageTitle}]]</h4>&nbsp;
+			<h4>Manage Products | [[${pageTitle}]]</h4>&nbsp;
 		</div>
 		
 		<form th:action="@{/products/save}" method = "post"
@@ -27,22 +26,19 @@
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" id="myTab" role="tablist">
 				  <li class="nav-item">
-				    <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Tổng quan</a>
+				    <a class="nav-link active" data-toggle="tab" href="#overview" role="tab">Overview</a>
 				  </li>
 				  <li class="nav-item">
-				    <a class="nav-link" data-toggle="tab" href="#description" role="tab">Mô tả</a>
+				    <a class="nav-link" data-toggle="tab" href="#description" role="tab">Description</a>
 				  </li>
 				  <li class="nav-item">
-				    <a class="nav-link" data-toggle="tab" href="#images" role="tab">Ảnh</a>
+				    <a class="nav-link" data-toggle="tab" href="#images" role="tab">Images</a>
 				  </li>
 				  <li class="nav-item">
-				    <a class="nav-link" data-toggle="tab" href="#details" role="tab">Thuộc tính</a>
+				    <a class="nav-link" data-toggle="tab" href="#details" role="tab">Details</a>
 				  </li>
 				  <li class="nav-item">
-				    <a class="nav-link" data-toggle="tab" href="#shipping" role="tab">Vận chuyển</a>
-				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" data-toggle="tab" href="#warehouse" role="tab">Kho hàng</a>
+				    <a class="nav-link" data-toggle="tab" href="#shipping" role="tab">Shipping</a>
 				  </li>
 				</ul>
 
@@ -53,59 +49,50 @@
 				  </div>
 				  
 				  <div class="tab-pane p-3" id="description" role="tabpanel">
-				  	<th:block sec:authorize="hasAnyAuthority('Bán hàng')">
+				  	<th:block sec:authorize="hasAnyAuthority('Salesperson')">
 				  		<div th:replace="products/product_description_readonly :: content"></div>
 				  	</th:block>
-				  	<th:block sec:authorize="hasAnyAuthority('Admin', 'Biên tập')">
+				  	<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 				  		<div th:replace="products/product_description :: content"></div>
 				  	</th:block>
 				  </div>
 				  
 				  <div class="tab-pane p-3" id="images" role="tabpanel">
-					<th:block sec:authorize="hasAnyAuthority('Bán hàng')">
+					<th:block sec:authorize="hasAnyAuthority('Salesperson')">
 				  		<div th:replace="products/product_images_readonly :: content"></div>
 				  	</th:block>
-				  	<th:block sec:authorize="hasAnyAuthority('Admin', 'Biên tập')">
+				  	<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 				  		<div th:replace="products/product_images :: content"></div>
 				  	</th:block>
 				  </div>
 				  
 				  <div class="tab-pane p-3" id="details" role="tabpanel">
-				  	<th:block sec:authorize="hasAnyAuthority('Bán hàng')">
+				  	<th:block sec:authorize="hasAnyAuthority('Salesperson')">
 				  		<div th:replace="products/product_details_readonly :: content"></div>
 				  	</th:block>
-				  	<th:block sec:authorize="hasAnyAuthority('Admin', 'Biên tập')">
+				  	<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 				  		<div th:replace="products/product_details :: content"></div>
 					  	<div>
 					  		<br>
-					  		<input type="button" class="btn btn-secondary" value="Thêm thông số" 
+					  		<input type="button" class="btn btn-secondary" value="Add More Detail" 
 					  			onclick="addNextDetailSection()" />
 					  	</div>
 				  	</th:block>
 				  </div>
 				  
 				  <div class="tab-pane p-3" id="shipping" role="tabpanel">
-				  	<th:block sec:authorize="hasAnyAuthority('Bán hàng')">
+				  	<th:block sec:authorize="hasAnyAuthority('Salesperson')">
 				  		<div th:replace="products/product_shipping_readonly :: content"></div>
 				  	</th:block>
-				  	<th:block sec:authorize="hasAnyAuthority('Admin', 'Biên tập')">
+				  	<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 				  		<div th:replace="products/product_shipping :: content"></div>
-				  	</th:block>
-				  </div>
-				  
-				  <div class="tab-pane p-3" id="warehouse" role="tabpanel">
-				  	<th:block sec:authorize="hasAnyAuthority('Bán hàng')">
-				  		<div th:replace="products/product_warehouse_readonly :: content"></div>
-				  	</th:block>
-				  	<th:block sec:authorize="hasAnyAuthority('Admin', 'Biên tập')">
-				  		<div th:replace="products/product_warehouse :: content"></div>
 				  	</th:block>
 				  </div>
 				</div>
 			</div>
 			<div class="text-center">
-				<input type="submit" value="Lưu" class="btn btn-primary m-3">
-				<input type="button" value="Hủy bỏ" class="btn btn-secondary" id="buttonCancel">
+				<input type="submit" value="Save" class="btn btn-primary m-3">
+				<input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel">
 			</div>
 		</form>
 		

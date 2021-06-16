@@ -49,7 +49,7 @@ public class BrandService {
 		try {
 			return repo.findById(id).get();
 		} catch (NoSuchElementException ex) {
-			throw new BrandNotFoundException("Không tìm thấy thương hiệu nào với ID: " + id + " !");
+			throw new BrandNotFoundException("Could not find any brand with ID: " + id + " !");
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class BrandService {
 		Long countById = repo.countById(id);
 		
 		if(countById == null || countById == 0) {
-			throw new BrandNotFoundException("Không tìm thấy thương hiệu nào với ID: " + id + " !");
+			throw new BrandNotFoundException("Could not find any brand with ID: " + id + " !");
 		}
 		
 		repo.deleteById(id);
