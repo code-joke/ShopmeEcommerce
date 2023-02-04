@@ -6,13 +6,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ShopmeBackEnd" />
+        <module name="ShopmeCommon" />
         <module name="ShopmeFrontEnd" />
+        <module name="ShopmeBackEnd" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="HRCommon" target="15" />
       <module name="ShopmeBackEnd" target="15" />
+      <module name="ShopmeCommon" target="15" />
       <module name="ShopmeFrontEnd" target="15" />
       <module name="ShopmeProject" target="1.5" />
       <module name="ShopmeWebParent" target="15" />
@@ -22,6 +24,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="HRCommon" options="-parameters" />
       <module name="ShopmeBackEnd" options="-parameters" />
+      <module name="ShopmeCommon" options="-parameters" />
       <module name="ShopmeFrontEnd" options="-parameters" />
     </option>
   </component>
