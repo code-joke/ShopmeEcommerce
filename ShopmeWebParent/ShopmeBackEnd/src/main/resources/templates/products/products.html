@@ -8,12 +8,9 @@
 		<div th:replace="navigation :: menu"></div>
 		&nbsp;
 		<div>
-			<h4 class="text-title">Manage Products</h4>&nbsp;
+			<h4 class="ml-2">Manage Products</h4>&nbsp;
 				<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 				<a th:href="@{/products/new}" class="fas fa-plus fa-2x icon-gray mr-2" title="New product"></a>
-				<a th:href="@{/products/export/csv}" class="fas fa-file-csv fa-2x icon-gray mr-2" title="Export file CSV"></a>
-				<a th:href="@{/products/export/excel}" class="fas fa-file-excel fa-2x icon-gray mr-2" title="Export file Excel"></a>
-				<a th:href="@{/products/export/pdf}" class="fas fa-file-pdf fa-2x icon-gray mr-2" title="Export file PDF"></a>
 			</th:block>
 		</div>
 		
@@ -58,10 +55,10 @@
 			<table class="table table-bordered table-striped table-hover table-responsive-xl ">
 				<thead class="thead-dark">
 					<tr>
-						<th>NO</th>
+						<th>#</th>
 						
 						<th class="hideable-column">
-						<th th:replace = "fragments :: column_link('/products', 'id', 'ID', 'tag')" />
+						<th th:replace = "fragments :: column_link('/products', 'id', 'Product ID', 'tag')" />
 						</th>
 						
 						<th style="text-align: center">Main Image</th>
@@ -84,11 +81,11 @@
 				</thead>
 				<tbody>
 					<tr th:each="product, state : ${listProducts}">
-						<td>[[${state.count}]]</td>
+						<td>[[${startCount + state.index}]]</td>
 						<td class="hideable-column">[[${product.id}]]</td>
 						<td>
 							<div align="center">
-								<img th:src="@{${product.mainImagePath}}" class="rounded" style="width: 110px" height="80px">
+								<img th:src="@{${product.mainImagePath}}" class="rounded" style="width: 105px" height="80px">
 							</div>
 						</td>
 						<td>
@@ -113,7 +110,7 @@
 								<div th:replace="fragments :: edit('product', '/products/edit/' + ${product.id})"></div>
 							</th:block>
 							&nbsp; 
-							<th:block sec:authorize="hasAnyAuthority('Admin', 'Salesperson')">
+							<th:block sec:authorize="hasAnyAuthority('Admin', 'Editor')">
 								<div th:replace="fragments :: delete('product', ${product.id}, '/products/delete/' + ${product.id}, true)"></div>
 							</th:block>
 						</td>

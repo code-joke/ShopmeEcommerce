@@ -10,7 +10,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	
-	<groupId>poly.shopme</groupId>
+	<groupId>com.shopme</groupId>
 	<artifactId>ShopmeWebParent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
@@ -85,7 +85,7 @@
 		
 		<!-- Khai báo thư viện common dùng chung  -->
 		<dependency>
-			<groupId>poly.shopme</groupId>
+			<groupId>com.shopme</groupId>
 			<artifactId>ShopmeCommon</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

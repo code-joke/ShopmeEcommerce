@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('Lỗi - Shopme', 'none')"></head>
+<head th:replace="fragments :: page_head('404 Page Not Found - Shopme Admin', 'none')"></head>
 <body>
 <div class="container-fluid">
 		<div th:replace="navigation :: header_menu"></div>
@@ -10,12 +10,12 @@
 			<img th:src="@{/images/404error.png}" style="width: 35%"/>
 			<br>
 			&nbsp;
-			<h4 class="text-danger font-weight-bold">RẤT TIẾC, TRANG BẠN TÌM KIẾM KHÔNG TỒN TẠI</h4>
-			<br><a th:href="@{/}">Click vào đây</a> để quay trở về trang chủ<br>
+			<h4 class="text-danger font-weight-bold">Page Not Found</h4>
+			<br><a th:href="@{/}">Click here</a> to go to home page<br>
 		</div>
 		<br>
 		&nbsp;&nbsp;&nbsp;
-		<div th:replace="fragments :: footer"></div>
+		<div th:replace="navigation :: footer_menu"></div>
 		
 </div>
 </body>

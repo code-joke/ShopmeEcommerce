@@ -6,7 +6,7 @@
 		<div th:replace="navigation :: menu"></div>
 		&nbsp;
 		<div>
-			<h4 class="text-title">Manage Brands</h4>&nbsp;
+			<h4 class="ml-2">Manage Brands</h4>&nbsp;
 			<a th:href="@{/brands/new}" class="fas fa-plus fa-2x icon-gray mr-2" title="New brand"></a>
 		</div>
 		
@@ -16,7 +16,7 @@
 			<table class="table table-bordered table-striped table-hover table-responsive-xs ">
 				<thead class="thead-dark">
 					<tr>
-						<th>NO</th>
+						<th>#</th>
 						<th class="hideable-column">Brand ID</th>
 						<th style="text-align: center">Brand Logo</th>
 						<th th:replace = "fragments :: column_link('/brands', 'name', 'Brand Name', 'none')"/>
@@ -26,7 +26,7 @@
 				</thead>
 				<tbody>
 					<tr th:each="brand, state : ${listBrands}">
-						<td>[[${state.count}]]</td>
+						<td>[[${startCount + state.index}]]</td>
 						<td class="hideable-column">[[${brand.id}]]</td>
 						<td>
 							<div align="center">
@@ -56,7 +56,7 @@
 					<img th:src="@{${brand.logoPath}}" class="rounded" style="width: 100px" height="40px"/>			
 				</div>
 				<div class="col-6">
-					<div><b>[[${brand.name}]]</b></div>
+					<div>[[${brand.name}]]</div>
 					<div class="mt-2">
 						<div th:replace="fragments :: edit('brand', '/brands/edit/' + ${brand.id})"></div>
 							&nbsp; 

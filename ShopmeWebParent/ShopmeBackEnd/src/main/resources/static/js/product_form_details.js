@@ -13,10 +13,10 @@ function addNextDetailSection() {
 	htmlDetailSection = 
 		`<div class="form-inline" id="divDetail${divDetailsCount}">
 			<input type="hidden" name="detailIDs" value="0"/>
-			<label class="m-3">Tên:</label>
-			<input type="text" class="form-control w-25" name="detailNames" maxlength="255" placeholder="Nhập tên" title="Nhập tên thông số VD: màu sắc ..."/>
-			<label class="m-3">Giá trị:</label>
-			<input type="text" class="form-control w-25" name="detailValues" maxlength="255" placeholder="Nhập giá trị" title="Nhập giá trị cho thông số VD: xanh ..." />
+			<label class="m-3">Name:</label>
+			<input type="text" class="form-control w-25" name="detailNames" maxlength="255" placeholder="Enter name"/>
+			<label class="m-3">Value:</label>
+			<input type="text" class="form-control w-25" name="detailValues" maxlength="255" placeholder="Enter value"/>
 		</div>`;
 		
 	$("#divProductDetails").append(htmlDetailSection);
@@ -27,7 +27,7 @@ function addNextDetailSection() {
 	
 	htmlLinkRemove = `<a class="btn fas fa-times-circle fa-2x icon-gray"
 							href="javascript:removeDetailSectionByID('${previousDivDetailID}')"
-							title="Xóa thông số này"></a>`;
+							title="Delete this value"></a>`;
 	
 	previousDivDetailSection.append(htmlLinkRemove);
 	

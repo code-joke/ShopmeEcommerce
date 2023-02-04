@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('Hồ sơ của tôi', 'none')"></head>
+<head th:replace="fragments :: page_head('Your Account Details', 'none')"></head>
 <body>
 	<div class="container-fluid">
 			<!-- thanh công cụ -->
@@ -11,7 +11,7 @@
 			enctype="multipart/form-data"
 			th:object="${user}">
 			<div class="text-center">
-				<h4>Hồ sơ của tôi</h4>
+				<h4>Your Account Details</h4>
 			</div>
 			<div th:if="${message != null}" class="alert alert-success text-center">
 				[[${message}]]
@@ -19,37 +19,37 @@
 			<input type="hidden" th:field="*{id}">
 			<div class="border border-secondary rounded p-3">
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label">E-mail</label>
+					<label class="col-sm-4 col-form-label">E-mail:</label>
 					<div class="col-sm-8">
 						<input type="email" class="form-control" th:field="*{email}" readonly="readonly" />
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label required">Họ</label>
+					<label class="col-sm-4 col-form-label required">First Name:</label>
 					<div class="col-sm-8">
-						<input type="text" class="form-control" th:field="*{firstName}" required minlength="2" maxlength="10">
+						<input type="text" class="form-control" th:field="*{firstName}" required minlength="2" maxlength="45">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label required">Tên</label>
+					<label class="col-sm-4 col-form-label required">Last Name:</label>
 					<div class="col-sm-8">
 						<input type="text" class="form-control" th:field="*{lastName}" required minlength="2" maxlength="45">
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label required">Mật khẩu</label>
+					<label class="col-sm-4 col-form-label required">Password:</label>
 					<div class="col-sm-8">
 						<input type="password" class="form-control" th:field="*{password}" minlength="8" maxlength="20"
-						 	placeholder="--để trống nếu không đổi mật khẩu--"
+						 	placeholder="--Leave blank if you not change password--"
 						 	oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"/>
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label required">Xác nhận mật khẩu</label>
+					<label class="col-sm-4 col-form-label required">Confirm Password:</label>
 					<div class="col-sm-8">
 						<input type="password" class="form-control" id="confirmPassword" minlength="8" maxlength="20"
 							oninput="checkPasswordMatch(this)"/>
@@ -57,26 +57,26 @@
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label">Vai trò được giao:</label>
+					<label class="col-sm-4 col-form-label">Assigned Roles:</label>
 					<div class="col-sm-8">
 						<span><b>[[${user.roles}]]</b></span>
 					</div>
 				</div>
 				
 				<div class="form-group row">
-					<label class="col-sm-4 col-form-label">Ảnh:</label>
+					<label class="col-sm-4 col-form-label">Photos:</label>
 					<div class="col-sm-8">
 						<input type="hidden" th:field="*{photos}">
 						<input type="file" id="fileImage" name="image" accept="image/png, image/jpeg"
-							class="mb-2" />
+							class="mb-2"/>
 						<img id="thumbnail" alt="Photos preview" th:src="@{${user.photosImagePath}}"
 							class="img-thumbnail" style="width: 20%"/>
 					</div>
 				</div>
 				
 				<div class="text-center">
-					<input type="submit" value="Lưu" class="btn btn-primary m-3">
-					<input type="button" value="Hủy bỏ" class="btn btn-secondary" id="buttonCancel">
+					<input type="submit" value="Save" class="btn btn-primary m-2">
+					<input type="button" value="Cancel" class="btn btn-secondary" id="buttonCancel">
 				</div>
 			</div>
 		</form>
@@ -91,7 +91,7 @@
 	
 	function checkPasswordMatch(confirmPassword) {
 		if (confirmPassword.value != $("#password").val()) {
-			confirmPassword.setCustomValidity("Xác nhận mật khẩu không khớp");
+			confirmPassword.setCustomValidity("Passwords do not match!");
 		}else{
 			confirmPassword.setCustomValidity("");
 		}

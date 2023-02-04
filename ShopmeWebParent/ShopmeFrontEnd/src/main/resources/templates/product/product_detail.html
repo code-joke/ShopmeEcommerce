@@ -1,124 +1,112 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head(${pageTitle}, 'none')">
-<meta charset="ISO-8859-1">
-</head>
+<head th:replace="fragments :: page_head('Shopme', 'none')"></head>
 <body>
-<div class="container-fluid">
-	<div th:replace="navigation :: header_menu"></div>
-	
-	<div th:replace="breadcrumb :: content"></div>
-	&nbsp;
-	
-	<div class="p-4">
-	<div>
-		<h4>[[${product.name}]]</h4>
-	</div>
-	<span class="badge badge-primary">[[${product.brand.name}]]</span>
-	
-	<hr>
-	<div class="row">
-		<div class="col-sm-5">
-			<div>
-				<img id="bigImage" th:src="@{${product.mainImagePath}}" class="img-fluid" width="585px" height="428px" index="0">
-			</div>
-			<div class="row justify-content-center">
-				<div class="m-2 border border-secondary p-1">
-					<img class="image-thumbnail" th:src="@{${product.mainImagePath}}" width="60px" height="40px"/>
+	<div class="container-fluid">
+		<div th:replace="navigation :: header_menu"></div>
+		<div th:replace="navigation :: search_nav"></div>
+		<div th:replace="breadcrumb :: content"></div>
+		
+		<div class="row m-2">
+			<div class="col-sm">
+				<div class="text-center">
+					<img id="bigImage" th:src="@{${product.mainImagePath}}" height="250" style="cursor: pointer" index="0">
 				</div>
-				<th:block th:each="extraImage, status : ${product.images}">
-					<div class="m-2 border border-secondary p-1">
-						<img class="image-thumbnail" th:src="@{${extraImage.imagePath}}" width="60px" height="40px" th:index="${status.count}"/>
+				<div class="row justify-content-center mt-3">
+					<div class="m-2">
+						<img class="img-thumbnail" th:src="@{${product.mainImagePath}}" style="height: 50px" index="0">
+					</div>
+					<th:block th:each="extraImage, item : ${product.images}">
+						<div class="m-2">
+							<img class="img-thumbnail" th:src="@{${extraImage.imagePath}}" style="height: 50px" th:index="${item.count}">
+						</div>
+					</th:block>
+				</div>
+			</div>
+
+			<div class="col-sm">
+				<div>
+					<h2>[[${product.name}]]</h2>
+				</div>
+				<div>
+					<span>Brand: [[${product.brand.name}]]</span>
+				</div>
+				<div>
+					List Price:
+					<span th:if="${product.discountPercent <= 0}">$ [[${product.price}]]</span>
+					<del th:if="${product.discountPercent > 0}"><span>$ [[${product.price}]]</span></del>
+				</div>
+				<div th:if="${product.discountPercent > 0}">
+					Price:
+					<span style="font-size: larger; color: darkred">$ [[${product.discountPrice}]]</span>
+					([[${product.discountPercent}]] % off)
+				</div>
+				<div>&nbsp;</div>
+				<div th:utext="${product.shortDescription}"></div>
+			</div>
+
+			<div class="col-sm-2">
+				<div>
+					<span th:if="${product.inStock}" class="text-success"><b>In Stock</b></span>
+					<span th:unless="${product.inStock}" class="text-danger"><b>Out of Stock</b></span>
+				</div>
+				<div class="mt-2">
+					<input type="text" size="5" value="1">
+				</div>
+				<div class="mt-3">
+					<input type="button" value="Add to Cart" class="btn btn-primary">
+				</div>
+			</div>
+		</div>
+
+		<div class="row m-2">
+			<div class="col-12">
+				<div><hr></div>
+				<div>
+					<h3>Product Description:</h3>
+				</div>
+				<div th:utext="${product.fullDescription}"></div>
+			</div>
+		</div>
+
+		<div class="row m-2">
+			<div class="col-12">
+				<div><hr></div>
+				<div>
+					<h3>Product Details:</h3>
+				</div>
+				<th:block th:each="detail : ${product.details}">
+					<div>
+						<b>[[${detail.name}]]</b>
+						<span>[[${detail.value}]]</span>
 					</div>
 				</th:block>
 			</div>
 		</div>
-		<div class="col-sm">
-			<div th:if="${product.discountPercent <= 0}">
-              	<h2 class="text-danger">[[${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')}]] ₫</h2>
-              </div>
-              
-              <div class="col-sm" th:if="${product.discountPercent > 0}">
-              	<div class="row">
-				<div class="shop-price_new">[[${#numbers.formatDecimal(product.discountPrice, 0, 'POINT', 0, 'POINT')}]] ₫</div>
-              	<div class="shop-price_old">[[${#numbers.formatDecimal(product.price, 0, 'POINT', 0, 'POINT')}]] ₫</div>
-              	</div>
-              </div>
-			<div>&nbsp;</div>
-			<div style="text-align: justify" th:utext="${product.shortDescription}"></div>
-		</div>
-		<div>&nbsp;</div>
-		<div class="col-sm-2">
-			<div>
-				<span th:if="${product.inStock}" class="text-success"><b>Còn hàng</b></span>
-				<span th:unless="${product.inStock}" class="text-danger"><b>Hết hàng</b></span>
-			</div>
-			<th:block th:if="${product.inStock == true OR product.inStock == false AND product.allowOrder == true}">
-				<div class="mt-3">
-					<a class="btn btn-primary text-white" th:href="@{'/add_to_cart/' + ${product.id}}">THÊM VÀO GIỎ</a>
-				</div>
-			<th:block>
-		</div>
+
+		<div th:replace="product/images_carousel :: content"></div>
+
+		<div th:replace="navigation :: footer_menu"></div>
+
 	</div>
-	<hr>
-	<div class="row">
-		<div class="col-sm-7">
-			<div class="card card-grid">
-				<div class="card-body">
-					<h4 style="text-align: center">Đánh giá chi tiết</h4>
-					&nbsp;
-					<span class="text-info" th:if="${product.fullDescription == '<div><br></div>'}">Đang cập nhật...</span>
-			 		<div style="text-align: justify" th:utext="${product.fullDescription}"></div>
-		  		</div>
-		  	</div>
-		</div>
-		
-  	<div class="col-sm-5 h-auto">
-		  	<div class="card card-grid">
-				<div class="card-body">
-				<h4>Thông số kỹ thuật</h4>
-				&nbsp;
-					<div>
-				  		<table class="table table-bordered table-striped table-hover mt-2">
-				  			<tbody>
-				  				<tr th:each="detail : ${product.details}">
-				  					<td>[[${detail.name}]]</td>
-				  					<td>[[${detail.value}]]</td>
-				  				</tr>
-				  			</tbody>
-				  		</table>
-		  			</div>
-		  		</div>
-		  	</div>
-  		</div>
-  	</div>
-</div>
-	
-	&nbsp;&nbsp;
-	<div th:replace="product/images_carousel :: content"></div>
-	<div th:replace="navigation :: footer_menu"></div>
-	<div th:replace="fragments :: footer"></div>
-</div>
 <script type="text/javascript">
 	$(document).ready(function() {
 		bigImage = $("#bigImage");
-		
-		$(".image-thumbnail").mouseover(function() {
+
+		$(".img-thumbnail").mouseover(function () {
 			currentImageSource = $(this).attr("src");
-			currentImageIndex = $(this).attr("index");
-			
 			bigImage.attr("src", currentImageSource);
+
+			currentImageIndex = $(this).attr("index");
 			bigImage.attr("index", currentImageIndex);
 		});
-		
+
 		bigImage.on("click", function() {
 			$("#carouselModal").modal("show");
 			imageIndex = parseInt(bigImage.attr("index"));
 			$("#carouselExampleIndicators").carousel(imageIndex);
 		});
-});
-
+	})
 </script>
-<script th:src="@{/js/quantity_control.js}"></script>
 </body>
 </html>

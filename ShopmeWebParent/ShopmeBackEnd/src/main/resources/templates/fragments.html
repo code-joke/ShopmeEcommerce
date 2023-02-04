@@ -17,7 +17,7 @@
 <body>
 	<!-- footer -->
 	<div th:fragment="footer" class="text-center m-3">
-		<p>Shopme Admin - Hệ thống quản lý bán hàng - Copyright &copy; 2021</p>
+		<p>Shopme Control Panel - Copyright &copy; Shopme</p>
 	</div>
 	
 	
@@ -48,10 +48,10 @@
 		</div>		
 					
 		<div class="text-center m-1" th:if="${totalItems > 0}">
-			<span>Hiển thị # [[${startCount}]] tới [[${endCount}]] trên [[${totalItems}]] tổng số [[${entityName}]]</span>
+			<span>Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
 		</div>
 		<div class="text-center m-1" th:unless="${totalItems > 0}">
-			<span>Không có [[${entityName}]] nào</span>
+			<span>No [[${entityName}]] found</span>
 		</div>
 	</div>
 
@@ -75,17 +75,17 @@
 	<!-- Filter form -->
 	<div th:fragment = "search_form_and_message(moduleURL)">
 		<form th:action="@{${moduleURL}}" class="form-inline m-2">
-			Lọc theo :&nbsp;
+			Filter :&nbsp;
 			<input type="hidden" name="sortField" th:value="${sortField}">
 			<input type="hidden" name="sortDir" th:value="${sortDir}">
 			
 			<input type="search" name="keyword" th:value="${keyword}" class="form-control"  required>
 			&nbsp;
-			<button type="submit" title="Tìm kiếm" class="btn btn-primary">
+			<button type="submit" title="Search" class="btn btn-primary">
 				<i class="fas fa-search"></i>
 			</button>
 			&nbsp;
-			<button type="button" title="Đặt lại" class="btn btn-secondary" onclick="clearFilter()">
+			<button type="button" title="Clear" class="btn btn-secondary" onclick="clearFilter()">
 				<i class="fas fa-eraser"></i>
 			</button>
 		</form>
@@ -104,18 +104,18 @@
 	<div th:fragment="status(enabled, entityName, entityURL)" th:remove="tag">
 		<a th:if="${enabled == true}" class="fas fa-check-circle fa-2x icon-green" 
 			th:href="@{${entityURL} + '/enabled/false'}"
-			th:title="'Hủy kích hoạt ' + ${entityName}">
+			th:title="'Disabled ' + ${entityName}">
 		</a>
 			
 		<a th:if="${enabled == false}" class="fas fa-circle fa-2x icon-gray" 
 			th:href="@{${entityURL} + '/enabled/true'}"
-			th:title="'Kích hoạt ' + ${entityName}">
+			th:title="'Enabled ' + ${entityName}">
 		</a>	
 	</div>
 	
 	<div th:fragment="edit(entityName, editURL)" th:remove="tag">
 		<a class="fas fa-edit fa-2x icon-green" th:href="@{${editURL}}"
-			th:title="'Sửa ' + ${entityName}">
+			th:title="'Edit ' + ${entityName}">
 		</a>
 	</div>
 	
@@ -124,7 +124,7 @@
 			<a class="fas fa-trash fa-2x icon-gray link-delete" 
 				th:href="@{${deleteURL}}"
 				th:entityId="${entityId}"
-				th:title="'Xóa ' + ${entityName}">
+				th:title="'Delete ' + ${entityName}">
 			</a>
 		</th:block>	
 	</div>
@@ -132,8 +132,8 @@
 		
 	<!-- user_photo -->
 	<div th:fragment="user_photos" th:remove="tag">
-		<span th:if="${user.photos == null}" class="fas fa-portrait fa-4x icon-silver"></span>
-		<img th:if="${user.photos != null}" class="rounded" th:src="@{${user.photosImagePath}}" style="width: 48px" height="64px">
+		<span th:if="${user.photos == null}" class="fas fa-portrait fa-3x icon-silver"></span>
+		<img th:if="${user.photos != null}" th:src="@{${user.photosImagePath}}" class="rounded" width="50" height="55">
 	</div>
 	
 	<div th:fragment="category_image" th:remove="tag">

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('Tài khoản - Shopme Admin', 'none')"></head>
+<head th:replace="fragments :: page_head('Users - Shopme Admin', 'none')"></head>
 <body>
 	<div class="container-fluid">
 		<!-- thanh công cụ -->
 		<div th:replace="navigation :: menu"></div>
 		&nbsp;
 		<div>
-			<h4 class="text-title">Quản lý tài khoản người dùng</h4>&nbsp;
-			<a th:href="@{/users/new}" class="fas fa-plus fa-2x icon-gray mr-2" title="Thêm mới tài khoản"></a>
-			<a th:href="@{/users/export/csv}" class="fas fa-file-csv fa-2x icon-gray mr-2" title="Xuất file CSV"></a>
-			<a th:href="@{/users/export/excel}" class="fas fa-file-excel fa-2x icon-gray mr-2" title="Xuất file Excel"></a>
-			<a th:href="@{/users/export/pdf}" class="fas fa-file-pdf fa-2x icon-gray mr-2" title="Xuất file PDF"></a>
+			<h4 class="ml-2">Manage Users</h4>&nbsp;
+			<a th:href="@{/users/new}" class="fas fa-plus fa-2x icon-gray mr-2" title="New user"></a>
+			<a th:href="@{/users/export/csv}" class="fas fa-file-csv fa-2x icon-gray mr-2" title="Export file CSV"></a>
+			<a th:href="@{/users/export/excel}" class="fas fa-file-excel fa-2x icon-gray mr-2" title="Export file Excel"></a>
+			<a th:href="@{/users/export/pdf}" class="fas fa-file-pdf fa-2x icon-gray mr-2" title="Export file PDF"></a>
 		</div>
 		
 		<div th:replace="fragments :: search_form_and_message('/users/page/1')"></div>
@@ -20,27 +20,27 @@
 			<table class="table table-bordered table-striped table-hover table-responsive-xl ">
 				<thead class="thead-dark">
 					<tr>
-						<th>STT</th>
+						<th>#</th>
 						<th class="hideable-column">
-							<th th:replace = "fragments :: column_link('/users', 'id', 'ID', 'tag')"/>
+							<th th:replace = "fragments :: column_link('/users', 'id', 'User ID', 'tag')"/>
 						</th>
 						
-						<th style="text-align: center">ẢNH</th>
+						<th style="text-align: center">Photo</th>
 						
 						<th class="hideable-column">
-							<th th:replace = "fragments :: column_link('/users', 'email', 'EMAIL', 'tag')"/>
+							<th th:replace = "fragments :: column_link('/users', 'email', 'E-mail', 'tag')"/>
 						</th>
 						
-						<th th:replace = "fragments :: column_link('/users', 'firstName', 'HỌ', 'none')"/>
-						<th th:replace = "fragments :: column_link('/users', 'lastName', 'TÊN', 'none')"/>
-						<th>VAI TRÒ</th>
-						<th th:replace = "fragments :: column_link('/users', 'enabled', 'KÍCH HOẠT', 'none')"/>
+						<th th:replace = "fragments :: column_link('/users', 'firstName', 'First Name', 'none')"/>
+						<th th:replace = "fragments :: column_link('/users', 'lastName', 'Last Name', 'none')"/>
+						<th>Roles</th>
+						<th th:replace = "fragments :: column_link('/users', 'enabled', 'Enabled', 'none')"/>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="user, state : ${listUsers}">
-						<td>[[${state.count}]]</td>
+						<td>[[${startCount + state.index}]]</td>
 						<td class="hideable-column">[[${user.id}]]</td>
 						<td>
 							<div align="center">
@@ -52,12 +52,12 @@
 						<td>[[${user.lastName}]]</td>
 						<td>[[${user.roles}]]</td>
 						<td>
-							<div th:replace="fragments :: status(${user.enabled}, 'tài khoản này', '/users/' + ${user.id})"></div>
+							<div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})"></div>
 						</td>
 						<td>
-							<div th:replace="fragments :: edit('tài khoản này', '/users/edit/' + ${user.id})"></div>
+							<div th:replace="fragments :: edit('user', '/users/edit/' + ${user.id})"></div>
 							&nbsp;&nbsp;
-							<div th:replace="fragments :: delete('tài khoản này', ${user.id}, '/users/delete/' + ${user.id}, true)"></div>
+							<div th:replace="fragments :: delete('user', ${user.id}, '/users/delete/' + ${user.id}, true)"></div>
 						</td>
 					</tr>
 				</tbody>
@@ -73,11 +73,11 @@
 					<div>[[${user.fullName}]]</div>
 					<div>[[${user.roles}]]</div>
 					<div class="mt-2">
-						<div th:replace="fragments :: status(${user.enabled}, 'tài khoản này', '/users/' + ${user.id})"></div>
+						<div th:replace="fragments :: status(${user.enabled}, 'user', '/users/' + ${user.id})"></div>
 						&nbsp; 			
-						<div th:replace="fragments :: edit('tài khoản này', '/users/edit/' + ${user.id})"></div>
+						<div th:replace="fragments :: edit('user', '/users/edit/' + ${user.id})"></div>
 						&nbsp; 
-						<div th:replace="fragments :: delete('tài khoản này', ${user.id}, '/users/delete/' + ${user.id}, true)"></div>
+						<div th:replace="fragments :: delete('user', ${user.id}, '/users/delete/' + ${user.id}, true)"></div>
 					</div>
 				</div>
 				<div>&nbsp;</div>
@@ -85,7 +85,7 @@
 		</div>
 		
 		&nbsp;&nbsp;
-		<div th:replace="fragments :: pagination('/users', 'tài khoản')"></div>
+		<div th:replace="fragments :: pagination('/users', 'user')"></div>
 		
 		<div th:replace="modal_fragments :: confirm_modal"></div>
 		
@@ -101,7 +101,7 @@
 	$(document).ready(function() {
 		$(".link-delete").on("click", function(e) {
 			e.preventDefault();
-			showDeleteConfirmModal($(this), 'tài khoản');
+			showDeleteConfirmModal($(this), 'user');
 		});
 	});
 	

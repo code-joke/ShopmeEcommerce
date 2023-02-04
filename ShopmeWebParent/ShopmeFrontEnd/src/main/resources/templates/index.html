@@ -1,39 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('Shopme', 'none')">
-<meta charset="ISO-8859-1">
-</head>
+<head th:replace="fragments :: page_head('Shopme', 'none')"></head>
 <body>
-<div class="container-fluid">
-	<div th:replace="navigation :: header_menu"></div>
-	<br>
+	<div class="container-fluid">
+		<div th:replace="navigation :: header_menu"></div>
+		<div th:replace="navigation :: search_nav"></div>
 
-	<div class="pl-4 pr-4">
-		<div class="card-header">
-    	<h4>DANH MỤC SẢN PHẨM</h4>
-    	</div>
-		<div class="card card-grid">
-	      <div class="row mr-0 ml-0 pt-0">
-	        <div class="col-sm-4 col-md-3 p-0" th:each="cat : ${listCategories}">
-	          <div class="shop__thumb">
-	            <a th:href="@{'/c/' + ${cat.alias}}">
-	              <div class="shop-thumb__img">
-	                <img th:src="@{${cat.imagePath}}" width="80px" height="80px" class="img-responsive" alt="...">
-	              </div>
-	              <h5 class="shop-thumb__title">
-	                [[${cat.name}]]
-	              </h5>
-	            </a>
-	          </div>
-	        </div>
-	      </div>
-        </div>
-    </div> <!-- / .row -->
-  <!-- / .row -->
-	
-	&nbsp;&nbsp;
-	<div th:replace="navigation :: footer_menu"></div>
-	<div th:replace="fragments :: footer"></div>
-</div>
+		<div class="p-3">
+			<div>
+				<h4>Shopping by Categories</h4>
+			</div>
+			
+			<div class="row">
+				<div class="col" th:each="cat : ${listCategories}">
+					<div><img th:src="@{${cat.imagePath}}" width="90px" height="80px"></div>
+					<div>
+						<a th:href="@{'/c/' + ${cat.alias}}">[[${cat.name}]]</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		&nbsp;&nbsp;
+		<div th:replace="navigation :: footer_menu"></div>
+	</div>	
 </body>
 </html>

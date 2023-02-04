@@ -17,12 +17,12 @@ function validateFileUpload(fileInput) {
 	fileSize = fileInput.files[0].size;
 	fileName = fileInput.files[0].name;
 	if(fileSize > 1048576) {
-		fileInput.setCustomValidity("Bạn phải chọn tệp có kích cỡ nhỏ hơn 1MB !");
+		fileInput.setCustomValidity("You must choose an image less than 1MB !");
 		fileInput.reportValidity();
 		
 		return false;
 	} else if(fileName.length > 255) {
-		fileInput.setCustomValidity("Tên tệp quá dài !");
+		fileInput.setCustomValidity("File name must less than 255 characters !");
 		fileInput.reportValidity();
 		
 		return false;
@@ -50,10 +50,10 @@ function showModalDialog(title, message) {
 }
 	
 function showErrorModal(message) {
-	showModalDialog("Lỗi", message)
+	showModalDialog("Error", message)
 }
 
 function showWarningModal(message) {
-	showModalDialog("Cảnh báo", message)
+	showModalDialog("Warning", message)
 }
 	

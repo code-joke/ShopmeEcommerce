@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="fragments :: page_head('Trang chủ - Shopme Admin', 'none')"></head>
+<head th:replace="fragments :: page_head('Home - Shopme Admin', 'none')"></head>
 <body>
 	<div class="container-fluid">
 		<div th:replace="navigation :: menu"></div>
 		&nbsp;
-		<div class="text-title">
-			<h4>Shopme Admin - Hệ thống quản lý bán hàng</h4>
-			Xin chào
+		<div class="p-3">
+			<h4>Shopme Control Panel</h4>
+			Welcome
 			<a th:href="@{/account}" sec:authentication="principal.fullname"></a>
 			<span sec:authentication="principal.authorities"></span>
 		</div>

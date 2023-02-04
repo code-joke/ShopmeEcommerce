@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: page_head('Lỗi - Shopme', 'none')"></head>
+<head th:replace="fragments :: page_head('403 Forbidden - Shopme Admin', 'none')"></head>
 <body>
 <div class="container-fluid">
 		<div th:replace="navigation :: header_menu"></div>
@@ -9,12 +9,13 @@
 			<img th:src="@{/images/403error.png}" style="width: 25%"/>
 			<br>
 			&nbsp;
-			<h3 class="text-danger font-weight-bold">XIN LỖI, TRUY CẬP BỊ TỪ CHỐI</h3>
-			<br><a th:href="@{/}">Click vào đây</a> để quay trở về trang chủ<br>
+			<h3 class="text-danger font-weight-bold">Sorry, you don't have permission to access on this page</h3>
+			<br><a th:href="@{/}">Click here</a> to go to home page<br>
 		</div>
 
 		&nbsp;&nbsp;
-		<div th:replace="fragments :: footer"></div>
+		<div th:replace="navigation :: footer_menu"></div>
+		
 </div>
 </body>
 </html>

@@ -51,17 +51,15 @@ function checkUnique(form) {
 		if (response == "OK") {
 			form.submit();
 		} else if (response == "DuplicateName") {
-			showWarningModal("Tên sản phẩm đã tồn tại: " + productName);	
+			showWarningModal("There is another product having the name: " + productName);	
 		} else if (response == "DuplicateAlias") {
-			showWarningModal("Đường dẫn đã tồn tại: " + productAlias);
-		} else if (response == "DuplicateCode") {
-			showWarningModal("Mã sản phẩm / SKU đã tồn tại: " + productCode);
+			showWarningModal("There is another product having the alias: " + productAlias);
 		} else {
-			showErrorModal("Máy chủ hiện không phản hồi");
+			showErrorModal("Unknown response from server");
 		}
 		
 	}).fail(function() {
-		showErrorModal("Không thể kết nối đến máy chủ");
+		showErrorModal("Could not connect to the server");
 	});
 	
 	return false;	

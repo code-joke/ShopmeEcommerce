@@ -5,15 +5,8 @@ function clearFilter() {
 function showDeleteConfirmModal(link, entityName) {
 	
 	$("#yesButton").attr("href", link.attr("href"));
-	$("#confirmText").text("Bạn có chắc muốn xóa " + entityName + " này ?");
+	$("#confirmText").text("Are you sure you want to delete this " + entityName + " ?");
 	
 	$("#confirmModal").modal();	
 }
 
-function showConfirmModal(link, entityName) {
-	
-	$("#yesButton").attr("href", link.attr("href"));
-	$("#confirmText").text("Bạn có chắc muốn " + entityName + " này ?");
-	
-	$("#confirmModal").modal();	
-}

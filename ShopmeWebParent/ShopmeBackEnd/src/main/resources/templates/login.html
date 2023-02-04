@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 	
-	<title>Đăng nhập - Shopme Admin</title>
+	<title>Login - Shopme Admin</title>
 	
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
@@ -21,10 +21,10 @@
 			<p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
 		</div>
 		<div th:if="${param.logout}">
-			<p class="text-warning">Bạn đã đăng xuất</p>
+			<p class="text-warning">You have been logged out.</p>
 		</div>
 			<div class="border border-secondary rounded p-3">
-				<p class="text-danger">Vui lòng đăng nhập để tiếp tục</p>
+				<p>Access to Shopme Control Panel</p>
 				<p>
 					<input type="email" name="email" class="form-control" placeholder="E-mail" required />
 				</p>
@@ -32,17 +32,17 @@
 					<input type="password" name="password" class="form-control" placeholder="Mật khẩu" required />
 				</p>
 				<p>
-					<input type="checkbox" name="remember-me" />&nbsp;Ghi nhớ đăng nhập
+					<input type="checkbox" name="remember-me" />&nbsp;Remember Me
 				</p>
 				<p>
-					<input type="submit" value="Đăng nhập" class="btn btn-primary" />
+					<input type="submit" value="Login" class="btn btn-primary" />
 				</p>
 			</div>
 		</form>
 		
 		&nbsp;&nbsp;
 		<div class="text-center">
-			<p>Shopme - Hệ thống quản lý - Copyright &copy; 2021</p>
+			<p>Shopme Control Panel - Copyright &copy; Shopme</p>
 		</div>
 		
 	</div>

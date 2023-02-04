@@ -6,7 +6,7 @@
 		<div th:replace="navigation :: menu"></div>
 		&nbsp;
 		<div>
-			<h4 class="text-title">Manage Categories</h4>&nbsp;
+			<h4 class="ml-2">Manage Categories</h4>&nbsp;
 			<a th:href="@{/categories/new}" class="fas fa-plus fa-2x icon-gray mr-2" title="New category"></a>
 			<a th:href="@{/categories/export/csv}" class="fas fa-file-csv fa-2x icon-gray mr-2" title="Export file CSV"></a>
 			<a th:href="@{/categories/export/excel}" class="fas fa-file-excel fa-2x icon-gray mr-2" title="Export file Excel"></a>
@@ -19,8 +19,8 @@
 			<table class="table table-bordered table-striped table-hover table-responsive-xs ">
 				<thead class="thead-dark">
 					<tr>
-						<th>NO</th>
-						<th>ID</th>
+						<th>#</th>
+						<th>Category ID</th>
 						<th style="text-align: center">Category Image</th>
 						<th th:replace = "fragments :: column_link('/categories', 'name', 'Category Name', 'none')"/>
 						<th class="hideable-column">Alias</th>
@@ -30,7 +30,7 @@
 				</thead>
 				<tbody>
 					<tr th:each="cat, state : ${listCategories}">
-						<td>[[${state.count}]]</td>
+						<td>[[${startCount + state.index}]]</td>
 						<td>[[${cat.id}]]</td>
 						<td>
 							<div align="center">

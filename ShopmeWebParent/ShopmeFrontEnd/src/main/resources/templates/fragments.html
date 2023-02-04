@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="page_head(title, remove)" th:remove="${remove}">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
@@ -8,7 +7,7 @@
 	<title>[[${title}]]</title>
 	
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
 	<link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
 	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
@@ -47,16 +46,12 @@
 		</div>		
 					
 		<div class="text-center m-1" th:if="${totalItems > 0}">
-			<span>Hiển thị # [[${startCount}]] tới [[${endCount}]] trên [[${totalItems}]] tổng số [[${entityName}]]</span>
+			<span>Showing [[${entityName}]] # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
 		</div>
 		<div class="text-center m-1" th:unless="${totalItems > 0}">
-			<span>Không có [[${entityName}]] nào</span>
+			<span>No [[${entityName}]] found</span>
 		</div>
 	</div>
 	
-	<!-- footer -->
-	<div th:fragment="footer" class="text-center m-3">
-		<p class="p-3 mb-2">Shopme - Copyright &copy; 2021</p>
-	</div>
 </body>
 </html>
