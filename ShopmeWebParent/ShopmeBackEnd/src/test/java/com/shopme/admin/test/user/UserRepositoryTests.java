@@ -1,4 +1,4 @@
-package com.shopme.admin.test.repository;
+package com.shopme.admin.test.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
