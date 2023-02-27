@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Optional;
 
-import com.shopme.admin.setting.state.StateDTO;
+import com.shopme.common.entity.StateDTO;
 import com.shopme.admin.setting.state.StateRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
